@@ -1,0 +1,430 @@
+{
+  "contractName": "IPoolSwapStructs",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/vault/IPoolSwapStructs.sol\":\"IPoolSwapStructs\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ISignaturesValidator.sol\":{\"keccak256\":\"0x571907ff5a68a10937b13e0828dd78bf9508f6e74eaafe7faf525453160c3627\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://afb73b213075954086eb7fa4eb4fac4962b779c8dd8c9c72902336d64c13210e\",\"dweb:/ipfs/QmNWFPnoPxo8ToVHrqXaQQF8RPYeNNhV2eZN9EwFS3iHpz\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ITemporarilyPausable.sol\":{\"keccak256\":\"0x7d98e4751329dd9effc016cbc5acdf6399d3592407b9d3e28b38c10c621e56a3\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://a70c4c16829f31c75dd0a3987137ed1572a0343ff933dcdcfbef17d5d63307ae\",\"dweb:/ipfs/QmSGBafawe525NbvK8LVN1rsD2yJxaS83QoTNC84evwM2E\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/misc/IWETH.sol\":{\"keccak256\":\"0x41c26d92fde92c927352c447ff80e3b2216d076662f2b222b735e4c865a481dc\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://291a4b4f141ea187a61c3bb1ab16b370012e7e80ddc045671015ab2bfaf3c52c\",\"dweb:/ipfs/QmXvvVdfZC3pAqLst3bW9Fbj8mS9y1t1k7Zqr9BXuKdUHP\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAsset.sol\":{\"keccak256\":\"0x780769a0bd8655d8a05a75b062b32a65b775b9deb923b2e8f42f57a0ee263a2d\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://b63d22729102954a657432d81b31764e6dbdc7216a6deb991499a73dc4ebbd7b\",\"dweb:/ipfs/QmWRyByegCCJr37yesLi7urtzNk2BBiDEjzbkPpV8TKy1X\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IFlashLoanRecipient.sol\":{\"keccak256\":\"0xadcf6e9f8677de9ec51a1bbb419da349b7c0c17af8b8cddad85ee0e80107036e\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e9b30c1b15e3d0990a4a343fac14d2263c4bae4c3bdbeb38489103b4f6f66c39\",\"dweb:/ipfs/QmeQjBDidkLAoq4nknwPPPmunSTvQEZ9shaAhPiJAPmbk6\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IPoolSwapStructs.sol\":{\"keccak256\":\"0xbe4815478a942261e6e2416632342b0e55ff2b0f75c2551ffd79ad9b2326be38\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://ccc137d00935cace955e552f238130a01a9468c2d80c725e4625a25debc5c54b\",\"dweb:/ipfs/QmexvRpcaeERPyZt9BzHZViFb8GevhhhoUBQ3wgDqFUwJx\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol\":{\"keccak256\":\"0xe18a4e04a4a4e828c81548cc50d9d8ab6461dafbe88929c0342fa2b6c08e0d76\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://7056ea1221db4eacc3e263ea8b9d741c11b1871f745169a39c6f926dab9c403f\",\"dweb:/ipfs/QmabGZff9x43RJUororFfmMzocB2UuZDDBMhhfELEeSJue\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IVault.sol\":{\"keccak256\":\"0x63425148b27356cee63cf843ef8918d3ff6cdd8d5c00371326bca8b4331b773c\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://6764d2a22a2e23de5235ceb0d06ebb9006f694c59547b8dc82dbc2e215d1f230\",\"dweb:/ipfs/Qmb6BQBgUQno6RAqPPR8qeC3smNEC3Bm6y8ZcWEWZKAfhF\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: GPL-3.0-or-later\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity >=0.7.0 <0.9.0;\npragma experimental ABIEncoderV2;\n\nimport \"../solidity-utils/openzeppelin/IERC20.sol\";\n\nimport \"./IVault.sol\";\n\ninterface IPoolSwapStructs {\n    // This is not really an interface - it just defines common structs used by other interfaces: IGeneralPool and\n    // IMinimalSwapInfoPool.\n    //\n    // This data structure represents a request for a token swap, where `kind` indicates the swap type ('given in' or\n    // 'given out') which indicates whether or not the amount sent by the pool is known.\n    //\n    // The pool receives `tokenIn` and sends `tokenOut`. `amount` is the number of `tokenIn` tokens the pool will take\n    // in, or the number of `tokenOut` tokens the Pool will send out, depending on the given swap `kind`.\n    //\n    // All other fields are not strictly necessary for most swaps, but are provided to support advanced scenarios in\n    // some Pools.\n    //\n    // `poolId` is the ID of the Pool involved in the swap - this is useful for Pool contracts that implement more than\n    // one Pool.\n    //\n    // The meaning of `lastChangeBlock` depends on the Pool specialization:\n    //  - Two Token or Minimal Swap Info: the last block in which either `tokenIn` or `tokenOut` changed its total\n    //    balance.\n    //  - General: the last block in which *any* of the Pool's registered tokens changed its total balance.\n    //\n    // `from` is the origin address for the funds the Pool receives, and `to` is the destination address\n    // where the Pool sends the outgoing tokens.\n    //\n    // `userData` is extra data provided by the caller - typically a signature from a trusted party.\n    struct SwapRequest {\n        IVault.SwapKind kind;\n        IERC20 tokenIn;\n        IERC20 tokenOut;\n        uint256 amount;\n        // Misc data\n        bytes32 poolId;\n        uint256 lastChangeBlock;\n        address from;\n        address to;\n        bytes userData;\n    }\n}\n",
+  "sourcePath": "@balancer-labs/v2-interfaces/contracts/vault/IPoolSwapStructs.sol",
+  "ast": {
+    "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IPoolSwapStructs.sol",
+    "exportedSymbols": {
+      "IAsset": [
+        430
+      ],
+      "IAuthentication": [
+        296
+      ],
+      "IAuthorizer": [
+        445
+      ],
+      "IERC20": [
+        426
+      ],
+      "IFlashLoanRecipient": [
+        589
+      ],
+      "IPoolSwapStructs": [
+        617
+      ],
+      "IProtocolFeesCollector": [
+        686
+      ],
+      "ISignaturesValidator": [
+        314
+      ],
+      "ITemporarilyPausable": [
+        333
+      ],
+      "IVault": [
+        1199
+      ],
+      "IWETH": [
+        348
+      ]
+    },
+    "id": 618,
+    "license": "GPL-3.0-or-later",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 591,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.7",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "688:31:10"
+      },
+      {
+        "id": 592,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "720:33:10"
+      },
+      {
+        "absolutePath": "@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol",
+        "file": "../solidity-utils/openzeppelin/IERC20.sol",
+        "id": 593,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 618,
+        "sourceUnit": 427,
+        "src": "755:51:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol",
+        "file": "./IVault.sol",
+        "id": 594,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 618,
+        "sourceUnit": 1200,
+        "src": "808:22:10",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPoolSwapStructs",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": true,
+        "id": 617,
+        "linearizedBaseContracts": [
+          617
+        ],
+        "name": "IPoolSwapStructs",
+        "nameLocation": "842:16:10",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "IPoolSwapStructs.SwapRequest",
+            "id": 616,
+            "members": [
+              {
+                "constant": false,
+                "id": 597,
+                "mutability": "mutable",
+                "name": "kind",
+                "nameLocation": "2381:4:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2365:20:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_SwapKind_$998",
+                  "typeString": "enum IVault.SwapKind"
+                },
+                "typeName": {
+                  "id": 596,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 595,
+                    "name": "IVault.SwapKind",
+                    "nameLocations": [
+                      "2365:6:10",
+                      "2372:8:10"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 998,
+                    "src": "2365:15:10"
+                  },
+                  "referencedDeclaration": 998,
+                  "src": "2365:15:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_SwapKind_$998",
+                    "typeString": "enum IVault.SwapKind"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 600,
+                "mutability": "mutable",
+                "name": "tokenIn",
+                "nameLocation": "2402:7:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2395:14:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_IERC20_$426",
+                  "typeString": "contract IERC20"
+                },
+                "typeName": {
+                  "id": 599,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 598,
+                    "name": "IERC20",
+                    "nameLocations": [
+                      "2395:6:10"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 426,
+                    "src": "2395:6:10"
+                  },
+                  "referencedDeclaration": 426,
+                  "src": "2395:6:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20_$426",
+                    "typeString": "contract IERC20"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 603,
+                "mutability": "mutable",
+                "name": "tokenOut",
+                "nameLocation": "2426:8:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2419:15:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_IERC20_$426",
+                  "typeString": "contract IERC20"
+                },
+                "typeName": {
+                  "id": 602,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 601,
+                    "name": "IERC20",
+                    "nameLocations": [
+                      "2419:6:10"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 426,
+                    "src": "2419:6:10"
+                  },
+                  "referencedDeclaration": 426,
+                  "src": "2419:6:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IERC20_$426",
+                    "typeString": "contract IERC20"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 605,
+                "mutability": "mutable",
+                "name": "amount",
+                "nameLocation": "2452:6:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2444:14:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 604,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2444:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 607,
+                "mutability": "mutable",
+                "name": "poolId",
+                "nameLocation": "2497:6:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2489:14:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 606,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2489:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 609,
+                "mutability": "mutable",
+                "name": "lastChangeBlock",
+                "nameLocation": "2521:15:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2513:23:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 608,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2513:7:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 611,
+                "mutability": "mutable",
+                "name": "from",
+                "nameLocation": "2554:4:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2546:12:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 610,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2546:7:10",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 613,
+                "mutability": "mutable",
+                "name": "to",
+                "nameLocation": "2576:2:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2568:10:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 612,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2568:7:10",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 615,
+                "mutability": "mutable",
+                "name": "userData",
+                "nameLocation": "2594:8:10",
+                "nodeType": "VariableDeclaration",
+                "scope": 616,
+                "src": "2588:14:10",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes_storage_ptr",
+                  "typeString": "bytes"
+                },
+                "typeName": {
+                  "id": 614,
+                  "name": "bytes",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "2588:5:10",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_storage_ptr",
+                    "typeString": "bytes"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "SwapRequest",
+            "nameLocation": "2343:11:10",
+            "nodeType": "StructDefinition",
+            "scope": 617,
+            "src": "2336:273:10",
+            "visibility": "public"
+          }
+        ],
+        "scope": 618,
+        "src": "832:1779:10",
+        "usedErrors": []
+      }
+    ],
+    "src": "688:1924:10"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2023-02-24T15:36:07.704Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

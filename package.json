@@ -1,0 +1,33 @@
+{
+  "name": "balancer.controller",
+  "version": "0.0.1",
+  "description": "Solidity contracts implementing a Balancer controller",
+  "author": "Darren Oliveiro-Priestnall",
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "balancer"
+  ],
+  "scripts": {
+    "build": "buidler compile",
+    "test": "buidler test test/*.ts",
+    "ganache": "./scripts/ganache.sh",
+    "deploy:ganache": "yarn ganache && truffle migrate",
+    "coverage": "buidler coverage --network coverage --temp build --testfiles 'test/*.ts'",
+    "lint:js": "prettier ./test/**/*.js --write",
+    "lint:sol": "solhint -f table contracts/**/*.sol"
+  },
+  "dependencies": {
+    "@balancer-labs/v2-deployments": "^3.1.1",
+    "@balancer-labs/v2-interfaces": "^0.3.0",
+    "@balancer-labs/v2-pool-utils": "^3.1.2",
+    "@balancer-labs/v2-pool-weighted": "^2.0.1",
+    "@balancer-labs/v2-solidity-utils": "^3.0.2",
+    "@balancer-labs/v2-vault": "^3.0.1",
+    "@celo/contractkit": "^3.2.0",
+    "@openzeppelin/contracts": "^4.8.1",
+    "@truffle/hdwallet-provider": "^2.1.7",
+    "dotenv": "^16.0.3"
+  },
+  "license": "GPL-3.0-or-later"
+}
