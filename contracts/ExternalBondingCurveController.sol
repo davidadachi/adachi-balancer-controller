@@ -6,7 +6,7 @@ pragma experimental ABIEncoderV2;
 
 import "./base/BaseController.sol";
 
-contract BondingCurveController is BaseController {
+contract ExternalBondingCurveController is BaseController {
 
      /**
      * @notice Constructor for the controller implementation class

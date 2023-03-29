@@ -1,4 +1,4 @@
-const BondingCurveController = artifacts.require("BondingCurveController");
+const BondingCurveController = artifacts.require("InternalBondingCurveController");
 
 contract('BondingCurveController', (accounts) => {
 
