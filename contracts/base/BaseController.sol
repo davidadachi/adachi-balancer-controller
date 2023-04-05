@@ -22,7 +22,7 @@ struct PoolSettings {
 abstract contract BaseController is ReentrancyGuard {
     address public manager;
     IVault internal immutable vault;
-    ManagedPoolFactory internal immutable managedPoolFactory;
+    ManagedPoolFactory public immutable managedPoolFactory;
     mapping(address => PoolSettings) internal managedPools; // Pools and their prices
 
      /**

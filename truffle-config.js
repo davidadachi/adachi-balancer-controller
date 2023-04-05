@@ -9,10 +9,10 @@ const web3_alfajores = new Web3(process.env.ALFAJORES_REST_URL);
 const web3_celo = new Web3(process.env.CELO_REST_URL);
 
 // Initialise a Celo client
-const client = ContractKit.newKitFromWeb3(web3_alfajores);
+const client = ContractKit.newKitFromWeb3(web3_celo);
 
 // Initialize account from our private key
-const account = web3_alfajores.eth.accounts.privateKeyToAccount(process.env.PRIVATE_KEY);
+const account = web3_celo.eth.accounts.privateKeyToAccount(process.env.PRIVATE_KEY);
 
 // We need to add private key to ContractKit in order to sign transactions
 client.addAccount(account.privateKey);
