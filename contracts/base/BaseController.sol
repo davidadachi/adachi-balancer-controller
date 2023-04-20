@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.17;
-
+pragma solidity ^0.7.0;
 pragma experimental ABIEncoderV2;
-
+import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.sol";
 import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+//import "@balancer-labs/v2-pool-weighted/contracts/managed/ManagedPoolFactory.sol";
 import "../ManagedPoolFactory.sol";
 
 struct PoolPrice {
@@ -54,28 +53,30 @@ abstract contract BaseController is ReentrancyGuard {
      */
     function createPool(string memory _name,
                         string memory _symbol,
-                        address[] memory _tokens,
+                        IERC20[] memory _tokens,
                         uint256[] memory _normalizedWeights,
                         address[] memory _assetManagers,
                         uint256 _swapFeePercentage,
                         bool _swapEnabledOnStart,
                         bool _mustAllowlistLPs,
                         uint256 _managementAumFeePercentage,
-                        uint256 _aumFeeId) public restricted nonReentrant {
-
-        ManagedPoolSettings.NewPoolParams memory poolParams;
+                        uint256 _aumFeeId,
+                        bytes32 salt) public restricted nonReentrant {
+        ManagedPoolParams memory poolParams;
         poolParams.name = _name;
         poolParams.symbol = _symbol;
-        poolParams.tokens = _tokens;
-        poolParams.normalizedWeights = _normalizedWeights;
         poolParams.assetManagers = _assetManagers;
-        poolParams.swapFeePercentage = _swapFeePercentage;
-        poolParams.swapEnabledOnStart = _swapEnabledOnStart;
-        poolParams.mustAllowlistLPs = _mustAllowlistLPs;
-        poolParams.managementAumFeePercentage = _managementAumFeePercentage;
-        poolParams.aumFeeId = _aumFeeId;
 
-        address _poolAddress = managedPoolFactory.create(poolParams, address(this));
+        ManagedPoolSettingsParams memory poolSettingsParams;
+        poolSettingsParams.tokens = _tokens;
+        poolSettingsParams.normalizedWeights = _normalizedWeights;
+        poolSettingsParams.swapFeePercentage = _swapFeePercentage;
+        poolSettingsParams.swapEnabledOnStart = _swapEnabledOnStart;
+        poolSettingsParams.mustAllowlistLPs = _mustAllowlistLPs;
+        poolSettingsParams.managementAumFeePercentage = _managementAumFeePercentage;
+        poolSettingsParams.aumFeeId = _aumFeeId;
+
+        address _poolAddress = managedPoolFactory.create(poolParams, poolSettingsParams, address(this), salt);
         managedPools[_poolAddress].activelyManaged = true;
     }
 

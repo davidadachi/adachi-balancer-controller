@@ -148,7 +148,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFlashLoanFeePercentage\",\"type\":\"uint256\"}],\"name\":\"FlashLoanFeePercentageChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newSwapFeePercentage\",\"type\":\"uint256\"}],\"name\":\"SwapFeePercentageChanged\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"getAuthorizer\",\"outputs\":[{\"internalType\":\"contract IAuthorizer\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"}],\"name\":\"getCollectedFeeAmounts\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"feeAmounts\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getFlashLoanFeePercentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getSwapFeePercentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newFlashLoanFeePercentage\",\"type\":\"uint256\"}],\"name\":\"setFlashLoanFeePercentage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newSwapFeePercentage\",\"type\":\"uint256\"}],\"name\":\"setSwapFeePercentage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vault\",\"outputs\":[{\"internalType\":\"contract IVault\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"amounts\",\"type\":\"uint256[]\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"withdrawCollectedFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol\":\"IProtocolFeesCollector\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ISignaturesValidator.sol\":{\"keccak256\":\"0x571907ff5a68a10937b13e0828dd78bf9508f6e74eaafe7faf525453160c3627\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://afb73b213075954086eb7fa4eb4fac4962b779c8dd8c9c72902336d64c13210e\",\"dweb:/ipfs/QmNWFPnoPxo8ToVHrqXaQQF8RPYeNNhV2eZN9EwFS3iHpz\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ITemporarilyPausable.sol\":{\"keccak256\":\"0x7d98e4751329dd9effc016cbc5acdf6399d3592407b9d3e28b38c10c621e56a3\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://a70c4c16829f31c75dd0a3987137ed1572a0343ff933dcdcfbef17d5d63307ae\",\"dweb:/ipfs/QmSGBafawe525NbvK8LVN1rsD2yJxaS83QoTNC84evwM2E\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/misc/IWETH.sol\":{\"keccak256\":\"0x41c26d92fde92c927352c447ff80e3b2216d076662f2b222b735e4c865a481dc\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://291a4b4f141ea187a61c3bb1ab16b370012e7e80ddc045671015ab2bfaf3c52c\",\"dweb:/ipfs/QmXvvVdfZC3pAqLst3bW9Fbj8mS9y1t1k7Zqr9BXuKdUHP\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAsset.sol\":{\"keccak256\":\"0x780769a0bd8655d8a05a75b062b32a65b775b9deb923b2e8f42f57a0ee263a2d\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://b63d22729102954a657432d81b31764e6dbdc7216a6deb991499a73dc4ebbd7b\",\"dweb:/ipfs/QmWRyByegCCJr37yesLi7urtzNk2BBiDEjzbkPpV8TKy1X\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IFlashLoanRecipient.sol\":{\"keccak256\":\"0xadcf6e9f8677de9ec51a1bbb419da349b7c0c17af8b8cddad85ee0e80107036e\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e9b30c1b15e3d0990a4a343fac14d2263c4bae4c3bdbeb38489103b4f6f66c39\",\"dweb:/ipfs/QmeQjBDidkLAoq4nknwPPPmunSTvQEZ9shaAhPiJAPmbk6\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol\":{\"keccak256\":\"0xe18a4e04a4a4e828c81548cc50d9d8ab6461dafbe88929c0342fa2b6c08e0d76\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://7056ea1221db4eacc3e263ea8b9d741c11b1871f745169a39c6f926dab9c403f\",\"dweb:/ipfs/QmabGZff9x43RJUororFfmMzocB2UuZDDBMhhfELEeSJue\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IVault.sol\":{\"keccak256\":\"0x63425148b27356cee63cf843ef8918d3ff6cdd8d5c00371326bca8b4331b773c\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://6764d2a22a2e23de5235ceb0d06ebb9006f694c59547b8dc82dbc2e215d1f230\",\"dweb:/ipfs/Qmb6BQBgUQno6RAqPPR8qeC3smNEC3Bm6y8ZcWEWZKAfhF\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newFlashLoanFeePercentage\",\"type\":\"uint256\"}],\"name\":\"FlashLoanFeePercentageChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newSwapFeePercentage\",\"type\":\"uint256\"}],\"name\":\"SwapFeePercentageChanged\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"getAuthorizer\",\"outputs\":[{\"internalType\":\"contract IAuthorizer\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"}],\"name\":\"getCollectedFeeAmounts\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"feeAmounts\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getFlashLoanFeePercentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getSwapFeePercentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newFlashLoanFeePercentage\",\"type\":\"uint256\"}],\"name\":\"setFlashLoanFeePercentage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newSwapFeePercentage\",\"type\":\"uint256\"}],\"name\":\"setSwapFeePercentage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"vault\",\"outputs\":[{\"internalType\":\"contract IVault\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"amounts\",\"type\":\"uint256[]\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"withdrawCollectedFees\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol\":\"IProtocolFeesCollector\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ISignaturesValidator.sol\":{\"keccak256\":\"0x571907ff5a68a10937b13e0828dd78bf9508f6e74eaafe7faf525453160c3627\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://afb73b213075954086eb7fa4eb4fac4962b779c8dd8c9c72902336d64c13210e\",\"dweb:/ipfs/QmNWFPnoPxo8ToVHrqXaQQF8RPYeNNhV2eZN9EwFS3iHpz\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/ITemporarilyPausable.sol\":{\"keccak256\":\"0x7d98e4751329dd9effc016cbc5acdf6399d3592407b9d3e28b38c10c621e56a3\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://a70c4c16829f31c75dd0a3987137ed1572a0343ff933dcdcfbef17d5d63307ae\",\"dweb:/ipfs/QmSGBafawe525NbvK8LVN1rsD2yJxaS83QoTNC84evwM2E\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/misc/IWETH.sol\":{\"keccak256\":\"0x41c26d92fde92c927352c447ff80e3b2216d076662f2b222b735e4c865a481dc\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://291a4b4f141ea187a61c3bb1ab16b370012e7e80ddc045671015ab2bfaf3c52c\",\"dweb:/ipfs/QmXvvVdfZC3pAqLst3bW9Fbj8mS9y1t1k7Zqr9BXuKdUHP\"]},\"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAsset.sol\":{\"keccak256\":\"0x780769a0bd8655d8a05a75b062b32a65b775b9deb923b2e8f42f57a0ee263a2d\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://b63d22729102954a657432d81b31764e6dbdc7216a6deb991499a73dc4ebbd7b\",\"dweb:/ipfs/QmWRyByegCCJr37yesLi7urtzNk2BBiDEjzbkPpV8TKy1X\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IFlashLoanRecipient.sol\":{\"keccak256\":\"0xadcf6e9f8677de9ec51a1bbb419da349b7c0c17af8b8cddad85ee0e80107036e\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e9b30c1b15e3d0990a4a343fac14d2263c4bae4c3bdbeb38489103b4f6f66c39\",\"dweb:/ipfs/QmeQjBDidkLAoq4nknwPPPmunSTvQEZ9shaAhPiJAPmbk6\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol\":{\"keccak256\":\"0xe18a4e04a4a4e828c81548cc50d9d8ab6461dafbe88929c0342fa2b6c08e0d76\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://7056ea1221db4eacc3e263ea8b9d741c11b1871f745169a39c6f926dab9c403f\",\"dweb:/ipfs/QmabGZff9x43RJUororFfmMzocB2UuZDDBMhhfELEeSJue\"]},\"@balancer-labs/v2-interfaces/contracts/vault/IVault.sol\":{\"keccak256\":\"0x63425148b27356cee63cf843ef8918d3ff6cdd8d5c00371326bca8b4331b773c\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://6764d2a22a2e23de5235ceb0d06ebb9006f694c59547b8dc82dbc2e215d1f230\",\"dweb:/ipfs/Qmb6BQBgUQno6RAqPPR8qeC3smNEC3Bm6y8ZcWEWZKAfhF\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -162,24 +162,24 @@
     "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol",
     "exportedSymbols": {
       "IAuthorizer": [
-        445
+        1011
       ],
       "IERC20": [
-        426
+        992
       ],
       "IProtocolFeesCollector": [
-        686
+        1244
       ],
       "IVault": [
-        1199
+        1709
       ]
     },
-    "id": 687,
+    "id": 1245,
     "license": "GPL-3.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 619,
+        "id": 1181,
         "literals": [
           "solidity",
           ">=",
@@ -190,89 +190,81 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "688:31:11"
+        "src": "688:31:12"
       },
       {
-        "id": 620,
+        "id": 1182,
         "literals": [
           "experimental",
           "ABIEncoderV2"
         ],
         "nodeType": "PragmaDirective",
-        "src": "720:33:11"
+        "src": "720:33:12"
       },
       {
         "absolutePath": "@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol",
         "file": "../solidity-utils/openzeppelin/IERC20.sol",
-        "id": 621,
-        "nameLocation": "-1:-1:-1",
+        "id": 1183,
         "nodeType": "ImportDirective",
-        "scope": 687,
-        "sourceUnit": 427,
-        "src": "755:51:11",
+        "scope": 1245,
+        "sourceUnit": 993,
+        "src": "755:51:12",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol",
         "file": "./IVault.sol",
-        "id": 622,
-        "nameLocation": "-1:-1:-1",
+        "id": 1184,
         "nodeType": "ImportDirective",
-        "scope": 687,
-        "sourceUnit": 1200,
-        "src": "808:22:11",
+        "scope": 1245,
+        "sourceUnit": 1710,
+        "src": "808:22:12",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol",
         "file": "./IAuthorizer.sol",
-        "id": 623,
-        "nameLocation": "-1:-1:-1",
+        "id": 1185,
         "nodeType": "ImportDirective",
-        "scope": 687,
-        "sourceUnit": 446,
-        "src": "831:27:11",
+        "scope": 1245,
+        "sourceUnit": 1012,
+        "src": "831:27:12",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "abstract": false,
         "baseContracts": [],
-        "canonicalName": "IProtocolFeesCollector",
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 686,
+        "id": 1244,
         "linearizedBaseContracts": [
-          686
+          1244
         ],
         "name": "IProtocolFeesCollector",
-        "nameLocation": "870:22:11",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "anonymous": false,
-            "eventSelector": "a9ba3ffe0b6c366b81232caab38605a0699ad5398d6cce76f91ee809e322dafc",
-            "id": 627,
+            "id": 1189,
             "name": "SwapFeePercentageChanged",
-            "nameLocation": "905:24:11",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 626,
+              "id": 1188,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 625,
+                  "id": 1187,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "newSwapFeePercentage",
-                  "nameLocation": "938:20:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 627,
-                  "src": "930:28:11",
+                  "scope": 1189,
+                  "src": "930:28:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -280,10 +272,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 624,
+                    "id": 1186,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "930:7:11",
+                    "src": "930:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -292,31 +284,28 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "929:30:11"
+              "src": "929:30:12"
             },
-            "src": "899:61:11"
+            "src": "899:61:12"
           },
           {
             "anonymous": false,
-            "eventSelector": "5a0b7386237e7f07fa741efc64e59c9387d2cccafec760efed4d53387f20e19a",
-            "id": 631,
+            "id": 1193,
             "name": "FlashLoanFeePercentageChanged",
-            "nameLocation": "971:29:11",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 630,
+              "id": 1192,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 629,
+                  "id": 1191,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "newFlashLoanFeePercentage",
-                  "nameLocation": "1009:25:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 631,
-                  "src": "1001:33:11",
+                  "scope": 1193,
+                  "src": "1001:33:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -324,10 +313,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 628,
+                    "id": 1190,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1001:7:11",
+                    "src": "1001:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -336,64 +325,53 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1000:35:11"
+              "src": "1000:35:12"
             },
-            "src": "965:71:11"
+            "src": "965:71:12"
           },
           {
             "functionSelector": "6daefab6",
-            "id": 643,
+            "id": 1204,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawCollectedFees",
-            "nameLocation": "1051:21:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 641,
+              "id": 1202,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 635,
+                  "id": 1196,
                   "mutability": "mutable",
                   "name": "tokens",
-                  "nameLocation": "1100:6:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 643,
-                  "src": "1082:24:11",
+                  "scope": 1204,
+                  "src": "1082:24:12",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_contract$_IERC20_$426_$dyn_calldata_ptr",
+                    "typeIdentifier": "t_array$_t_contract$_IERC20_$992_$dyn_calldata_ptr",
                     "typeString": "contract IERC20[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 633,
+                      "id": 1194,
+                      "name": "IERC20",
                       "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 632,
-                        "name": "IERC20",
-                        "nameLocations": [
-                          "1082:6:11"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 426,
-                        "src": "1082:6:11"
-                      },
-                      "referencedDeclaration": 426,
-                      "src": "1082:6:11",
+                      "referencedDeclaration": 992,
+                      "src": "1082:6:12",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IERC20_$426",
+                        "typeIdentifier": "t_contract$_IERC20_$992",
                         "typeString": "contract IERC20"
                       }
                     },
-                    "id": 634,
+                    "id": 1195,
                     "nodeType": "ArrayTypeName",
-                    "src": "1082:8:11",
+                    "src": "1082:8:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_contract$_IERC20_$426_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_contract$_IERC20_$992_$dyn_storage_ptr",
                       "typeString": "contract IERC20[]"
                     }
                   },
@@ -401,13 +379,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 638,
+                  "id": 1199,
                   "mutability": "mutable",
                   "name": "amounts",
-                  "nameLocation": "1135:7:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 643,
-                  "src": "1116:26:11",
+                  "scope": 1204,
+                  "src": "1116:26:12",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
@@ -416,18 +393,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 636,
+                      "id": 1197,
                       "name": "uint256",
                       "nodeType": "ElementaryTypeName",
-                      "src": "1116:7:11",
+                      "src": "1116:7:12",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 637,
+                    "id": 1198,
                     "nodeType": "ArrayTypeName",
-                    "src": "1116:9:11",
+                    "src": "1116:9:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                       "typeString": "uint256[]"
@@ -437,13 +414,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 640,
+                  "id": 1201,
                   "mutability": "mutable",
                   "name": "recipient",
-                  "nameLocation": "1160:9:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 643,
-                  "src": "1152:17:11",
+                  "scope": 1204,
+                  "src": "1152:17:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -451,10 +427,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 639,
+                    "id": 1200,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1152:7:11",
+                    "src": "1152:7:12",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -464,42 +440,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1072:103:11"
+              "src": "1072:103:12"
             },
             "returnParameters": {
-              "id": 642,
+              "id": 1203,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1184:0:11"
+              "src": "1184:0:12"
             },
-            "scope": 686,
-            "src": "1042:143:11",
+            "scope": 1244,
+            "src": "1042:143:12",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "38e9922e",
-            "id": 648,
+            "id": 1209,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "setSwapFeePercentage",
-            "nameLocation": "1200:20:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 646,
+              "id": 1207,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 645,
+                  "id": 1206,
                   "mutability": "mutable",
                   "name": "newSwapFeePercentage",
-                  "nameLocation": "1229:20:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 648,
-                  "src": "1221:28:11",
+                  "scope": 1209,
+                  "src": "1221:28:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -507,10 +481,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 644,
+                    "id": 1205,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1221:7:11",
+                    "src": "1221:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -519,42 +493,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1220:30:11"
+              "src": "1220:30:12"
             },
             "returnParameters": {
-              "id": 647,
+              "id": 1208,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1259:0:11"
+              "src": "1259:0:12"
             },
-            "scope": 686,
-            "src": "1191:69:11",
+            "scope": 1244,
+            "src": "1191:69:12",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "6b6b9f69",
-            "id": 653,
+            "id": 1214,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "setFlashLoanFeePercentage",
-            "nameLocation": "1275:25:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 651,
+              "id": 1212,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 650,
+                  "id": 1211,
                   "mutability": "mutable",
                   "name": "newFlashLoanFeePercentage",
-                  "nameLocation": "1309:25:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 653,
-                  "src": "1301:33:11",
+                  "scope": 1214,
+                  "src": "1301:33:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -562,10 +534,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 649,
+                    "id": 1210,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1301:7:11",
+                    "src": "1301:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -574,48 +546,46 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1300:35:11"
+              "src": "1300:35:12"
             },
             "returnParameters": {
-              "id": 652,
+              "id": 1213,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1344:0:11"
+              "src": "1344:0:12"
             },
-            "scope": 686,
-            "src": "1266:79:11",
+            "scope": 1244,
+            "src": "1266:79:12",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "55c67628",
-            "id": 658,
+            "id": 1219,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getSwapFeePercentage",
-            "nameLocation": "1360:20:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 654,
+              "id": 1215,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1380:2:11"
+              "src": "1380:2:12"
             },
             "returnParameters": {
-              "id": 657,
+              "id": 1218,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 656,
+                  "id": 1217,
                   "mutability": "mutable",
                   "name": "",
-                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 658,
-                  "src": "1406:7:11",
+                  "scope": 1219,
+                  "src": "1406:7:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -623,10 +593,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 655,
+                    "id": 1216,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1406:7:11",
+                    "src": "1406:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -635,42 +605,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1405:9:11"
+              "src": "1405:9:12"
             },
-            "scope": 686,
-            "src": "1351:64:11",
+            "scope": 1244,
+            "src": "1351:64:12",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "d877845c",
-            "id": 663,
+            "id": 1224,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getFlashLoanFeePercentage",
-            "nameLocation": "1430:25:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 659,
+              "id": 1220,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1455:2:11"
+              "src": "1455:2:12"
             },
             "returnParameters": {
-              "id": 662,
+              "id": 1223,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 661,
+                  "id": 1222,
                   "mutability": "mutable",
                   "name": "",
-                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 663,
-                  "src": "1481:7:11",
+                  "scope": 1224,
+                  "src": "1481:7:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -678,10 +646,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 660,
+                    "id": 1221,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1481:7:11",
+                    "src": "1481:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -690,89 +658,77 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1480:9:11"
+              "src": "1480:9:12"
             },
-            "scope": 686,
-            "src": "1421:69:11",
+            "scope": 1244,
+            "src": "1421:69:12",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "e42abf35",
-            "id": 673,
+            "id": 1233,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getCollectedFeeAmounts",
-            "nameLocation": "1505:22:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 668,
+              "id": 1228,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 667,
+                  "id": 1227,
                   "mutability": "mutable",
                   "name": "tokens",
-                  "nameLocation": "1544:6:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 673,
-                  "src": "1528:22:11",
+                  "scope": 1233,
+                  "src": "1528:22:12",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_contract$_IERC20_$426_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_contract$_IERC20_$992_$dyn_memory_ptr",
                     "typeString": "contract IERC20[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 665,
+                      "id": 1225,
+                      "name": "IERC20",
                       "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 664,
-                        "name": "IERC20",
-                        "nameLocations": [
-                          "1528:6:11"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 426,
-                        "src": "1528:6:11"
-                      },
-                      "referencedDeclaration": 426,
-                      "src": "1528:6:11",
+                      "referencedDeclaration": 992,
+                      "src": "1528:6:12",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IERC20_$426",
+                        "typeIdentifier": "t_contract$_IERC20_$992",
                         "typeString": "contract IERC20"
                       }
                     },
-                    "id": 666,
+                    "id": 1226,
                     "nodeType": "ArrayTypeName",
-                    "src": "1528:8:11",
+                    "src": "1528:8:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_contract$_IERC20_$426_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_contract$_IERC20_$992_$dyn_storage_ptr",
                       "typeString": "contract IERC20[]"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "1527:24:11"
+              "src": "1527:24:12"
             },
             "returnParameters": {
-              "id": 672,
+              "id": 1232,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 671,
+                  "id": 1231,
                   "mutability": "mutable",
                   "name": "feeAmounts",
-                  "nameLocation": "1592:10:11",
                   "nodeType": "VariableDeclaration",
-                  "scope": 673,
-                  "src": "1575:27:11",
+                  "scope": 1233,
+                  "src": "1575:27:12",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -781,18 +737,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 669,
+                      "id": 1229,
                       "name": "uint256",
                       "nodeType": "ElementaryTypeName",
-                      "src": "1575:7:11",
+                      "src": "1575:7:12",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 670,
+                    "id": 1230,
                     "nodeType": "ArrayTypeName",
-                    "src": "1575:9:11",
+                    "src": "1575:9:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                       "typeString": "uint256[]"
@@ -801,159 +757,985 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1574:29:11"
+              "src": "1574:29:12"
             },
-            "scope": 686,
-            "src": "1496:108:11",
+            "scope": 1244,
+            "src": "1496:108:12",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "aaabadc5",
-            "id": 679,
+            "id": 1238,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getAuthorizer",
-            "nameLocation": "1619:13:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 674,
+              "id": 1234,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1632:2:11"
+              "src": "1632:2:12"
             },
             "returnParameters": {
-              "id": 678,
+              "id": 1237,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 677,
+                  "id": 1236,
                   "mutability": "mutable",
                   "name": "",
-                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 679,
-                  "src": "1658:11:11",
+                  "scope": 1238,
+                  "src": "1658:11:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IAuthorizer_$445",
+                    "typeIdentifier": "t_contract$_IAuthorizer_$1011",
                     "typeString": "contract IAuthorizer"
                   },
                   "typeName": {
-                    "id": 676,
+                    "id": 1235,
+                    "name": "IAuthorizer",
                     "nodeType": "UserDefinedTypeName",
-                    "pathNode": {
-                      "id": 675,
-                      "name": "IAuthorizer",
-                      "nameLocations": [
-                        "1658:11:11"
-                      ],
-                      "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 445,
-                      "src": "1658:11:11"
-                    },
-                    "referencedDeclaration": 445,
-                    "src": "1658:11:11",
+                    "referencedDeclaration": 1011,
+                    "src": "1658:11:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IAuthorizer_$445",
+                      "typeIdentifier": "t_contract$_IAuthorizer_$1011",
                       "typeString": "contract IAuthorizer"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "1657:13:11"
+              "src": "1657:13:12"
             },
-            "scope": 686,
-            "src": "1610:61:11",
+            "scope": 1244,
+            "src": "1610:61:12",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "fbfa77cf",
-            "id": 685,
+            "id": 1243,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "vault",
-            "nameLocation": "1686:5:11",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 680,
+              "id": 1239,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1691:2:11"
+              "src": "1691:2:12"
             },
             "returnParameters": {
-              "id": 684,
+              "id": 1242,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 683,
+                  "id": 1241,
                   "mutability": "mutable",
                   "name": "",
-                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 685,
-                  "src": "1717:6:11",
+                  "scope": 1243,
+                  "src": "1717:6:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IVault_$1199",
+                    "typeIdentifier": "t_contract$_IVault_$1709",
                     "typeString": "contract IVault"
                   },
                   "typeName": {
-                    "id": 682,
+                    "id": 1240,
+                    "name": "IVault",
                     "nodeType": "UserDefinedTypeName",
-                    "pathNode": {
-                      "id": 681,
-                      "name": "IVault",
-                      "nameLocations": [
-                        "1717:6:11"
-                      ],
-                      "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 1199,
-                      "src": "1717:6:11"
-                    },
-                    "referencedDeclaration": 1199,
-                    "src": "1717:6:11",
+                    "referencedDeclaration": 1709,
+                    "src": "1717:6:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IVault_$1199",
+                      "typeIdentifier": "t_contract$_IVault_$1709",
                       "typeString": "contract IVault"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "1716:8:11"
+              "src": "1716:8:12"
             },
-            "scope": 686,
-            "src": "1677:48:11",
+            "scope": 1244,
+            "src": "1677:48:12",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 687,
-        "src": "860:867:11",
-        "usedErrors": []
+        "scope": 1245,
+        "src": "860:867:12"
       }
     ],
-    "src": "688:1040:11"
+    "src": "688:1040:12"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IProtocolFeesCollector.sol",
+      "exportedSymbols": {
+        "IAuthorizer": [
+          1011
+        ],
+        "IERC20": [
+          992
+        ],
+        "IProtocolFeesCollector": [
+          1244
+        ],
+        "IVault": [
+          1709
+        ]
+      },
+      "license": "GPL-3.0-or-later"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.7",
+            ".0",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 1181,
+        "name": "PragmaDirective",
+        "src": "688:31:12"
+      },
+      {
+        "attributes": {
+          "literals": [
+            "experimental",
+            "ABIEncoderV2"
+          ]
+        },
+        "id": 1182,
+        "name": "PragmaDirective",
+        "src": "720:33:12"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 993,
+          "absolutePath": "@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol",
+          "file": "../solidity-utils/openzeppelin/IERC20.sol",
+          "scope": 1245,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 1183,
+        "name": "ImportDirective",
+        "src": "755:51:12"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 1710,
+          "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol",
+          "file": "./IVault.sol",
+          "scope": 1245,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 1184,
+        "name": "ImportDirective",
+        "src": "808:22:12"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 1012,
+          "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol",
+          "file": "./IAuthorizer.sol",
+          "scope": 1245,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 1185,
+        "name": "ImportDirective",
+        "src": "831:27:12"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1244
+          ],
+          "name": "IProtocolFeesCollector",
+          "scope": 1245
+        },
+        "children": [
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "SwapFeePercentageChanged"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "mutability": "mutable",
+                      "name": "newSwapFeePercentage",
+                      "scope": 1189,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1186,
+                        "name": "ElementaryTypeName",
+                        "src": "930:7:12"
+                      }
+                    ],
+                    "id": 1187,
+                    "name": "VariableDeclaration",
+                    "src": "930:28:12"
+                  }
+                ],
+                "id": 1188,
+                "name": "ParameterList",
+                "src": "929:30:12"
+              }
+            ],
+            "id": 1189,
+            "name": "EventDefinition",
+            "src": "899:61:12"
+          },
+          {
+            "attributes": {
+              "anonymous": false,
+              "name": "FlashLoanFeePercentageChanged"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "mutability": "mutable",
+                      "name": "newFlashLoanFeePercentage",
+                      "scope": 1193,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1190,
+                        "name": "ElementaryTypeName",
+                        "src": "1001:7:12"
+                      }
+                    ],
+                    "id": 1191,
+                    "name": "VariableDeclaration",
+                    "src": "1001:33:12"
+                  }
+                ],
+                "id": 1192,
+                "name": "ParameterList",
+                "src": "1000:35:12"
+              }
+            ],
+            "id": 1193,
+            "name": "EventDefinition",
+            "src": "965:71:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "6daefab6",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "withdrawCollectedFees",
+              "scope": 1244,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "tokens",
+                      "scope": 1204,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "contract IERC20[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "contract IERC20[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "IERC20",
+                              "referencedDeclaration": 992,
+                              "type": "contract IERC20"
+                            },
+                            "id": 1194,
+                            "name": "UserDefinedTypeName",
+                            "src": "1082:6:12"
+                          }
+                        ],
+                        "id": 1195,
+                        "name": "ArrayTypeName",
+                        "src": "1082:8:12"
+                      }
+                    ],
+                    "id": 1196,
+                    "name": "VariableDeclaration",
+                    "src": "1082:24:12"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "amounts",
+                      "scope": 1204,
+                      "stateVariable": false,
+                      "storageLocation": "calldata",
+                      "type": "uint256[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "uint256[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "uint256",
+                              "type": "uint256"
+                            },
+                            "id": 1197,
+                            "name": "ElementaryTypeName",
+                            "src": "1116:7:12"
+                          }
+                        ],
+                        "id": 1198,
+                        "name": "ArrayTypeName",
+                        "src": "1116:9:12"
+                      }
+                    ],
+                    "id": 1199,
+                    "name": "VariableDeclaration",
+                    "src": "1116:26:12"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "recipient",
+                      "scope": 1204,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1200,
+                        "name": "ElementaryTypeName",
+                        "src": "1152:7:12"
+                      }
+                    ],
+                    "id": 1201,
+                    "name": "VariableDeclaration",
+                    "src": "1152:17:12"
+                  }
+                ],
+                "id": 1202,
+                "name": "ParameterList",
+                "src": "1072:103:12"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1203,
+                "name": "ParameterList",
+                "src": "1184:0:12"
+              }
+            ],
+            "id": 1204,
+            "name": "FunctionDefinition",
+            "src": "1042:143:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "38e9922e",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setSwapFeePercentage",
+              "scope": 1244,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "newSwapFeePercentage",
+                      "scope": 1209,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1205,
+                        "name": "ElementaryTypeName",
+                        "src": "1221:7:12"
+                      }
+                    ],
+                    "id": 1206,
+                    "name": "VariableDeclaration",
+                    "src": "1221:28:12"
+                  }
+                ],
+                "id": 1207,
+                "name": "ParameterList",
+                "src": "1220:30:12"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1208,
+                "name": "ParameterList",
+                "src": "1259:0:12"
+              }
+            ],
+            "id": 1209,
+            "name": "FunctionDefinition",
+            "src": "1191:69:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "6b6b9f69",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "setFlashLoanFeePercentage",
+              "scope": 1244,
+              "stateMutability": "nonpayable",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "newFlashLoanFeePercentage",
+                      "scope": 1214,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1210,
+                        "name": "ElementaryTypeName",
+                        "src": "1301:7:12"
+                      }
+                    ],
+                    "id": 1211,
+                    "name": "VariableDeclaration",
+                    "src": "1301:33:12"
+                  }
+                ],
+                "id": 1212,
+                "name": "ParameterList",
+                "src": "1300:35:12"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1213,
+                "name": "ParameterList",
+                "src": "1344:0:12"
+              }
+            ],
+            "id": 1214,
+            "name": "FunctionDefinition",
+            "src": "1266:79:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "55c67628",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getSwapFeePercentage",
+              "scope": 1244,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1215,
+                "name": "ParameterList",
+                "src": "1380:2:12"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 1219,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1216,
+                        "name": "ElementaryTypeName",
+                        "src": "1406:7:12"
+                      }
+                    ],
+                    "id": 1217,
+                    "name": "VariableDeclaration",
+                    "src": "1406:7:12"
+                  }
+                ],
+                "id": 1218,
+                "name": "ParameterList",
+                "src": "1405:9:12"
+              }
+            ],
+            "id": 1219,
+            "name": "FunctionDefinition",
+            "src": "1351:64:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "d877845c",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getFlashLoanFeePercentage",
+              "scope": 1244,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1220,
+                "name": "ParameterList",
+                "src": "1455:2:12"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 1224,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 1221,
+                        "name": "ElementaryTypeName",
+                        "src": "1481:7:12"
+                      }
+                    ],
+                    "id": 1222,
+                    "name": "VariableDeclaration",
+                    "src": "1481:7:12"
+                  }
+                ],
+                "id": 1223,
+                "name": "ParameterList",
+                "src": "1480:9:12"
+              }
+            ],
+            "id": 1224,
+            "name": "FunctionDefinition",
+            "src": "1421:69:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "e42abf35",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getCollectedFeeAmounts",
+              "scope": 1244,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "tokens",
+                      "scope": 1233,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "contract IERC20[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "contract IERC20[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "IERC20",
+                              "referencedDeclaration": 992,
+                              "type": "contract IERC20"
+                            },
+                            "id": 1225,
+                            "name": "UserDefinedTypeName",
+                            "src": "1528:6:12"
+                          }
+                        ],
+                        "id": 1226,
+                        "name": "ArrayTypeName",
+                        "src": "1528:8:12"
+                      }
+                    ],
+                    "id": 1227,
+                    "name": "VariableDeclaration",
+                    "src": "1528:22:12"
+                  }
+                ],
+                "id": 1228,
+                "name": "ParameterList",
+                "src": "1527:24:12"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "feeAmounts",
+                      "scope": 1233,
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "type": "uint256[]",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "type": "uint256[]"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "name": "uint256",
+                              "type": "uint256"
+                            },
+                            "id": 1229,
+                            "name": "ElementaryTypeName",
+                            "src": "1575:7:12"
+                          }
+                        ],
+                        "id": 1230,
+                        "name": "ArrayTypeName",
+                        "src": "1575:9:12"
+                      }
+                    ],
+                    "id": 1231,
+                    "name": "VariableDeclaration",
+                    "src": "1575:27:12"
+                  }
+                ],
+                "id": 1232,
+                "name": "ParameterList",
+                "src": "1574:29:12"
+              }
+            ],
+            "id": 1233,
+            "name": "FunctionDefinition",
+            "src": "1496:108:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "aaabadc5",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "getAuthorizer",
+              "scope": 1244,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1234,
+                "name": "ParameterList",
+                "src": "1632:2:12"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 1238,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract IAuthorizer",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "IAuthorizer",
+                          "referencedDeclaration": 1011,
+                          "type": "contract IAuthorizer"
+                        },
+                        "id": 1235,
+                        "name": "UserDefinedTypeName",
+                        "src": "1658:11:12"
+                      }
+                    ],
+                    "id": 1236,
+                    "name": "VariableDeclaration",
+                    "src": "1658:11:12"
+                  }
+                ],
+                "id": 1237,
+                "name": "ParameterList",
+                "src": "1657:13:12"
+              }
+            ],
+            "id": 1238,
+            "name": "FunctionDefinition",
+            "src": "1610:61:12"
+          },
+          {
+            "attributes": {
+              "functionSelector": "fbfa77cf",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "vault",
+              "scope": 1244,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 1239,
+                "name": "ParameterList",
+                "src": "1691:2:12"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 1243,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract IVault",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "IVault",
+                          "referencedDeclaration": 1709,
+                          "type": "contract IVault"
+                        },
+                        "id": 1240,
+                        "name": "UserDefinedTypeName",
+                        "src": "1717:6:12"
+                      }
+                    ],
+                    "id": 1241,
+                    "name": "VariableDeclaration",
+                    "src": "1717:6:12"
+                  }
+                ],
+                "id": 1242,
+                "name": "ParameterList",
+                "src": "1716:8:12"
+              }
+            ],
+            "id": 1243,
+            "name": "FunctionDefinition",
+            "src": "1677:48:12"
+          }
+        ],
+        "id": 1244,
+        "name": "ContractDefinition",
+        "src": "860:867:12"
+      }
+    ],
+    "id": 1245,
+    "name": "SourceUnit",
+    "src": "688:1040:12"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+    "version": "0.7.6+commit.7338295f.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-03-29T19:38:39.625Z",
+  "updatedAt": "2023-04-20T12:57:36.811Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

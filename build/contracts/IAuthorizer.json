@@ -31,7 +31,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"actionId\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"where\",\"type\":\"address\"}],\"name\":\"canPerform\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"canPerform(bytes32,address,address)\":{\"details\":\"Returns true if `account` can perform the action described by `actionId` in the contract `where`.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":\"IAuthorizer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"actionId\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"where\",\"type\":\"address\"}],\"name\":\"canPerform\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"canPerform(bytes32,address,address)\":{\"details\":\"Returns true if `account` can perform the action described by `actionId` in the contract `where`.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":\"IAuthorizer\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -45,15 +45,15 @@
     "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol",
     "exportedSymbols": {
       "IAuthorizer": [
-        445
+        1011
       ]
     },
-    "id": 446,
+    "id": 1012,
     "license": "GPL-3.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 432,
+        "id": 998,
         "literals": [
           "solidity",
           ">=",
@@ -64,51 +64,47 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "688:31:7"
+        "src": "688:31:8"
       },
       {
         "abstract": false,
         "baseContracts": [],
-        "canonicalName": "IAuthorizer",
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 445,
+        "id": 1011,
         "linearizedBaseContracts": [
-          445
+          1011
         ],
         "name": "IAuthorizer",
-        "nameLocation": "731:11:7",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "documentation": {
-              "id": 433,
+              "id": 999,
               "nodeType": "StructuredDocumentation",
-              "src": "749:121:7",
+              "src": "749:121:8",
               "text": " @dev Returns true if `account` can perform the action described by `actionId` in the contract `where`."
             },
             "functionSelector": "9be2a884",
-            "id": 444,
+            "id": 1010,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "canPerform",
-            "nameLocation": "884:10:7",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 440,
+              "id": 1006,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 435,
+                  "id": 1001,
                   "mutability": "mutable",
                   "name": "actionId",
-                  "nameLocation": "912:8:7",
                   "nodeType": "VariableDeclaration",
-                  "scope": 444,
-                  "src": "904:16:7",
+                  "scope": 1010,
+                  "src": "904:16:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -116,10 +112,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 434,
+                    "id": 1000,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "904:7:7",
+                    "src": "904:7:8",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -129,13 +125,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 437,
+                  "id": 1003,
                   "mutability": "mutable",
                   "name": "account",
-                  "nameLocation": "938:7:7",
                   "nodeType": "VariableDeclaration",
-                  "scope": 444,
-                  "src": "930:15:7",
+                  "scope": 1010,
+                  "src": "930:15:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -143,10 +138,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 436,
+                    "id": 1002,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "930:7:7",
+                    "src": "930:7:8",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -157,13 +152,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 439,
+                  "id": 1005,
                   "mutability": "mutable",
                   "name": "where",
-                  "nameLocation": "963:5:7",
                   "nodeType": "VariableDeclaration",
-                  "scope": 444,
-                  "src": "955:13:7",
+                  "scope": 1010,
+                  "src": "955:13:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -171,10 +165,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 438,
+                    "id": 1004,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "955:7:7",
+                    "src": "955:7:8",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -184,21 +178,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "894:80:7"
+              "src": "894:80:8"
             },
             "returnParameters": {
-              "id": 443,
+              "id": 1009,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 442,
+                  "id": 1008,
                   "mutability": "mutable",
                   "name": "",
-                  "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 444,
-                  "src": "998:4:7",
+                  "scope": 1010,
+                  "src": "998:4:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -206,10 +199,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 441,
+                    "id": 1007,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "998:4:7",
+                    "src": "998:4:8",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -218,29 +211,232 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "997:6:7"
+              "src": "997:6:8"
             },
-            "scope": 445,
-            "src": "875:129:7",
+            "scope": 1011,
+            "src": "875:129:8",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 446,
-        "src": "721:285:7",
-        "usedErrors": []
+        "scope": 1012,
+        "src": "721:285:8"
       }
     ],
-    "src": "688:319:7"
+    "src": "688:319:8"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "@balancer-labs/v2-interfaces/contracts/vault/IAuthorizer.sol",
+      "exportedSymbols": {
+        "IAuthorizer": [
+          1011
+        ]
+      },
+      "license": "GPL-3.0-or-later"
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            ">=",
+            "0.7",
+            ".0",
+            "<",
+            "0.9",
+            ".0"
+          ]
+        },
+        "id": 998,
+        "name": "PragmaDirective",
+        "src": "688:31:8"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            1011
+          ],
+          "name": "IAuthorizer",
+          "scope": 1012
+        },
+        "children": [
+          {
+            "attributes": {
+              "functionSelector": "9be2a884",
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "canPerform",
+              "scope": 1011,
+              "stateMutability": "view",
+              "virtual": false,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "text": " @dev Returns true if `account` can perform the action described by `actionId` in the contract `where`."
+                },
+                "id": 999,
+                "name": "StructuredDocumentation",
+                "src": "749:121:8"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "actionId",
+                      "scope": 1010,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 1000,
+                        "name": "ElementaryTypeName",
+                        "src": "904:7:8"
+                      }
+                    ],
+                    "id": 1001,
+                    "name": "VariableDeclaration",
+                    "src": "904:16:8"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "account",
+                      "scope": 1010,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1002,
+                        "name": "ElementaryTypeName",
+                        "src": "930:7:8"
+                      }
+                    ],
+                    "id": 1003,
+                    "name": "VariableDeclaration",
+                    "src": "930:15:8"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "where",
+                      "scope": 1010,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 1004,
+                        "name": "ElementaryTypeName",
+                        "src": "955:7:8"
+                      }
+                    ],
+                    "id": 1005,
+                    "name": "VariableDeclaration",
+                    "src": "955:13:8"
+                  }
+                ],
+                "id": 1006,
+                "name": "ParameterList",
+                "src": "894:80:8"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "mutability": "mutable",
+                      "name": "",
+                      "scope": 1010,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 1007,
+                        "name": "ElementaryTypeName",
+                        "src": "998:4:8"
+                      }
+                    ],
+                    "id": 1008,
+                    "name": "VariableDeclaration",
+                    "src": "998:4:8"
+                  }
+                ],
+                "id": 1009,
+                "name": "ParameterList",
+                "src": "997:6:8"
+              }
+            ],
+            "id": 1010,
+            "name": "FunctionDefinition",
+            "src": "875:129:8"
+          }
+        ],
+        "id": 1011,
+        "name": "ContractDefinition",
+        "src": "721:285:8"
+      }
+    ],
+    "id": 1012,
+    "name": "SourceUnit",
+    "src": "688:319:8"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+    "version": "0.7.6+commit.7338295f.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-03-29T19:38:39.615Z",
+  "updatedAt": "2023-04-20T12:57:36.805Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
