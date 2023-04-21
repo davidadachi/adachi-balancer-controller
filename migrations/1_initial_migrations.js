@@ -1,7 +1,13 @@
 const  Migrations  = artifacts.require("InternalBondingCurveController");
 
-// ManagedPoolFactory on Celo = 0x6ea01ea80FeB4313C3329e6e9fcA751CCb2cF323
-// 
+// Vault
+// CELO: 0xD25E02047E76b688445ab154785F2642c6fe3f73
+// Gnosis: 0x24F87b37F4F249Da61D89c3FF776a55c321B2773
+//
+// ManagedPoolFactory
+// CELO: 0x960Edb2AA0960be66c65FB52e83c99c3C0F4CeD5
+// Gnosis: 0xCC6a719F645BAf3a72d71cda8884328CB9aC4605
+
 module.exports = function(deployer) {
-    deployer.deploy(Migrations, '0xba12222222228d8ba445958a75a0704d566bf2c8', '0xDF9B5B00Ef9bca66e9902Bd813dB14e4343Be025');
+    deployer.deploy(Migrations, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x960Edb2AA0960be66c65FB52e83c99c3C0F4CeD5');
   };
