@@ -23,6 +23,7 @@ abstract contract BaseController is ReentrancyGuard {
     IVault internal immutable vault;
     ManagedPoolFactory public immutable managedPoolFactory;
     mapping(address => PoolSettings) internal managedPools; // Pools and their prices
+    address[] private poolsUnderManagement;
 
      /**
      * @notice Constructor for the controller base class
@@ -77,7 +78,16 @@ abstract contract BaseController is ReentrancyGuard {
         poolSettingsParams.aumFeeId = _aumFeeId;
 
         address _poolAddress = managedPoolFactory.create(poolParams, poolSettingsParams, address(this), salt);
+        poolsUnderManagement.push(_poolAddress);
         managedPools[_poolAddress].activelyManaged = true;
+    }
+
+    /**
+     * @notice returns a list of pools under management by this controller
+     *
+     */
+    function getPoolsUnderManagement() public view returns (address[] memory) {
+        return poolsUnderManagement;
     }
 
     /**
