@@ -57,12 +57,17 @@ contract ExternalBondingCurveController is BaseController {
         CurveValues memory curveInfo;
         curveInfo.managedPool = IManagedPool(_poolAddress);
         curveInfo.poolId = curveInfo.managedPool.getPoolId();
+        vault.getPool(curveInfo.poolId);
         curveInfo.normalizedWeights = curveInfo.managedPool.getNormalizedWeights();
 
         (curveInfo.tokens, curveInfo.balances,) = vault.getPoolTokens(curveInfo.poolId);
         curveInfo.assets = _convertERC20sToAssets(curveInfo.tokens);
 
-        curveInfo.tokenAPrice = (curveInfo.balances[1] / curveInfo.normalizedWeights[1]) / (curveInfo.balances[0] / curveInfo.normalizedWeights[0]);
+        curveInfo.tokenAPrice = 0;
+        if (curveInfo.balances[0]  > 0)
+        {
+            curveInfo.tokenAPrice = (curveInfo.balances[1] / curveInfo.normalizedWeights[1]) / (curveInfo.balances[0] / curveInfo.normalizedWeights[0]);
+        }
 
         curveInfo.bJoin = false;
         curveInfo.bExit = false;
@@ -70,17 +75,24 @@ contract ExternalBondingCurveController is BaseController {
         // If token 0 price is too low then remove an amount of token 0 else if too high then add an amount of token 0
         if (curveInfo.tokenAPrice < managedPools[_poolAddress].prices[address(curveInfo.assets[0])].price)
         {
-            curveInfo.tokenABalanceToMove = curveInfo.balances[0] / 100 * (100 - (100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[0])].price * curveInfo.tokenAPrice));
-
+            curveInfo.tokenABalanceToMove = 0;
+            if (curveInfo.tokenAPrice > 0)
+            {
+                curveInfo.tokenABalanceToMove = curveInfo.balances[0] / 100 * (100 - (100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[0])].price * curveInfo.tokenAPrice));
+            }
             curveInfo.exitAmounts[0] = curveInfo.tokenABalanceToMove;
             curveInfo.exitAssets[0] = curveInfo.assets[0];
             curveInfo.bExit = true;
         }
         else if (curveInfo.tokenAPrice > managedPools[_poolAddress].prices[address(curveInfo.assets[0])].price)
         {
-            curveInfo.tokenABalancePercentToMove = 100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[0])].price * curveInfo.tokenAPrice - 100;
-            curveInfo.tokenABalanceToMove = curveInfo.balances[0] / 100 * curveInfo.tokenABalancePercentToMove;
-
+            curveInfo.tokenABalancePercentToMove = 0;
+            curveInfo.tokenABalanceToMove = 0;
+            if (curveInfo.tokenAPrice > 0)
+            {
+                curveInfo.tokenABalancePercentToMove = 100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[0])].price * curveInfo.tokenAPrice - 100;
+                curveInfo.tokenABalanceToMove = curveInfo.balances[0] / 100 * curveInfo.tokenABalancePercentToMove;
+            }
             curveInfo.joinAmounts[0] = curveInfo.tokenABalanceToMove;
             curveInfo.joinAssets[0] = curveInfo.assets[0];
             curveInfo.bJoin = true;
@@ -88,24 +100,10 @@ contract ExternalBondingCurveController is BaseController {
 
         // Balance subsequent tokens against the first token following same logic as for token 0
         for (uint256 i = 1; i < curveInfo.tokens.length; i++) {
-            curveInfo.tokenPrice = (curveInfo.balances[0] / curveInfo.normalizedWeights[0]) / (curveInfo.balances[i] / curveInfo.normalizedWeights[i]);
-
-            if (curveInfo.tokenPrice < managedPools[_poolAddress].prices[address(curveInfo.tokens[i])].price)
+            curveInfo.tokenPrice = 0;
+            if (curveInfo.balances[i] > 0)
             {
-                curveInfo.tokenBalanceToMove = curveInfo.balances[i] / 100 * (100 - (100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[i])].price * curveInfo.tokenPrice));
-                
-                curveInfo.exitAmounts[curveInfo.exitAmounts.length - 1] = curveInfo.tokenBalanceToMove;
-                curveInfo.exitAssets[curveInfo.exitAssets.length - 1] = curveInfo.assets[i];
-                curveInfo.bExit = true;
-            }
-            else if (curveInfo.tokenPrice < managedPools[_poolAddress].prices[address(curveInfo.tokens[i])].price)
-            {
-                curveInfo.tokenBalancePercentToMove = 100 / managedPools[_poolAddress].prices[address(curveInfo.tokens[i])].price * curveInfo.tokenPrice - 100;
-                curveInfo.tokenBalanceToMove = curveInfo.balances[i] / 100 * curveInfo.tokenBalancePercentToMove;
-
-                curveInfo.joinAmounts[curveInfo.joinAmounts.length - 1] = curveInfo.tokenBalanceToMove;
-                curveInfo.joinAssets[curveInfo.joinAssets.length - 1] = curveInfo.assets[i];
-                curveInfo.bJoin = true;
+                curveInfo.tokenPrice = (curveInfo.balances[0] / curveInfo.normalizedWeights[0]) / (curveInfo.balances[i] / curveInfo.normalizedWeights[i]);
             }
         }
 

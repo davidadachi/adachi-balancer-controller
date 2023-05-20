@@ -91,6 +91,20 @@ abstract contract BaseController is ReentrancyGuard {
     }
 
     /**
+     * @notice Returns the pools Id
+     *
+     * @param _poolAddress - Pool to get the Id for
+     */
+    function getPoolId(address _poolAddress) public view returns (bytes32) {
+        CurveValues memory curveInfo;
+        curveInfo.managedPool = IManagedPool(_poolAddress);
+        curveInfo.poolId = curveInfo.managedPool.getPoolId();
+    //    curveInfo.name = curveInfo.managedPool.name();
+    //    curveInfo.symbol = curveInfo.managedPool.symbol();
+        return curveInfo.poolId;
+    }
+
+    /**
      * @notice Set target prices used for balancing
      *
      * @param _pool - Pool to have prices set.
