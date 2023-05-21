@@ -91,20 +91,6 @@ abstract contract BaseController is ReentrancyGuard {
     }
 
     /**
-     * @notice Returns the pools Id
-     *
-     * @param _poolAddress - Pool to get the Id for
-     */
-    function getPoolId(address _poolAddress) public view returns (bytes32) {
-        CurveValues memory curveInfo;
-        curveInfo.managedPool = IManagedPool(_poolAddress);
-        curveInfo.poolId = curveInfo.managedPool.getPoolId();
-    //    curveInfo.name = curveInfo.managedPool.name();
-    //    curveInfo.symbol = curveInfo.managedPool.symbol();
-        return curveInfo.poolId;
-    }
-
-    /**
      * @notice Set target prices used for balancing
      *
      * @param _pool - Pool to have prices set.
@@ -189,6 +175,15 @@ abstract contract BaseController is ReentrancyGuard {
     }
 
     /**
+     * @notice Returns the pools Id
+     *
+     * @param _poolAddress - Pool to get the Id for
+     */
+    function getPoolId(address _poolAddress) public view returns (bytes32) {
+        return IManagedPool(_poolAddress).getPoolId();
+    }
+
+    /**
      * @notice Enable or disable joins and exits. Note that this does not affect Recovery Mode exits.
      * @dev Emits the JoinExitEnabledSet event. This is a permissioned function.
      *
@@ -202,6 +197,15 @@ abstract contract BaseController is ReentrancyGuard {
         IManagedPool managedPool;
         managedPool = IManagedPool(_poolAddress);
         managedPool.setJoinExitEnabled(_joinExitEnabled);
+    }
+
+    /**
+     * @notice Returns the whether swapping is enabled for pool
+     *
+     * @param _poolAddress - Pool to get the swap state for
+     */
+    function getSwapEnabled(address _poolAddress) public view returns (bool) {
+        return IManagedPool(_poolAddress).getSwapEnabled();
     }
 
     /**
