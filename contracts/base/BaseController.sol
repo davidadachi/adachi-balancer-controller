@@ -5,24 +5,19 @@ pragma experimental ABIEncoderV2;
 import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.sol";
 import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
-//import "@balancer-labs/v2-pool-weighted/contracts/managed/ManagedPoolFactory.sol";
 import "../ManagedPoolFactory.sol";
-
-struct PoolPrice {
-    address token;
-    uint256 price;
-}
-
+import "./BaseUtils.sol";
 struct PoolSettings {
-    bool activelyManaged;
-    mapping(address => PoolPrice) prices;
+    string poolName;
+    string poolSymbol;
+    uint256 tolerance;
+    IERC20[] poolTokens;
 }
 
-abstract contract BaseController is ReentrancyGuard {
-    address public manager;
+abstract contract BaseController is ReentrancyGuard, BaseUtils {
     IVault internal immutable vault;
     ManagedPoolFactory public immutable managedPoolFactory;
-    mapping(address => PoolSettings) internal managedPools; // Pools and their prices
+    mapping(address => PoolSettings) public managedPools; // Pools and their prices
     address[] private poolsUnderManagement;
 
      /**
@@ -62,7 +57,8 @@ abstract contract BaseController is ReentrancyGuard {
                         bool _mustAllowlistLPs,
                         uint256 _managementAumFeePercentage,
                         uint256 _aumFeeId,
-                        bytes32 salt) public restricted nonReentrant {
+                        uint256 _tolerance,
+                        bytes32 _salt) public restricted nonReentrant {
         ManagedPoolParams memory poolParams;
         poolParams.name = _name;
         poolParams.symbol = _symbol;
@@ -77,9 +73,13 @@ abstract contract BaseController is ReentrancyGuard {
         poolSettingsParams.managementAumFeePercentage = _managementAumFeePercentage;
         poolSettingsParams.aumFeeId = _aumFeeId;
 
-        address _poolAddress = managedPoolFactory.create(poolParams, poolSettingsParams, address(this), salt);
+        address _poolAddress = managedPoolFactory.create(poolParams, poolSettingsParams, address(this), _salt);
         poolsUnderManagement.push(_poolAddress);
-        managedPools[_poolAddress].activelyManaged = true;
+        
+        managedPools[_poolAddress].poolName = _name;
+        managedPools[_poolAddress].poolSymbol = _symbol;
+        managedPools[_poolAddress].tolerance = _tolerance;
+        managedPools[_poolAddress].poolTokens = _tokens;
     }
 
     /**
@@ -88,33 +88,6 @@ abstract contract BaseController is ReentrancyGuard {
      */
     function getPoolsUnderManagement() public view returns (address[] memory) {
         return poolsUnderManagement;
-    }
-
-    /**
-     * @notice Set target prices used for balancing
-     *
-     * @param _pool - Pool to have prices set.
-     * @param _tokens - The collection of tokens to have prices set
-     * @param _prices - The collection of prices to set
-     */
-    function setTargetPoolPrices(address _pool,
-                                 address[] memory _tokens,
-                                 uint256[] memory _prices) public restricted {
-        for (uint256 count = 0; count < _tokens.length; count++) {
-
-            managedPools[_pool].prices[_tokens[count]].token = _tokens[count];
-            managedPools[_pool].prices[_tokens[count]].price = _prices[count];
-        }
-    }
-
-    /**
-     * @notice Transfer the manager to a new address
-     * @dev Only one manager can presently be set
-     *
-     * @param _manager - New manager.
-     */
-    function transferManagement(address _manager) public restricted {
-        manager = _manager;
     }
     
     /**
@@ -423,35 +396,5 @@ abstract contract BaseController is ReentrancyGuard {
         address _tokenAddress) public restricted nonReentrant checkAllowance(_amount, _tokenAddress) {
         IERC20 token = IERC20(_tokenAddress);
         token.transferFrom(msg.sender, address(this), _amount);
-    }
-
-    /**
-     * @dev This helper function is a fast and cheap way to convert between IERC20 and IAsset types
-     *
-     * @param _tokens - Tokens to convert to assets
-     */
-    function _convertERC20sToAssets(IERC20[] memory _tokens) internal pure returns (IAsset[] memory assets) {
-        // solhint-disable-next-line no-inline-assembly
-        assembly {
-            assets := _tokens
-        }
-    }
-
-    /**
-     * @dev Modifier to restrict access to the set manager
-     */
-    modifier restricted() {
-        require(msg.sender == manager);
-        _;
-    }
-
-    /**
-     * @dev Modifier to check token allowance
-     */
-    modifier checkAllowance(uint _amount,
-                            address _tokenAddress) {
-        IERC20 token = IERC20(_tokenAddress);
-        require(token.allowance(msg.sender, address(this)) >= _amount, "Error");
-        _;
     }
 }

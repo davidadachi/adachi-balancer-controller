@@ -1,4 +1,5 @@
-const  Migrations  = artifacts.require("InternalBondingCurveController");
+const  ReserveControllerMigration  = artifacts.require("ReserveController");
+const  BondingCurveControllerMigration  = artifacts.require("BondingCurveController");
 
 // Vault
 // CELO: 0xD25E02047E76b688445ab154785F2642c6fe3f73
@@ -8,5 +9,6 @@ const  Migrations  = artifacts.require("InternalBondingCurveController");
 // CELO: 0x6672dBA088B0151f29D05dd52117626fDE4a8B0C
 // Gnosis: 0x6C6a62882142bA47a12513E99f3c7fD93C3eAbE3
 module.exports = function(deployer) {
-    deployer.deploy(Migrations, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x6672dBA088B0151f29D05dd52117626fDE4a8B0C');
+    deployer.deploy(ReserveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73');
+    deployer.deploy(BondingCurveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x6672dBA088B0151f29D05dd52117626fDE4a8B0C');
   };
