@@ -6,8 +6,11 @@ import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.
 import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "./base/BaseUtils.sol";
+import "./ManagedPoolFactory.sol";
 
 contract ReserveController is ReentrancyGuard, BaseUtils {
+
+    event CreatedPoolByDelegateCall(ManagedPoolParams managedPoolParams, ManagedPoolSettingsParams managedPoolSettingsParams, address callerAddress, bytes32 salt, bool success);
 
     struct ReserveValues {
         IManagedPool managedPool;
@@ -22,17 +25,77 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
 
     // poolAddress mapped to reserve token
     mapping(address => address) pools;
-
+    address[] private registeredPools;
     IVault internal immutable vault;
+    address internal immutable managedPoolFactory;
+
 
     /**
      * @notice Constructor for the controller base class
      *
      * @param _vaultAddress - Vault contract address
      */
-    constructor(address _vaultAddress) {
+    constructor(address _vaultAddress,
+                address _managedPoolFactory) {
         manager = msg.sender;
         vault = IVault(_vaultAddress);
+        managedPoolFactory = _managedPoolFactory;
+    }
+
+    /**
+     * @notice Create and register a new managed pool
+     *
+     * @param _name - Pool name
+     * @param _symbol - Symbol representing the pool
+     * @param _tokens - Tokens in the pool
+     * @param _normalizedWeights - Normalized weights in the pool
+     * @param _assetManagers - Asset manager for the pool
+     * @param _swapFeePercentage - Fee applied to swaps
+     * @param _swapEnabledOnStart - Whether swaps are enabled straight away
+     * @param _mustAllowlistLPs - List of LP's allowed in the pool
+     * @param _managementAumFeePercentage - Management Aum fee to apply
+     * @param _aumFeeId - Aum Fee Id
+     */
+    function createAndRegisterManagedPoolstring(string memory _name,
+                                                string memory _symbol,
+                                                IERC20[] memory _tokens,
+                                                uint256[] memory _normalizedWeights,
+                                                address[] memory _assetManagers,
+                                                uint256 _swapFeePercentage,
+                                                bool _swapEnabledOnStart,
+                                                bool _mustAllowlistLPs,
+                                                uint256 _managementAumFeePercentage,
+                                                uint256 _aumFeeId,
+                                                uint256 _tolerance,
+                                                bytes32 _salt) public nonReentrant {
+        ManagedPoolParams memory poolParams;
+        poolParams.name = _name;
+        poolParams.symbol = _symbol;
+        poolParams.assetManagers = _assetManagers;
+
+        ManagedPoolSettingsParams memory poolSettingsParams;
+        poolSettingsParams.tokens = _tokens;
+        poolSettingsParams.normalizedWeights = _normalizedWeights;
+        poolSettingsParams.swapFeePercentage = _swapFeePercentage;
+        poolSettingsParams.swapEnabledOnStart = _swapEnabledOnStart;
+        poolSettingsParams.mustAllowlistLPs = _mustAllowlistLPs;
+        poolSettingsParams.managementAumFeePercentage = _managementAumFeePercentage;
+        poolSettingsParams.aumFeeId = _aumFeeId;
+
+        (bool success, bytes memory result) = managedPoolFactory.delegatecall(
+            abi.encodeWithSignature("create(ManagedPoolParams, ManagedPoolSettingsParams, address, bytes32)", poolParams, poolSettingsParams, msg.sender, _salt)
+        );
+
+        emit CreatedPoolByDelegateCall(poolParams, poolSettingsParams, msg.sender, _salt, success);
+    }
+
+
+    /**
+     * @notice returns a list of registered pools
+     *
+     */
+    function getRegisteredPools() public view returns (address[] memory) {
+        return registeredPools;
     }
 
     /**
@@ -45,6 +108,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         address _managedPool,
         address _reserveToken) public restricted nonReentrant {
         pools[_managedPool] = _reserveToken;
+        registeredPools.push(_managedPool);
     }
 
     /**
@@ -55,13 +119,14 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
     function deRegisterManagedPool(
         address _managedPool) public restricted nonReentrant {
         delete pools[_managedPool];
+        removeByValue(_managedPool);
     }
 
     /**
      * @notice This function is used for pools containing two tokensRuns a check
       and transfers reserve tokens as needed
      *
-     * @param _tokenIn - Address of collateral token
+     * @param _tokenIn - Address of collateral token* @param _tokenIn - Address of collateral token
      * @param _amountIn - The amount being traded
      * @param _recipient - Address of person to receive the swapped tokens
      */
@@ -173,6 +238,40 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
 
         // Transfer the output tokens from this contract to the recipient
         require(bptToken.transfer(_recipient, myBptAmount), "Transfer of output tokens failed");
+    }
+
+    /**
+     * @notice returns the array index containing supplied address
+     *
+     * @param value - Address to find
+     */
+    function find(address value) private view returns(uint) {
+        uint i = 0;
+        while (registeredPools[i] != value) {
+            i++;
+        }
+        return i;
+    }
+
+    /**
+     * @notice removes supplied address from array of addresses
+     *
+     */
+    function removeByValue(address value) private {
+        uint i = find(value);
+        removeByIndex(i);
+    }
+
+    /**
+     * @notice remove the item at index, resizing array as needed
+     *
+     */
+    function removeByIndex(uint i) private {
+        while (i < registeredPools.length-1) {
+            registeredPools[i] = registeredPools[i+1];
+            i++;
+        }
+        registeredPools.pop();
     }
 
     /**

@@ -7,6 +7,7 @@ import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "../ManagedPoolFactory.sol";
 import "./BaseUtils.sol";
+
 struct PoolSettings {
     string poolName;
     string poolSymbol;
