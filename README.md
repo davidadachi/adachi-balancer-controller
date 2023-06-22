@@ -37,6 +37,12 @@ $ truffle compile
 $ truffle test
 ```
 
+To deploy.
+
+```bash
+$ truffle migrate --network celo
+```
+
 ## Licensing
 
 Most of the Solidity source code is licensed under the GNU General Public License Version 3 (GPL v3): see [`LICENSE`](./LICENSE).

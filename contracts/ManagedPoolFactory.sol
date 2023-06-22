@@ -26,7 +26,6 @@ function isPoolFromFactory( address pool ) external view returns (bool ) ;
 function version(  ) external view returns (string memory ) ;
 }
 
-
 struct ManagedPoolParams { string name;
 string symbol;
 address[] assetManagers; }

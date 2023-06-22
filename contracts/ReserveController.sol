@@ -56,18 +56,18 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      * @param _managementAumFeePercentage - Management Aum fee to apply
      * @param _aumFeeId - Aum Fee Id
      */
-    function createAndRegisterManagedPoolstring(string memory _name,
-                                                string memory _symbol,
-                                                IERC20[] memory _tokens,
-                                                uint256[] memory _normalizedWeights,
-                                                address[] memory _assetManagers,
-                                                uint256 _swapFeePercentage,
-                                                bool _swapEnabledOnStart,
-                                                bool _mustAllowlistLPs,
-                                                uint256 _managementAumFeePercentage,
-                                                uint256 _aumFeeId,
-                                                uint256 _tolerance,
-                                                bytes32 _salt) public nonReentrant {
+    function createPool(string memory _name,
+                        string memory _symbol,
+                        IERC20[] memory _tokens,
+                        uint256[] memory _normalizedWeights,
+                        address[] memory _assetManagers,
+                        uint256 _swapFeePercentage,
+                        bool _swapEnabledOnStart,
+                        bool _mustAllowlistLPs,
+                        uint256 _managementAumFeePercentage,
+                        uint256 _aumFeeId,
+                        bytes32 _salt,
+                        address _reserveToken) public {
         ManagedPoolParams memory poolParams;
         poolParams.name = _name;
         poolParams.symbol = _symbol;
@@ -83,12 +83,16 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         poolSettingsParams.aumFeeId = _aumFeeId;
 
         (bool success, bytes memory result) = managedPoolFactory.delegatecall(
-            abi.encodeWithSignature("create(ManagedPoolParams, ManagedPoolSettingsParams, address, bytes32)", poolParams, poolSettingsParams, msg.sender, _salt)
+            abi.encodeWithSelector(ManagedPoolFactory.create.selector, poolParams, poolSettingsParams, msg.sender, _salt)
         );
 
         emit CreatedPoolByDelegateCall(poolParams, poolSettingsParams, msg.sender, _salt, success);
+        if (success)
+        {
+            address poolAddress = abi.decode(result, (address));
+            registerManagedPool(poolAddress, _reserveToken);
+        }
     }
-
 
     /**
      * @notice returns a list of registered pools
