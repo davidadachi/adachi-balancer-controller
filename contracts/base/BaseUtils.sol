@@ -30,6 +30,9 @@ abstract contract BaseUtils {
 
     /**
      * @dev Modifier to check token allowance
+     *
+     * @param _amount - Amount that is to be transferred
+     * @param _tokenAddress - Collateral token to check
      */
     modifier checkAllowance(uint _amount,
                             address _tokenAddress) {

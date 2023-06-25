@@ -2,12 +2,12 @@
 
 pragma solidity ^0.7.0;
 pragma experimental ABIEncoderV2;
-import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.sol";
-import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
-import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "./base/BaseUtils.sol";
-import "./ManagedPoolFactory.sol";
-import "./ReserveToken.sol";
+import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
+import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
+import "./lib/ManagedPoolFactory.sol";
+import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.sol";
+import "./lib/ReserveToken.sol";
 
 contract ReserveController is ReentrancyGuard, BaseUtils {
 
@@ -24,17 +24,15 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         IAsset[] assets;
     }
 
-    // poolAddress mapped to reserve token
-    mapping(address => address) pools;
     address[] private registeredPools;
     IVault internal immutable vault;
     address internal immutable managedPoolFactory;
-
 
     /**
      * @notice Constructor for the controller base class
      *
      * @param _vaultAddress - Vault contract address
+     * @param _managedPoolFactory - ManegedPoolFactory address
      */
     constructor(address _vaultAddress,
                 address _managedPoolFactory) {
@@ -57,7 +55,6 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      * @param _managementAumFeePercentage - Management Aum fee to apply
      * @param _aumFeeId - Aum Fee Id
      * @param _salt - Salt applied to address to ensure uniqueness
-     * @param _reserveToken - Reserve token address such as G$
      */
     function createPool(string memory _name,
                         string memory _symbol,
@@ -69,8 +66,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
                         bool _mustAllowlistLPs,
                         uint256 _managementAumFeePercentage,
                         uint256 _aumFeeId,
-                        bytes32 _salt,
-                        address _reserveToken) public {
+                        bytes32 _salt) public {
         ManagedPoolParams memory poolParams;
         poolParams.name = _name;
         poolParams.symbol = _symbol;
@@ -93,7 +89,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         if (success)
         {
             address poolAddress = abi.decode(result, (address));
-            registerManagedPool(poolAddress, _reserveToken);
+            registerManagedPool(poolAddress);
         }
     }
 
@@ -109,12 +105,8 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      * @notice Register managed pool
      *
      * @param _managedPool - Address of pool being worked on.
-     * @param _reserveToken - Address of pool being worked on.
      */
-    function registerManagedPool(
-        address _managedPool,
-        address _reserveToken) public restricted nonReentrant {
-        pools[_managedPool] = _reserveToken;
+    function registerManagedPool(address _managedPool) public restricted nonReentrant {
         registeredPools.push(_managedPool);
     }
 
@@ -123,9 +115,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      *
      * @param _managedPool - Address of pool being worked on.
      */
-    function deRegisterManagedPool(
-        address _managedPool) public restricted nonReentrant {
-        delete pools[_managedPool];
+    function deRegisterManagedPool(address _managedPool) public restricted nonReentrant {
         removeByValue(_managedPool);
     }
 
@@ -182,11 +172,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
 
         // Calculate supplied token value
         uint256 buyersShareValue = buyersShare * totalPoolValue;
-
-      //  ReserveToken reserveToken = GoodDollar(pools[_tokenIn]);
-
         ReserveToken reserveToken = ReserveToken(0x785fA6c4383c42deF4182C1820D23f1196a112CE);
-
 
         // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
         reserveToken.mint(_recipient, buyersShareValue * (10 ** 18));
@@ -267,6 +253,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
     /**
      * @notice removes supplied address from array of addresses
      *
+     * @param value - Address to look up and remove element
      */
     function removeByValue(address value) private {
         uint i = find(value);
@@ -276,6 +263,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
     /**
      * @notice remove the item at index, resizing array as needed
      *
+     * @param i - Index to remove
      */
     function removeByIndex(uint i) private {
         while (i < registeredPools.length-1) {
@@ -287,10 +275,11 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
 
     /**
      * @dev Modifier to check token allowance
+     *
+     * @param _managedPool - Managed pool address to remove
      */
     modifier checkPoolSupported(address _managedPool) {
-        IManagedPool managedPool = IManagedPool(_managedPool);
-        require(pools[_managedPool] != address(0x0), "Error");
+        require(find(_managedPool) != 0, "Pool not registered");
         _;
     }
 }
