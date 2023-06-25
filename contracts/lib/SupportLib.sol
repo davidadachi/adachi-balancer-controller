@@ -21,12 +21,14 @@ library SupportLib {
     /**
      * @dev This helper function is a fast and cheap way to convert between IERC20 and IAsset types
      *
-     * @param _tokens - Tokens to convert to assets
+     * @param tokens - Tokens to convert to assets
      */
-    function _convertERC20sToAssets(IERC20[] memory _tokens) internal pure returns (IAsset[] memory assets) {
+    function _convertERC20sToAssets(
+        IERC20 [] memory tokens
+    ) internal pure returns (IAsset [] memory assets) {
         // solhint-disable-next-line no-inline-assembly
         assembly {
-            assets := _tokens
+            assets := tokens
         }
     }
 }

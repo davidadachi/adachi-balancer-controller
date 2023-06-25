@@ -13,12 +13,11 @@ abstract contract BaseUtils {
      * @notice Transfer the manager to a new address
      * @dev Only one manager can presently be set
      *
-     * @param _manager - New manager.
+     * @param supportedManager - New manager.
      */
-    function transferManagement(address _manager) public restricted {
-        manager = _manager;
+    function transferManagement(address supportedManager) public restricted {
+        manager = supportedManager;
     }
-
 
     /**
      * @dev Modifier to restrict access to the set manager
@@ -31,13 +30,12 @@ abstract contract BaseUtils {
     /**
      * @dev Modifier to check token allowance
      *
-     * @param _amount - Amount that is to be transferred
-     * @param _tokenAddress - Collateral token to check
+     * @param amount - Amount that is to be transferred
+     * @param tokenAddress - Collateral token to check
      */
-    modifier checkAllowance(uint _amount,
-                            address _tokenAddress) {
-        IERC20 token = IERC20(_tokenAddress);
-        require(token.allowance(msg.sender, address(this)) >= _amount, "Error");
+    modifier checkAllowance(uint amount, address tokenAddress) {
+        IERC20 token = IERC20(tokenAddress);
+        require(token.allowance(msg.sender, address(this)) >= amount, "Error");
         _;
     }
 }

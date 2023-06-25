@@ -133,7 +133,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-06-21T13:42:31.081Z",
+  "updatedAt": "2023-06-25T12:28:38.771Z",
   "devdoc": {
     "details": "This is an empty interface used to represent either ERC20-conforming token contracts or ETH (using the zero address sentinel value). We're just relying on the fact that `interface` can be used to declare new address-like types. This concept is unrelated to a Pool's Asset Managers.",
     "kind": "dev",
