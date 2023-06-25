@@ -307,7 +307,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[],\"name\":\"FactoryDisabled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"name\":\"PoolCreated\",\"type\":\"event\"},{\"inputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"address[]\",\"name\":\"assetManagers\",\"type\":\"address[]\"}],\"internalType\":\"struct ManagedPoolParams\",\"name\":\"params\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"normalizedWeights\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"swapFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"swapEnabledOnStart\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"mustAllowlistLPs\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"managementAumFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"aumFeeId\",\"type\":\"uint256\"}],\"internalType\":\"struct ManagedPoolSettingsParams\",\"name\":\"settingsParams\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"salt\",\"type\":\"bytes32\"}],\"name\":\"create\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"disable\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"selector\",\"type\":\"bytes4\"}],\"name\":\"getActionId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAuthorizer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCreationCode\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCreationCodeContracts\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"contractA\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"contractB\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPauseConfiguration\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"pauseWindowDuration\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bufferPeriodDuration\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolVersion\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getProtocolFeePercentagesProvider\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRecoveryModeHelper\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getVault\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getWeightedMath\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isDisabled\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"name\":\"isPoolFromFactory\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ManagedPoolFactory.sol\":\"ManagedPoolFactory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"project:/contracts/ManagedPoolFactory.sol\":{\"keccak256\":\"0xa07d81ce59fb98db70f87368d3ae2fb6bed41569486fe7740e8283d284dc1467\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://a6f1552782f9e66d4e638cde9947c6488a8377bf70c9beff137a04baeb4d825c\",\"dweb:/ipfs/QmYMorRkNim2zbTyPxAoA5VQigZ2gUZYZ9bP7Usgqfcvgj\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[],\"name\":\"FactoryDisabled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"name\":\"PoolCreated\",\"type\":\"event\"},{\"inputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"address[]\",\"name\":\"assetManagers\",\"type\":\"address[]\"}],\"internalType\":\"struct ManagedPoolParams\",\"name\":\"params\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"normalizedWeights\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"swapFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"swapEnabledOnStart\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"mustAllowlistLPs\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"managementAumFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"aumFeeId\",\"type\":\"uint256\"}],\"internalType\":\"struct ManagedPoolSettingsParams\",\"name\":\"settingsParams\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"salt\",\"type\":\"bytes32\"}],\"name\":\"create\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"disable\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"selector\",\"type\":\"bytes4\"}],\"name\":\"getActionId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getAuthorizer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCreationCode\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCreationCodeContracts\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"contractA\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"contractB\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPauseConfiguration\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"pauseWindowDuration\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bufferPeriodDuration\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolVersion\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getProtocolFeePercentagesProvider\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRecoveryModeHelper\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getVault\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getWeightedMath\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isDisabled\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"pool\",\"type\":\"address\"}],\"name\":\"isPoolFromFactory\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ManagedPoolFactory.sol\":\"ManagedPoolFactory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"project:/contracts/ManagedPoolFactory.sol\":{\"keccak256\":\"0x75b8e209c04e341f8ad1745a700fa06bb7784dadc8753e5506d0c41831e0944d\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://36f01887705d673b509e02eadcd55bf2e796cb8af57559f681198e29b24142c5\",\"dweb:/ipfs/QmPKRdezDAzL6ViipqVPBoCuYZLna3nndyFU4tjfMrTDAn\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -315,7 +315,7 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: UNLICENSED\n// !! THIS FILE WAS AUTOGENERATED BY abi-to-sol v0.6.6. SEE SOURCE BELOW. !!\npragma solidity >=0.7.0 <0.9.0;\npragma experimental ABIEncoderV2;\n\nimport \"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\";\n\ninterface ManagedPoolFactory {\n\nevent FactoryDisabled(  ) ;\nevent PoolCreated( address indexed pool ) ;\nfunction create( ManagedPoolParams memory params,ManagedPoolSettingsParams memory settingsParams,address owner,bytes32 salt ) external  returns (address pool) ;\nfunction disable(  ) external   ;\nfunction getActionId( bytes4 selector ) external view returns (bytes32 ) ;\nfunction getAuthorizer(  ) external view returns (address ) ;\nfunction getCreationCode(  ) external view returns (bytes memory ) ;\nfunction getCreationCodeContracts(  ) external view returns (address contractA, address contractB) ;\nfunction getPauseConfiguration(  ) external view returns (uint256 pauseWindowDuration, uint256 bufferPeriodDuration) ;\nfunction getPoolVersion(  ) external view returns (string memory ) ;\nfunction getProtocolFeePercentagesProvider(  ) external view returns (address ) ;\nfunction getRecoveryModeHelper(  ) external view returns (address ) ;\nfunction getVault(  ) external view returns (address ) ;\nfunction getWeightedMath(  ) external view returns (address ) ;\nfunction isDisabled(  ) external view returns (bool ) ;\nfunction isPoolFromFactory( address pool ) external view returns (bool ) ;\nfunction version(  ) external view returns (string memory ) ;\n}\n\n\nstruct ManagedPoolParams { string name;\nstring symbol;\naddress[] assetManagers; }\n\n\nstruct ManagedPoolSettingsParams { IERC20[] tokens;\nuint256[] normalizedWeights;\nuint256 swapFeePercentage;\nbool swapEnabledOnStart;\nbool mustAllowlistLPs;\nuint256 managementAumFeePercentage;\nuint256 aumFeeId; }\n\n",
+  "source": "// SPDX-License-Identifier: UNLICENSED\n// !! THIS FILE WAS AUTOGENERATED BY abi-to-sol v0.6.6. SEE SOURCE BELOW. !!\npragma solidity >=0.7.0 <0.9.0;\npragma experimental ABIEncoderV2;\n\nimport \"@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\";\n\ninterface ManagedPoolFactory {\n\nevent FactoryDisabled(  ) ;\nevent PoolCreated( address indexed pool ) ;\nfunction create( ManagedPoolParams memory params,ManagedPoolSettingsParams memory settingsParams,address owner,bytes32 salt ) external  returns (address pool) ;\nfunction disable(  ) external   ;\nfunction getActionId( bytes4 selector ) external view returns (bytes32 ) ;\nfunction getAuthorizer(  ) external view returns (address ) ;\nfunction getCreationCode(  ) external view returns (bytes memory ) ;\nfunction getCreationCodeContracts(  ) external view returns (address contractA, address contractB) ;\nfunction getPauseConfiguration(  ) external view returns (uint256 pauseWindowDuration, uint256 bufferPeriodDuration) ;\nfunction getPoolVersion(  ) external view returns (string memory ) ;\nfunction getProtocolFeePercentagesProvider(  ) external view returns (address ) ;\nfunction getRecoveryModeHelper(  ) external view returns (address ) ;\nfunction getVault(  ) external view returns (address ) ;\nfunction getWeightedMath(  ) external view returns (address ) ;\nfunction isDisabled(  ) external view returns (bool ) ;\nfunction isPoolFromFactory( address pool ) external view returns (bool ) ;\nfunction version(  ) external view returns (string memory ) ;\n}\n\nstruct ManagedPoolParams { string name;\nstring symbol;\naddress[] assetManagers; }\n\n\nstruct ManagedPoolSettingsParams { IERC20[] tokens;\nuint256[] normalizedWeights;\nuint256 swapFeePercentage;\nbool swapEnabledOnStart;\nbool mustAllowlistLPs;\nuint256 managementAumFeePercentage;\nuint256 aumFeeId; }\n\n",
   "sourcePath": "/home/quinn/Source/BalancerController/Balancer.Controller/contracts/ManagedPoolFactory.sol",
   "ast": {
     "absolutePath": "project:/contracts/ManagedPoolFactory.sol",
@@ -1445,7 +1445,7 @@
             "name": "name",
             "nodeType": "VariableDeclaration",
             "scope": 2353,
-            "src": "1563:11:16",
+            "src": "1562:11:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1456,7 +1456,7 @@
               "id": 2346,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "1563:6:16",
+              "src": "1562:6:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string"
@@ -1471,7 +1471,7 @@
             "name": "symbol",
             "nodeType": "VariableDeclaration",
             "scope": 2353,
-            "src": "1576:13:16",
+            "src": "1575:13:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1482,7 +1482,7 @@
               "id": 2348,
               "name": "string",
               "nodeType": "ElementaryTypeName",
-              "src": "1576:6:16",
+              "src": "1575:6:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_string_storage_ptr",
                 "typeString": "string"
@@ -1497,7 +1497,7 @@
             "name": "assetManagers",
             "nodeType": "VariableDeclaration",
             "scope": 2353,
-            "src": "1591:23:16",
+            "src": "1590:23:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1509,7 +1509,7 @@
                 "id": 2350,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "1591:7:16",
+                "src": "1590:7:16",
                 "stateMutability": "nonpayable",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
@@ -1518,7 +1518,7 @@
               },
               "id": 2351,
               "nodeType": "ArrayTypeName",
-              "src": "1591:9:16",
+              "src": "1590:9:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                 "typeString": "address[]"
@@ -1530,7 +1530,7 @@
         "name": "ManagedPoolParams",
         "nodeType": "StructDefinition",
         "scope": 2371,
-        "src": "1536:81:16",
+        "src": "1535:81:16",
         "visibility": "public"
       },
       {
@@ -1544,7 +1544,7 @@
             "name": "tokens",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1655:15:16",
+            "src": "1654:15:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1557,7 +1557,7 @@
                 "name": "IERC20",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 992,
-                "src": "1655:6:16",
+                "src": "1654:6:16",
                 "typeDescriptions": {
                   "typeIdentifier": "t_contract$_IERC20_$992",
                   "typeString": "contract IERC20"
@@ -1565,7 +1565,7 @@
               },
               "id": 2355,
               "nodeType": "ArrayTypeName",
-              "src": "1655:8:16",
+              "src": "1654:8:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_contract$_IERC20_$992_$dyn_storage_ptr",
                 "typeString": "contract IERC20[]"
@@ -1580,7 +1580,7 @@
             "name": "normalizedWeights",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1672:27:16",
+            "src": "1671:27:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1592,7 +1592,7 @@
                 "id": 2357,
                 "name": "uint256",
                 "nodeType": "ElementaryTypeName",
-                "src": "1672:7:16",
+                "src": "1671:7:16",
                 "typeDescriptions": {
                   "typeIdentifier": "t_uint256",
                   "typeString": "uint256"
@@ -1600,7 +1600,7 @@
               },
               "id": 2358,
               "nodeType": "ArrayTypeName",
-              "src": "1672:9:16",
+              "src": "1671:9:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                 "typeString": "uint256[]"
@@ -1615,7 +1615,7 @@
             "name": "swapFeePercentage",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1701:25:16",
+            "src": "1700:25:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1626,7 +1626,7 @@
               "id": 2360,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "1701:7:16",
+              "src": "1700:7:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1641,7 +1641,7 @@
             "name": "swapEnabledOnStart",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1728:23:16",
+            "src": "1727:23:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1652,7 +1652,7 @@
               "id": 2362,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
-              "src": "1728:4:16",
+              "src": "1727:4:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_bool",
                 "typeString": "bool"
@@ -1667,7 +1667,7 @@
             "name": "mustAllowlistLPs",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1753:21:16",
+            "src": "1752:21:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1678,7 +1678,7 @@
               "id": 2364,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
-              "src": "1753:4:16",
+              "src": "1752:4:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_bool",
                 "typeString": "bool"
@@ -1693,7 +1693,7 @@
             "name": "managementAumFeePercentage",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1776:34:16",
+            "src": "1775:34:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1704,7 +1704,7 @@
               "id": 2366,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "1776:7:16",
+              "src": "1775:7:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1719,7 +1719,7 @@
             "name": "aumFeeId",
             "nodeType": "VariableDeclaration",
             "scope": 2370,
-            "src": "1812:16:16",
+            "src": "1811:16:16",
             "stateVariable": false,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1730,7 +1730,7 @@
               "id": 2368,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "1812:7:16",
+              "src": "1811:7:16",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1742,11 +1742,11 @@
         "name": "ManagedPoolSettingsParams",
         "nodeType": "StructDefinition",
         "scope": 2371,
-        "src": "1620:211:16",
+        "src": "1619:211:16",
         "visibility": "public"
       }
     ],
-    "src": "116:1717:16"
+    "src": "116:1716:16"
   },
   "legacyAST": {
     "attributes": {
@@ -3089,12 +3089,12 @@
                 },
                 "id": 2346,
                 "name": "ElementaryTypeName",
-                "src": "1563:6:16"
+                "src": "1562:6:16"
               }
             ],
             "id": 2347,
             "name": "VariableDeclaration",
-            "src": "1563:11:16"
+            "src": "1562:11:16"
           },
           {
             "attributes": {
@@ -3115,12 +3115,12 @@
                 },
                 "id": 2348,
                 "name": "ElementaryTypeName",
-                "src": "1576:6:16"
+                "src": "1575:6:16"
               }
             ],
             "id": 2349,
             "name": "VariableDeclaration",
-            "src": "1576:13:16"
+            "src": "1575:13:16"
           },
           {
             "attributes": {
@@ -3147,22 +3147,22 @@
                     },
                     "id": 2350,
                     "name": "ElementaryTypeName",
-                    "src": "1591:7:16"
+                    "src": "1590:7:16"
                   }
                 ],
                 "id": 2351,
                 "name": "ArrayTypeName",
-                "src": "1591:9:16"
+                "src": "1590:9:16"
               }
             ],
             "id": 2352,
             "name": "VariableDeclaration",
-            "src": "1591:23:16"
+            "src": "1590:23:16"
           }
         ],
         "id": 2353,
         "name": "StructDefinition",
-        "src": "1536:81:16"
+        "src": "1535:81:16"
       },
       {
         "attributes": {
@@ -3197,17 +3197,17 @@
                     },
                     "id": 2354,
                     "name": "UserDefinedTypeName",
-                    "src": "1655:6:16"
+                    "src": "1654:6:16"
                   }
                 ],
                 "id": 2355,
                 "name": "ArrayTypeName",
-                "src": "1655:8:16"
+                "src": "1654:8:16"
               }
             ],
             "id": 2356,
             "name": "VariableDeclaration",
-            "src": "1655:15:16"
+            "src": "1654:15:16"
           },
           {
             "attributes": {
@@ -3233,17 +3233,17 @@
                     },
                     "id": 2357,
                     "name": "ElementaryTypeName",
-                    "src": "1672:7:16"
+                    "src": "1671:7:16"
                   }
                 ],
                 "id": 2358,
                 "name": "ArrayTypeName",
-                "src": "1672:9:16"
+                "src": "1671:9:16"
               }
             ],
             "id": 2359,
             "name": "VariableDeclaration",
-            "src": "1672:27:16"
+            "src": "1671:27:16"
           },
           {
             "attributes": {
@@ -3264,12 +3264,12 @@
                 },
                 "id": 2360,
                 "name": "ElementaryTypeName",
-                "src": "1701:7:16"
+                "src": "1700:7:16"
               }
             ],
             "id": 2361,
             "name": "VariableDeclaration",
-            "src": "1701:25:16"
+            "src": "1700:25:16"
           },
           {
             "attributes": {
@@ -3290,12 +3290,12 @@
                 },
                 "id": 2362,
                 "name": "ElementaryTypeName",
-                "src": "1728:4:16"
+                "src": "1727:4:16"
               }
             ],
             "id": 2363,
             "name": "VariableDeclaration",
-            "src": "1728:23:16"
+            "src": "1727:23:16"
           },
           {
             "attributes": {
@@ -3316,12 +3316,12 @@
                 },
                 "id": 2364,
                 "name": "ElementaryTypeName",
-                "src": "1753:4:16"
+                "src": "1752:4:16"
               }
             ],
             "id": 2365,
             "name": "VariableDeclaration",
-            "src": "1753:21:16"
+            "src": "1752:21:16"
           },
           {
             "attributes": {
@@ -3342,12 +3342,12 @@
                 },
                 "id": 2366,
                 "name": "ElementaryTypeName",
-                "src": "1776:7:16"
+                "src": "1775:7:16"
               }
             ],
             "id": 2367,
             "name": "VariableDeclaration",
-            "src": "1776:34:16"
+            "src": "1775:34:16"
           },
           {
             "attributes": {
@@ -3368,22 +3368,22 @@
                 },
                 "id": 2368,
                 "name": "ElementaryTypeName",
-                "src": "1812:7:16"
+                "src": "1811:7:16"
               }
             ],
             "id": 2369,
             "name": "VariableDeclaration",
-            "src": "1812:16:16"
+            "src": "1811:16:16"
           }
         ],
         "id": 2370,
         "name": "StructDefinition",
-        "src": "1620:211:16"
+        "src": "1619:211:16"
       }
     ],
     "id": 2371,
     "name": "SourceUnit",
-    "src": "116:1717:16"
+    "src": "116:1716:16"
   },
   "compiler": {
     "name": "solc",
@@ -3391,7 +3391,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-06-22T21:12:57.729Z",
+  "updatedAt": "2023-06-25T10:42:06.225Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -7,13 +7,14 @@ import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "./base/BaseUtils.sol";
 import "./ManagedPoolFactory.sol";
+import "./ReserveToken.sol";
 
 contract ReserveController is ReentrancyGuard, BaseUtils {
 
     event CreatedPoolByDelegateCall(ManagedPoolParams managedPoolParams, ManagedPoolSettingsParams managedPoolSettingsParams, address callerAddress, bytes32 salt, bool success);
 
-    struct ReserveValues {
-        IManagedPool managedPool;
+    struct TradeValues {
+        IManagedPool collateral;
         bytes32 poolId;
         uint256 tokenPrice;
         uint256[] tokenPrices;
@@ -55,6 +56,8 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      * @param _mustAllowlistLPs - List of LP's allowed in the pool
      * @param _managementAumFeePercentage - Management Aum fee to apply
      * @param _aumFeeId - Aum Fee Id
+     * @param _salt - Salt applied to address to ensure uniqueness
+     * @param _reserveToken - Reserve token address such as G$
      */
     function createPool(string memory _name,
                         string memory _symbol,
@@ -127,63 +130,66 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
     }
 
     /**
-     * @notice This function is used for pools containing two tokensRuns a check
-      and transfers reserve tokens as needed
+     * @notice This function is used for pools containing two tokens.
+     * It takes in a collateral token such as BPT, calculates an equal
+     * value amount of the reserve token such as G$ then mints and returns it.
      *
-     * @param _tokenIn - Address of collateral token* @param _tokenIn - Address of collateral token
+     * @param _tokenIn - Address of collateral token
      * @param _amountIn - The amount being traded
-     * @param _recipient - Address of person to receive the swapped tokens
+     * @param _recipient - Address of person to receive the reserve tokens
      */
     function buyReserveToken(address  _tokenIn,
                              uint256 _amountIn,
                              address _recipient) public nonReentrant checkPoolSupported(_tokenIn)
     {
         // Retrieve a list of tokens, balances and normalised weights for the pool
-        ReserveValues memory reserveValues;
-        reserveValues.managedPool = IManagedPool(_tokenIn);
-        IERC20 bptToken = IERC20(_tokenIn);
+        TradeValues memory tradeValues;
+        tradeValues.collateral = IManagedPool(_tokenIn);
+        IERC20 collateral = IERC20(_tokenIn);
 
         // Transfer the input tokens from the sender to this contract
-        require(bptToken.transferFrom(msg.sender, address(this), _amountIn), "Transfer of input tokens failed");
+        require(collateral.transferFrom(msg.sender, address(this), _amountIn), "Transfer of input tokens failed");
 
         // Calculate the buyers share of the pool
-        uint256 totalSupply = bptToken.totalSupply();
-        uint256 myShare = _amountIn / totalSupply;
+        uint256 totalSupply = collateral.totalSupply();
+        uint256 buyersShare = _amountIn / totalSupply;
 
-        reserveValues.poolId = reserveValues.managedPool.getPoolId();
-        vault.getPool(reserveValues.poolId);
-        reserveValues.normalizedWeights = reserveValues.managedPool.getNormalizedWeights();
+        tradeValues.poolId = tradeValues.collateral.getPoolId();
+        vault.getPool(tradeValues.poolId);
+        tradeValues.normalizedWeights = tradeValues.collateral.getNormalizedWeights();
 
-        (reserveValues.tokens, reserveValues.balances,) = vault.getPoolTokens(reserveValues.poolId);
-        reserveValues.assets = SupportLib._convertERC20sToAssets(reserveValues.tokens);
+        (tradeValues.tokens, tradeValues.balances,) = vault.getPoolTokens(tradeValues.poolId);
+        tradeValues.assets = SupportLib._convertERC20sToAssets(tradeValues.tokens);
 
         // Calculate token prices using the DEX
-        if (reserveValues.balances[0]  > 0)
+        if (tradeValues.balances[0]  > 0)
         {
-            reserveValues.tokenPrices[0] = (reserveValues.balances[1] / reserveValues.normalizedWeights[1]) / (reserveValues.balances[0] / reserveValues.normalizedWeights[0]);
+            tradeValues.tokenPrices[0] = (tradeValues.balances[1] / tradeValues.normalizedWeights[1]) / (tradeValues.balances[0] / tradeValues.normalizedWeights[0]);
         }
 
-        for (uint256 i = 1; i < reserveValues.tokens.length; i++) {
-            reserveValues.tokenPrice = 0;
-            if (reserveValues.balances[i] > 0)
+        for (uint256 i = 1; i < tradeValues.tokens.length; i++) {
+            if (tradeValues.balances[i] > 0)
             {
-                reserveValues.tokenPrices[1] = (reserveValues.balances[0] / reserveValues.normalizedWeights[0]) / (reserveValues.balances[i] / reserveValues.normalizedWeights[i]);
+                tradeValues.tokenPrices[i] = (tradeValues.balances[0] / tradeValues.normalizedWeights[0]) / (tradeValues.balances[i] / tradeValues.normalizedWeights[i]);
             }
         }
 
         // Calculate the total value of the pool
         uint256 totalPoolValue = 0;
-        for (uint256 i = 0; i < reserveValues.tokens.length; i++) {
-            totalPoolValue = totalPoolValue + (reserveValues.balances[i] * reserveValues.tokenPrices[i]);
+        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
+            totalPoolValue = totalPoolValue + (tradeValues.balances[i] * tradeValues.tokenPrices[i]);
         }
 
         // Calculate supplied token value
-        uint256 myShareValue = myShare * totalPoolValue;
+        uint256 buyersShareValue = buyersShare * totalPoolValue;
 
-        IERC20 reserveToken = IERC20(pools[_tokenIn]);
+      //  ReserveToken reserveToken = GoodDollar(pools[_tokenIn]);
 
-        // Transfer the output tokens from this contract to the recipient
-        require(reserveToken.transfer(_recipient, myShareValue), "Transfer of output tokens failed");
+        ReserveToken reserveToken = ReserveToken(0x785fA6c4383c42deF4182C1820D23f1196a112CE);
+
+
+        // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
+        reserveToken.mint(_recipient, buyersShareValue * (10 ** 18));
     }
 
     /**
@@ -191,17 +197,18 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      * @dev To avoid too many fees, this should be run at wide intervals such as daily
      *
      * @param _tokenIn - Address of reserve token
+     * @param _pool - Address of collateral token
      * @param _amountIn - The amount being traded
      * @param _recipient - Address of person to receive the swapped tokens
      */
     function sellReserveToken(address _tokenIn,
                               address _pool,
                               uint256 _amountIn,
-                              address _recipient) public nonReentrant checkPoolSupported(_tokenIn)
+                              address _recipient) public nonReentrant checkPoolSupported(_pool)
     {
         // Retrieve a list of tokens, balances and normalised weights for the pool
-        ReserveValues memory reserveValues;
-        reserveValues.managedPool = IManagedPool(_pool);
+        TradeValues memory tradeValues;
+        tradeValues.collateral = IManagedPool(_pool);
         IERC20 bptToken = IERC20(_pool);
         uint256 totalSupply = bptToken.totalSupply();
 
@@ -209,31 +216,31 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         IERC20 collateralToken = IERC20(_tokenIn);
         require(collateralToken.transferFrom(msg.sender, address(this), _amountIn), "Transfer of input tokens failed");
 
-        reserveValues.poolId = reserveValues.managedPool.getPoolId();
-        vault.getPool(reserveValues.poolId);
-        reserveValues.normalizedWeights = reserveValues.managedPool.getNormalizedWeights();
+        tradeValues.poolId = tradeValues.collateral.getPoolId();
+        vault.getPool(tradeValues.poolId);
+        tradeValues.normalizedWeights = tradeValues.collateral.getNormalizedWeights();
 
-        (reserveValues.tokens, reserveValues.balances,) = vault.getPoolTokens(reserveValues.poolId);
-        reserveValues.assets = SupportLib._convertERC20sToAssets(reserveValues.tokens);
+        (tradeValues.tokens, tradeValues.balances,) = vault.getPoolTokens(tradeValues.poolId);
+        tradeValues.assets = SupportLib._convertERC20sToAssets(tradeValues.tokens);
 
         // Calculate token prices using the DEX
-        if (reserveValues.balances[0]  > 0)
+        if (tradeValues.balances[0]  > 0)
         {
-            reserveValues.tokenPrices[0] = (reserveValues.balances[1] / reserveValues.normalizedWeights[1]) / (reserveValues.balances[0] / reserveValues.normalizedWeights[0]);
+            tradeValues.tokenPrices[0] = (tradeValues.balances[1] / tradeValues.normalizedWeights[1]) / (tradeValues.balances[0] / tradeValues.normalizedWeights[0]);
         }
 
-        for (uint256 i = 1; i < reserveValues.tokens.length; i++) {
-            reserveValues.tokenPrice = 0;
-            if (reserveValues.balances[i] > 0)
+        for (uint256 i = 1; i < tradeValues.tokens.length; i++) {
+            tradeValues.tokenPrice = 0;
+            if (tradeValues.balances[i] > 0)
             {
-                reserveValues.tokenPrices[1] = (reserveValues.balances[0] / reserveValues.normalizedWeights[0]) / (reserveValues.balances[i] / reserveValues.normalizedWeights[i]);
+                tradeValues.tokenPrices[1] = (tradeValues.balances[0] / tradeValues.normalizedWeights[0]) / (tradeValues.balances[i] / tradeValues.normalizedWeights[i]);
             }
         }
 
         // Calculate the total value of the pool
         uint256 totalPoolValue = 0;
-        for (uint256 i = 0; i < reserveValues.tokens.length; i++) {
-            totalPoolValue = totalPoolValue + (reserveValues.balances[i] * reserveValues.tokenPrices[i]);
+        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
+            totalPoolValue = totalPoolValue + (tradeValues.balances[i] * tradeValues.tokenPrices[i]);
         }
 
         // Calculate supplied token value
@@ -241,7 +248,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         uint256 myBptAmount = myShare * totalSupply;
 
         // Transfer the output tokens from this contract to the recipient
-        require(bptToken.transfer(_recipient, myBptAmount), "Transfer of output tokens failed");
+        bptToken.transfer(_recipient, myBptAmount * (10 ** 18));
     }
 
     /**
