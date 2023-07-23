@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "./base/BaseUtils.sol";
 import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "./lib/ManagedPoolFactory.sol";
-import "@balancer-labs/v2-solidity-utils/contracts/openzeppelin/ReentrancyGuard.sol";
 import "./lib/ReserveToken.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-contract ReserveController is ReentrancyGuard, BaseUtils {
+contract ReserveController is BaseUtils {
 
-    address private constant RESERVE_TOKEN = 0x785fA6c4383c42deF4182C1820D23f1196a112CE;
+    address private constant RESERVE_TOKEN = 0x98A90EcFB163d138eC289D05362f20613A0C02aC;
 
     event CreatedPoolByDelegateCall(
         ManagedPoolParams managedPoolParams,
@@ -26,11 +26,18 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         IManagedPool collateral;
         bytes32 poolId;
         uint256 tokenPrice;
-        uint256 [] tokenPrices;
+        int [] tokenPrices;
         uint256 [] normalizedWeights;
         IERC20 [] tokens;
         uint256 [] balances;
         IAsset [] assets;
+    }
+
+    struct JoinPoolRequest {
+        IERC20[] assets;
+        uint256[] maxAmountsIn;
+        bytes userData;
+        bool fromInternalBalance;
     }
 
     address [] private registeredPools;
@@ -116,6 +123,59 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
     }
 
     /**
+     * @notice Create and register a new managed pool
+     *
+     * @param poolId - Pool identifier
+     * @param sender - Sender address
+     * @param recipient - Recipient address
+     * @param assets - Assets being transferred in
+     * @param maxAmountsIn - Amount being transferred in
+     * @param userData - Encoded user data
+     * @param fromInternalBalance - Is this transferred from internal balance?
+     */
+    function JoinPool(
+        bytes32 poolId,
+        address sender,
+        address recipient,
+        IERC20[] memory assets,
+        uint256[] memory maxAmountsIn,
+        bytes memory userData,
+        bool fromInternalBalance
+    ) public payable returns (bytes memory) {
+        JoinPoolRequest memory joinPoolRequest;
+        joinPoolRequest.assets = assets;
+        joinPoolRequest.maxAmountsIn = maxAmountsIn;
+        joinPoolRequest.userData = userData;
+        joinPoolRequest.fromInternalBalance = fromInternalBalance;
+
+        (bool isSuccessful, bytes memory returndata) = address(vault).delegatecall(
+            abi.encodeWithSelector(
+                vault.joinPool.selector,
+                poolId,
+                sender,
+                recipient,
+                joinPoolRequest
+            )
+        );
+
+        if (isSuccessful) {
+            return returndata;
+        } else {
+            // Look for revert reason and bubble it up if present
+            if (returndata.length > 0) {
+                // The easiest way to bubble the revert reason is using memory via assembly
+
+                assembly {
+                    let returndata_size := mload(isSuccessful)
+                    revert(add(32, isSuccessful), returndata_size)
+                }
+            } else {
+                revert("joinPool failed");
+            }
+        }
+    }
+
+    /**
      * @notice returns a list of registered pools
      *
      */
@@ -130,7 +190,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      */
     function registerManagedPool(
         address managedPool
-    ) public restricted nonReentrant {
+    ) public restricted {
         registeredPools.push(managedPool);
     }
 
@@ -141,9 +201,110 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
      */
     function deRegisterManagedPool(
         address managedPool
-    ) public restricted nonReentrant {
+    ) public restricted {
         removeByValue(managedPool);
     }
+
+    /**
+     * @notice returns the array index containing supplied address
+     *
+     * @param value - Address to find
+     */
+    function getTokenPrice(address value) public view returns (int) {
+        int tokenPrice = 0;
+
+        if (value == address(0xBAAB46E28388d2779e6E31Fd00cF0e5Ad95E327B)) { // WBTCv2
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x128fE88eaa22bFFb868Bb3A584A54C96eE24014b
+            );
+
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();    
+        } else if (value == address(0x471EcE3750Da237f93B8E339c536989b8978a438)) { // CELO
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x0568fD19986748cEfF3301e55c0eb1E729E0Ab7e
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();
+        } else if (value == address(0x122013fd7dF1C6F636a5bb8f03108E876548b455)) { // WETHv2
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x1FcD30A73D67639c1cD89ff5746E7585731c083B
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+             ) = dataFeed.latestRoundData();
+        } else if (value == address(0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73)) { // CEUR
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x3D207061Dbe8E2473527611BFecB87Ff12b28dDa
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();
+        } else if (value == address(0x72d7f41eF46a988b13530F67423B36CD9cADBc3a)) { // LINK
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x6b6a4c71ec3858A024f3f0Ee44bb0AdcBEd3DcC2
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();
+        } else if (value == address(0x2A3684e9Dc20B857375EA04235F2F7edBe818FA7)) { // USDC
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0xc7A353BaE210aed958a1A2928b654938EC59DaB2
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();
+        } else if (value == address(0xf6D198Cd2A85bB2F3021cDBDAb6B878474079Be7)) { // USDT
+            AggregatorV3Interface dataFeed = AggregatorV3Interface(
+                0x5e37AF40A7A344ec9b03CCD34a250F3dA9a20B02
+            );
+            // prettier-ignore
+            (
+                /* uint80 roundID */,
+                tokenPrice,
+                /*uint startedAt*/,
+                /*uint timeStamp*/,
+                /*uint80 answeredInRound*/
+            ) = dataFeed.latestRoundData();
+        } else {
+            revert();
+        }
+
+        return tokenPrice;
+    }
+
 
     /**
      * @notice This function is used for pools containing two tokens.
@@ -158,7 +319,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         address tokenIn,
         uint256 amountIn,
         address recipient
-    ) public nonReentrant checkPoolSupported(tokenIn) {
+    ) public checkPoolSupported(tokenIn) {
         // Retrieve a list of tokens, balances and normalised weights for the pool
         TradeValues memory tradeValues;
         tradeValues.collateral = IManagedPool(tokenIn);
@@ -187,20 +348,10 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
             tradeValues.tokens
         );
 
-        // Calculate token prices using the DEX
-        if (tradeValues.balances [0] > 0) {
-            tradeValues.tokenPrices [0] =
-                (tradeValues.balances [1] / tradeValues.normalizedWeights [1]) /
-                (tradeValues.balances [0] / tradeValues.normalizedWeights [0]);
-        }
-
-        for (uint256 i = 1; i < tradeValues.tokens.length; i++) {
+        // Calculate token prices using Chainlink. All prices are to 8 decimal places.
+        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             if (tradeValues.balances [i] > 0) {
-                tradeValues.tokenPrices [i] =
-                    (tradeValues.balances [0] /
-                        tradeValues.normalizedWeights [0]) /
-                    (tradeValues.balances [i] /
-                        tradeValues.normalizedWeights [i]);
+                tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
             }
         }
 
@@ -209,7 +360,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             totalPoolValue =
                 totalPoolValue +
-                (tradeValues.balances [i] * tradeValues.tokenPrices [i]);
+                (tradeValues.balances [i] * uint256(tradeValues.tokenPrices [i]));
         }
 
         // Calculate supplied token value
@@ -221,7 +372,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
         reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
     }
-
+    
     /**
      * @notice Runs a check and transfers reserve tokens as needed
      * @dev To avoid too many fees, this should be run at wide intervals such as daily
@@ -236,7 +387,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         address pool,
         uint256 amountIn,
         address recipient
-    ) public nonReentrant checkPoolSupported(pool) {
+    ) public checkPoolSupported(pool) {
         // Retrieve a list of tokens, balances and normalised weights for the pool
         TradeValues memory tradeValues;
         tradeValues.collateral = IManagedPool(pool);
@@ -263,21 +414,10 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
             tradeValues.tokens
         );
 
-        // Calculate token prices using the DEX
-        if (tradeValues.balances [0] > 0) {
-            tradeValues.tokenPrices [0] =
-                (tradeValues.balances [1] / tradeValues.normalizedWeights [1]) /
-                (tradeValues.balances [0] / tradeValues.normalizedWeights [0]);
-        }
-
-        for (uint256 i = 1; i < tradeValues.tokens.length; i++) {
-            tradeValues.tokenPrice = 0;
+        // Calculate token prices using Chainlink. All prices are to 8 decimal places.
+        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             if (tradeValues.balances [i] > 0) {
-                tradeValues.tokenPrices [1] =
-                    (tradeValues.balances [0] /
-                        tradeValues.normalizedWeights [0]) /
-                    (tradeValues.balances [i] /
-                        tradeValues.normalizedWeights [i]);
+                tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
             }
         }
 
@@ -286,7 +426,7 @@ contract ReserveController is ReentrancyGuard, BaseUtils {
         for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             totalPoolValue =
                 totalPoolValue +
-                (tradeValues.balances [i] * tradeValues.tokenPrices [i]);
+                (tradeValues.balances [i] * uint256(tradeValues.tokenPrices [i]));
         }
 
         // Calculate supplied token value

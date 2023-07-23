@@ -26,6 +26,7 @@
     "@balancer-labs/v2-pool-weighted": "^2.0.1",
     "@balancer-labs/v2-solidity-utils": "^4.0.0",
     "@balancer-labs/v2-vault": "^3.0.1",
+    "@chainlink/contracts": "^0.6.1",
     "@celo/contractkit": "^4.0.0",
     "dotenv": "^16.0.3",
     "@openzeppelin/contracts": "^4.8.3",

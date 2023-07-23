@@ -12176,7 +12176,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.14",
-  "updatedAt": "2023-06-25T12:28:38.782Z",
+  "updatedAt": "2023-07-18T18:56:55.652Z",
   "devdoc": {
     "details": "Full external interface for the Vault core contract - no external or public methods exist in the contract that don't override one of these declarations.",
     "events": {
