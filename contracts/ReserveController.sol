@@ -123,59 +123,6 @@ contract ReserveController is BaseUtils {
     }
 
     /**
-     * @notice Create and register a new managed pool
-     *
-     * @param poolId - Pool identifier
-     * @param sender - Sender address
-     * @param recipient - Recipient address
-     * @param assets - Assets being transferred in
-     * @param maxAmountsIn - Amount being transferred in
-     * @param userData - Encoded user data
-     * @param fromInternalBalance - Is this transferred from internal balance?
-     */
-    function JoinPool(
-        bytes32 poolId,
-        address sender,
-        address recipient,
-        IERC20[] memory assets,
-        uint256[] memory maxAmountsIn,
-        bytes memory userData,
-        bool fromInternalBalance
-    ) public payable returns (bytes memory) {
-        JoinPoolRequest memory joinPoolRequest;
-        joinPoolRequest.assets = assets;
-        joinPoolRequest.maxAmountsIn = maxAmountsIn;
-        joinPoolRequest.userData = userData;
-        joinPoolRequest.fromInternalBalance = fromInternalBalance;
-
-        (bool isSuccessful, bytes memory returndata) = address(vault).delegatecall(
-            abi.encodeWithSelector(
-                vault.joinPool.selector,
-                poolId,
-                sender,
-                recipient,
-                joinPoolRequest
-            )
-        );
-
-        if (isSuccessful) {
-            return returndata;
-        } else {
-            // Look for revert reason and bubble it up if present
-            if (returndata.length > 0) {
-                // The easiest way to bubble the revert reason is using memory via assembly
-
-                assembly {
-                    let returndata_size := mload(isSuccessful)
-                    revert(add(32, isSuccessful), returndata_size)
-                }
-            } else {
-                revert("joinPool failed");
-            }
-        }
-    }
-
-    /**
      * @notice returns a list of registered pools
      *
      */
