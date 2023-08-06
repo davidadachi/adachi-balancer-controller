@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
 import "./base/BaseController.sol";
@@ -73,12 +73,9 @@ contract BondingCurveController is BaseController {
         }
 
         // We now have a list of tokens and prices in this pool so we next get token prices from an external oracle and record the delta.
-        // We don't presently have an oracle so for testing we'll use the tolerance value set when creating the pool
         for (uint256 i = 1; i < curveInfo.tokens.length; i++) {
             if (curveInfo.tokenPrices [i] > 0) {
-                curveInfo.oraclePriceDeltas [i] = int256(
-                    managedPools [poolAddress].tolerance
-                );
+                curveInfo.oraclePriceDeltas [i] = getTokenPrice(address(curveInfo.tokens [i])) - int(curveInfo.tokenPrices [i]);
             }
         }
 
