@@ -39,7 +39,6 @@ contract ReserveController is BaseUtils {
     }
 
     address [] private registeredPools;
-    IVault internal immutable vault;
     address internal immutable managedPoolFactory;
 
     /**
@@ -48,9 +47,9 @@ contract ReserveController is BaseUtils {
      * @param vaultAddress - Vault contract address
      * @param supportedManagedPoolFactory - ManegedPoolFactory address
      */
-    constructor(address vaultAddress, address supportedManagedPoolFactory) {
+    constructor(address vaultAddress, address supportedManagedPoolFactory)
+    BaseUtils(vaultAddress) {
         manager = msg.sender;
-        vault = IVault(vaultAddress);
         managedPoolFactory = supportedManagedPoolFactory;
     }
 

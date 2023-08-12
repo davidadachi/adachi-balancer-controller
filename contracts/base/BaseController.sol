@@ -3,26 +3,12 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
-import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
+
 import "../lib/ManagedPoolFactory.sol";
 import "./BaseUtils.sol";
 
-struct PoolSettings {
-    string poolName;
-    string poolSymbol;
-    uint256 tolerance;
-    IERC20 [] poolTokens;
-}
-
 abstract contract BaseController is BaseUtils {
-    
     ManagedPoolFactory public immutable managedPoolFactory;
-
-    mapping(address => PoolSettings) public managedPools; // Pools and their prices
-
-    IVault internal immutable vault;
-
     address [] private _poolsUnderManagement;
 
     /**
@@ -31,9 +17,9 @@ abstract contract BaseController is BaseUtils {
      * @param vaultAddress - Vault contract address
      * @param supportedManagedPoolFactory - Managed pool contract address
      */
-    constructor(address vaultAddress, address supportedManagedPoolFactory) {
+    constructor(address vaultAddress, address supportedManagedPoolFactory)
+    BaseUtils(vaultAddress) {
         manager = msg.sender;
-        vault = IVault(vaultAddress);
         managedPoolFactory = ManagedPoolFactory(supportedManagedPoolFactory);
     }
 

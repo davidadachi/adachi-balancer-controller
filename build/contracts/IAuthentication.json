@@ -21,7 +21,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"selector\",\"type\":\"bytes4\"}],\"name\":\"getActionId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"getActionId(bytes4)\":{\"details\":\"Returns the action identifier associated with the external function described by `selector`.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":\"IAuthentication\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"selector\",\"type\":\"bytes4\"}],\"name\":\"getActionId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"getActionId(bytes4)\":{\"details\":\"Returns the action identifier associated with the external function described by `selector`.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":\"IAuthentication\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -35,15 +35,15 @@
     "absolutePath": "@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol",
     "exportedSymbols": {
       "IAuthentication": [
-        862
+        296
       ]
     },
-    "id": 863,
+    "id": 297,
     "license": "GPL-3.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 853,
+        "id": 287,
         "literals": [
           "solidity",
           ">=",
@@ -54,7 +54,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "688:31:2"
+        "src": "688:31:1"
       },
       {
         "abstract": false,
@@ -62,39 +62,39 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 862,
+        "id": 296,
         "linearizedBaseContracts": [
-          862
+          296
         ],
         "name": "IAuthentication",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "documentation": {
-              "id": 854,
+              "id": 288,
               "nodeType": "StructuredDocumentation",
-              "src": "753:116:2",
+              "src": "753:116:1",
               "text": " @dev Returns the action identifier associated with the external function described by `selector`."
             },
             "functionSelector": "851c1bb3",
-            "id": 861,
+            "id": 295,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "getActionId",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 857,
+              "id": 291,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 856,
+                  "id": 290,
                   "mutability": "mutable",
                   "name": "selector",
                   "nodeType": "VariableDeclaration",
-                  "scope": 861,
-                  "src": "895:15:2",
+                  "scope": 295,
+                  "src": "895:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -102,10 +102,10 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 855,
+                    "id": 289,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
-                    "src": "895:6:2",
+                    "src": "895:6:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes4",
                       "typeString": "bytes4"
@@ -114,20 +114,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "894:17:2"
+              "src": "894:17:1"
             },
             "returnParameters": {
-              "id": 860,
+              "id": 294,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 859,
+                  "id": 293,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 861,
-                  "src": "935:7:2",
+                  "scope": 295,
+                  "src": "935:7:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -135,10 +135,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 858,
+                    "id": 292,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "935:7:2",
+                    "src": "935:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -147,178 +147,28 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "934:9:2"
+              "src": "934:9:1"
             },
-            "scope": 862,
-            "src": "874:70:2",
+            "scope": 296,
+            "src": "874:70:1",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 863,
-        "src": "721:225:2"
+        "scope": 297,
+        "src": "721:225:1"
       }
     ],
-    "src": "688:259:2"
-  },
-  "legacyAST": {
-    "attributes": {
-      "absolutePath": "@balancer-labs/v2-interfaces/contracts/solidity-utils/helpers/IAuthentication.sol",
-      "exportedSymbols": {
-        "IAuthentication": [
-          862
-        ]
-      },
-      "license": "GPL-3.0-or-later"
-    },
-    "children": [
-      {
-        "attributes": {
-          "literals": [
-            "solidity",
-            ">=",
-            "0.7",
-            ".0",
-            "<",
-            "0.9",
-            ".0"
-          ]
-        },
-        "id": 853,
-        "name": "PragmaDirective",
-        "src": "688:31:2"
-      },
-      {
-        "attributes": {
-          "abstract": false,
-          "baseContracts": [
-            null
-          ],
-          "contractDependencies": [
-            null
-          ],
-          "contractKind": "interface",
-          "fullyImplemented": false,
-          "linearizedBaseContracts": [
-            862
-          ],
-          "name": "IAuthentication",
-          "scope": 863
-        },
-        "children": [
-          {
-            "attributes": {
-              "functionSelector": "851c1bb3",
-              "implemented": false,
-              "isConstructor": false,
-              "kind": "function",
-              "modifiers": [
-                null
-              ],
-              "name": "getActionId",
-              "scope": 862,
-              "stateMutability": "view",
-              "virtual": false,
-              "visibility": "external"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "text": " @dev Returns the action identifier associated with the external function described by `selector`."
-                },
-                "id": 854,
-                "name": "StructuredDocumentation",
-                "src": "753:116:2"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "mutability": "mutable",
-                      "name": "selector",
-                      "scope": 861,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes4",
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes4",
-                          "type": "bytes4"
-                        },
-                        "id": 855,
-                        "name": "ElementaryTypeName",
-                        "src": "895:6:2"
-                      }
-                    ],
-                    "id": 856,
-                    "name": "VariableDeclaration",
-                    "src": "895:15:2"
-                  }
-                ],
-                "id": 857,
-                "name": "ParameterList",
-                "src": "894:17:2"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "mutability": "mutable",
-                      "name": "",
-                      "scope": 861,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 858,
-                        "name": "ElementaryTypeName",
-                        "src": "935:7:2"
-                      }
-                    ],
-                    "id": 859,
-                    "name": "VariableDeclaration",
-                    "src": "935:7:2"
-                  }
-                ],
-                "id": 860,
-                "name": "ParameterList",
-                "src": "934:9:2"
-              }
-            ],
-            "id": 861,
-            "name": "FunctionDefinition",
-            "src": "874:70:2"
-          }
-        ],
-        "id": 862,
-        "name": "ContractDefinition",
-        "src": "721:225:2"
-      }
-    ],
-    "id": 863,
-    "name": "SourceUnit",
-    "src": "688:259:2"
+    "src": "688:259:1"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.7.6+commit.7338295f.Emscripten.clang"
+    "version": "0.8.0+commit.c7dfd78e.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.14",
-  "updatedAt": "2023-07-18T18:56:55.637Z",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-08-11T11:18:18.582Z",
   "devdoc": {
     "kind": "dev",
     "methods": {

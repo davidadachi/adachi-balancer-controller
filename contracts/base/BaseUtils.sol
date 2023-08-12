@@ -3,13 +3,44 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
+import "@balancer-labs/v2-interfaces/contracts/pool-utils/IManagedPool.sol";
 import "@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol";
+import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "../lib/SupportLib.sol";
 
+struct PoolSettings {
+    string poolName;
+    string poolSymbol;
+    uint256 tolerance;
+    IERC20 [] poolTokens;
+}
+
+struct PoolAdjustments {
+    IVault.ExitPoolRequest newExitRequest;
+    IVault.JoinPoolRequest newJoinRequest;
+}
+
+struct CurveValues {
+    IManagedPool managedPool;
+    uint256 [] tokenPrices;
+    int256 [] oraclePriceDeltas;
+}
+
 abstract contract BaseUtils is ReentrancyGuard {
     address public manager;
+    mapping(address => PoolSettings) public managedPools; // Pools and their prices
+    IVault internal immutable vault;
+
+    /**
+     * @notice Constructor for the controller base class
+     *
+     * @param vaultAddress - Vault contract address
+     */
+    constructor(address vaultAddress) {
+        vault = IVault(vaultAddress);
+    }
 
     /**
      * @notice Transfer the manager to a new address
@@ -22,7 +53,7 @@ abstract contract BaseUtils is ReentrancyGuard {
     }
 
     /**
-     * @notice returns the array index containing supplied address
+     * @notice returns the oracle supplied price for the requested token
      *
      * @param value - Address to find
      */
@@ -119,6 +150,97 @@ abstract contract BaseUtils is ReentrancyGuard {
         }
 
         return tokenPrice;
+    }
+
+    /**
+     * @notice Calculates a number of tokens to add or remove to rebalance pricing
+     *
+     * @param poolAddress - Address of pool being worked on.
+     */
+    function calculateBalancing(address poolAddress) public view restricted returns (PoolAdjustments memory) {
+        CurveValues memory curveValues;
+        
+        curveValues.managedPool = IManagedPool(poolAddress);
+        bytes32 poolId = curveValues.managedPool.getPoolId();
+        vault.getPool(poolId);
+        uint256 [] memory normalizedWeights = curveValues.managedPool
+            .getNormalizedWeights();
+
+        (IERC20 [] memory tokens, uint256 [] memory balances, ) = vault.getPoolTokens(
+            poolId
+        );
+        IAsset [] memory assets = SupportLib._convertERC20sToAssets(tokens);
+
+        bool isJoin = false;
+        bool isExit = false;
+
+        if (balances [0] > 0) {
+            curveValues.tokenPrices [0] =
+                (balances [1] / normalizedWeights [1]) /
+                (balances [0] / normalizedWeights [0]);
+        }
+
+        // Get price of other tokens
+        for (uint256 i = 1; i < tokens.length; i++) {
+            if (balances [i] > 0) {
+                curveValues.tokenPrices [i] =
+                    (balances [0] / normalizedWeights [0]) /
+                    (balances [i] / normalizedWeights [i]);
+            }
+        }
+
+        // We now have a list of tokens and prices in this pool so we next get token prices from an external oracle and record the delta.
+        for (uint256 i = 1; i < tokens.length; i++) {
+            if (curveValues.tokenPrices [i] > 0) {
+                curveValues.oraclePriceDeltas [i] = getTokenPrice(address(tokens [i])) - int(curveValues.tokenPrices [i]);
+            }
+        }
+
+        uint256 [] memory tokenBalancesToAdd;
+        uint256 [] memory tokenBalancesToRemove;
+
+        for (uint256 i = 1; i < tokens.length; i++) {
+            if (
+                curveValues.oraclePriceDeltas [i] >=
+                int256(managedPools [poolAddress].tolerance)
+            ) {
+                tokenBalancesToRemove[i] =
+                    (balances [i] / 100) *
+                    managedPools [poolAddress].tolerance;
+                isExit = true;
+            } else if (
+                curveValues.oraclePriceDeltas [i] <=
+                -int256(managedPools [poolAddress].tolerance)
+            ) {
+                tokenBalancesToAdd [i] =
+                    (balances [i] / 100) *
+                    managedPools [poolAddress].tolerance;
+                isJoin = true;
+            } else {
+                tokenBalancesToAdd [i] = 0;
+                tokenBalancesToRemove [i] = 0;
+            }
+        }
+
+        PoolAdjustments memory poolAdjustments;
+
+        // If there's tokens to remove then call exitPool
+        if (isExit) {
+            poolAdjustments.newExitRequest.assets = assets;
+            poolAdjustments.newExitRequest.userData = "";
+            poolAdjustments.newExitRequest.toInternalBalance = true;
+            poolAdjustments.newExitRequest.minAmountsOut = tokenBalancesToRemove;
+        }
+
+        // If there's tokens to add then call joinPool
+        if (isJoin) {
+            poolAdjustments.newJoinRequest.assets = assets;
+            poolAdjustments.newJoinRequest.userData = "";
+            poolAdjustments.newJoinRequest.fromInternalBalance = true;
+            poolAdjustments.newJoinRequest.maxAmountsIn = tokenBalancesToAdd;
+        }
+
+        return poolAdjustments;
     }
 
     /**
