@@ -3,7 +3,8 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "@balancer-labs/interfaces/contracts/pool-utils/IManagedPool.sol";
+import "../lib/WeightedPool.sol";
+//import "@balancer-labs/pool-weighted/contracts/WeightedPool.sol";
 import "@balancer-labs/interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol";
 import "@balancer-labs/interfaces/contracts/vault/IVault.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
@@ -23,14 +24,14 @@ struct PoolAdjustments {
 }
 
 struct CurveValues {
-    IManagedPool managedPool;
+    IWeightedPool weightedPool;
     uint256 [] tokenPrices;
     int256 [] oraclePriceDeltas;
 }
 
-abstract contract BaseUtils is ReentrancyGuard {
+abstract contract BaseWeightedUtils is ReentrancyGuard {
     address public manager;
-    mapping(address => PoolSettings) public managedPools; // Pools and their prices
+    mapping(address => PoolSettings) public weightedPools; // Pools and their prices
     IVault internal immutable vault;
 
     /**
@@ -146,7 +147,8 @@ abstract contract BaseUtils is ReentrancyGuard {
                 /*uint80 answeredInRound*/
             ) = dataFeed.latestRoundData();
         } else {
-            revert();
+            return 1;
+//            revert();
         }
 
         return tokenPrice;
@@ -160,10 +162,10 @@ abstract contract BaseUtils is ReentrancyGuard {
     function calculateBalancing(address poolAddress) public view restricted returns (PoolAdjustments memory) {
         CurveValues memory curveValues;
         
-        curveValues.managedPool = IManagedPool(poolAddress);
-        bytes32 poolId = curveValues.managedPool.getPoolId();
+        curveValues.weightedPool = IWeightedPool(poolAddress);
+        bytes32 poolId = curveValues.weightedPool.getPoolId();
         vault.getPool(poolId);
-        uint256 [] memory normalizedWeights = curveValues.managedPool
+        uint256 [] memory normalizedWeights = curveValues.weightedPool
             .getNormalizedWeights();
 
         (IERC20 [] memory tokens, uint256 [] memory balances, ) = vault.getPoolTokens(
@@ -202,19 +204,19 @@ abstract contract BaseUtils is ReentrancyGuard {
         for (uint256 i = 1; i < tokens.length; i++) {
             if (
                 curveValues.oraclePriceDeltas [i] >=
-                int256(managedPools [poolAddress].tolerance)
+                int256(weightedPools [poolAddress].tolerance)
             ) {
                 tokenBalancesToRemove[i] =
                     (balances [i] / 100) *
-                    managedPools [poolAddress].tolerance;
+                    weightedPools [poolAddress].tolerance;
                 isExit = true;
             } else if (
                 curveValues.oraclePriceDeltas [i] <=
-                -int256(managedPools [poolAddress].tolerance)
+                -int256(weightedPools [poolAddress].tolerance)
             ) {
                 tokenBalancesToAdd [i] =
                     (balances [i] / 100) *
-                    managedPools [poolAddress].tolerance;
+                    weightedPools [poolAddress].tolerance;
                 isJoin = true;
             } else {
                 tokenBalancesToAdd [i] = 0;

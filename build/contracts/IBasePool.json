@@ -1748,7 +1748,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-08-11T11:18:18.590Z",
+  "updatedAt": "2023-08-12T16:03:03.856Z",
   "devdoc": {
     "details": "Interface for adding and removing liquidity that all Pool contracts should implement. Note that this is not the complete Pool contract interface, as it is missing the swap hooks. Pool contracts should also inherit from either IGeneralPool or IMinimalSwapInfoPool",
     "kind": "dev",

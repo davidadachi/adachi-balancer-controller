@@ -3,26 +3,27 @@
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
-import "./base/BaseUtils.sol";
-import "@balancer-labs/interfaces/contracts/pool-utils/IManagedPool.sol";
+import "./base/BaseWeightedUtils.sol";
+import "./lib/WeightedPool.sol";
+// import "@balancer-labs/pool-weighted/contracts/WeightedPool.sol";
 import "@balancer-labs/interfaces/contracts/vault/IVault.sol";
-import "./lib/ManagedPoolFactory.sol";
+import "./lib/WeightedPoolNoAMFactory.sol";
 import "./lib/ReserveToken.sol";
 
-contract ReserveController is BaseUtils {
+contract WeightedReserveController is BaseWeightedUtils {
 
-    address private constant RESERVE_TOKEN = 0x98A90EcFB163d138eC289D05362f20613A0C02aC;
+    address private constant RESERVE_TOKEN = 0x7d9d314Ee8183653F800e551030d0b27663A1557;
 
     event CreatedPoolByDelegateCall(
-        ManagedPoolParams managedPoolParams,
-        ManagedPoolSettingsParams managedPoolSettingsParams,
+        WeightedPoolParams weightedPoolParams,
+        WeightedPoolSettingsParams weightedPoolSettingsParams,
         address callerAddress,
         bytes32 salt,
         bool isSuccessful
     );
 
     struct TradeValues {
-        IManagedPool collateral;
+        IWeightedPool collateral;
         bytes32 poolId;
         int [] tokenPrices;
         uint256 [] normalizedWeights;
@@ -39,22 +40,24 @@ contract ReserveController is BaseUtils {
     }
 
     address [] private registeredPools;
-    address internal immutable managedPoolFactory;
+    mapping(address => bool) private registeredPoolsMapping;
+
+    address internal immutable weightedPoolNoAMFactory;
 
     /**
      * @notice Constructor for the controller base class
      *
      * @param vaultAddress - Vault contract address
-     * @param supportedManagedPoolFactory - ManegedPoolFactory address
+     * @param supportedWeightedPoolNoAMFactory - ManegedPoolFactory address
      */
-    constructor(address vaultAddress, address supportedManagedPoolFactory)
-    BaseUtils(vaultAddress) {
+    constructor(address vaultAddress, address supportedWeightedPoolNoAMFactory)
+    BaseWeightedUtils(vaultAddress) {
         manager = msg.sender;
-        managedPoolFactory = supportedManagedPoolFactory;
+        weightedPoolNoAMFactory = supportedWeightedPoolNoAMFactory;
     }
 
     /**
-     * @notice Create and register a new managed pool
+     * @notice Create and register a new weighted pool
      *
      * @param name - Pool name
      * @param symbol - Symbol representing the pool
@@ -81,12 +84,12 @@ contract ReserveController is BaseUtils {
         uint256 aumFeeId,
         bytes32 salt
     ) public{
-        ManagedPoolParams memory poolParams;
+        WeightedPoolParams memory poolParams;
         poolParams.name = name;
         poolParams.symbol = symbol;
         poolParams.assetManagers = assetManagers;
 
-        ManagedPoolSettingsParams memory poolSettingsParams;
+        WeightedPoolSettingsParams memory poolSettingsParams;
         poolSettingsParams.tokens = tokens;
         poolSettingsParams.normalizedWeights = normalizedWeights;
         poolSettingsParams.swapFeePercentage = swapFeePercentage;
@@ -96,9 +99,9 @@ contract ReserveController is BaseUtils {
             .managementAumFeePercentage = managementAumFeePercentage;
         poolSettingsParams.aumFeeId = aumFeeId;
 
-        (bool isSuccessful, bytes memory result) = managedPoolFactory.delegatecall(
+        (bool isSuccessful, bytes memory result) = weightedPoolNoAMFactory.delegatecall(
             abi.encodeWithSelector(
-                ManagedPoolFactory.create.selector,
+                WeightedPoolNoAMFactory.create.selector,
                 poolParams,
                 poolSettingsParams,
                 msg.sender,
@@ -115,7 +118,7 @@ contract ReserveController is BaseUtils {
         );
         if (isSuccessful) {
             address poolAddress = abi.decode(result, (address));
-            registerManagedPool(poolAddress);
+            registerWeightedPool(poolAddress);
         }
     }
 
@@ -128,25 +131,27 @@ contract ReserveController is BaseUtils {
     }
 
     /**
-     * @notice Register managed pool
+     * @notice Register weighted pool
      *
-     * @param managedPool - Address of pool being worked on.
+     * @param weightedPool - Address of pool being worked on.
      */
-    function registerManagedPool(
-        address managedPool
+    function registerWeightedPool(
+        address weightedPool
     ) public restricted {
-        registeredPools.push(managedPool);
+        registeredPools.push(weightedPool);
+        registeredPoolsMapping[weightedPool] = true;
     }
 
     /**
-     * @notice Deregister managed pool
+     * @notice Deregister weighted pool
      *
-     * @param managedPool - Address of pool being worked on.
+     * @param weightedPool - Address of pool being worked on.
      */
-    function deRegisterManagedPool(
-        address managedPool
+    function deRegisterWeightedPool(
+        address weightedPool
     ) public restricted {
-        removeByValue(managedPool);
+        removeByValue(weightedPool);
+        registeredPoolsMapping[weightedPool] = false;
     }
 
     /**
@@ -162,17 +167,11 @@ contract ReserveController is BaseUtils {
         address tokenIn,
         uint256 amountIn,
         address recipient
-    ) public nonReentrant checkPoolSupported(tokenIn) {
+    ) public   {
         // Retrieve a list of tokens, balances and normalised weights for the pool
         TradeValues memory tradeValues;
-        tradeValues.collateral = IManagedPool(tokenIn);
+        tradeValues.collateral = IWeightedPool(tokenIn);
         IERC20 collateral = IERC20(tokenIn);
-
-        // Transfer the input tokens from the sender to this contract
-        require(
-            collateral.transferFrom(msg.sender, address(this), amountIn),
-            "Transfer of input tokens failed"
-        );
 
         // Calculate the buyers share of the pool
         uint256 totalSupply = collateral.totalSupply();
@@ -187,14 +186,20 @@ contract ReserveController is BaseUtils {
         (tradeValues.tokens, tradeValues.balances, ) = vault.getPoolTokens(
             tradeValues.poolId
         );
+        
         tradeValues.assets = SupportLib._convertERC20sToAssets(
             tradeValues.tokens
         );
 
         // Calculate token prices using Chainlink. All prices are to 8 decimal places.
+        tradeValues.tokenPrices = new int[](tradeValues.tokens.length);
         for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             if (tradeValues.balances [i] > 0) {
                 tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
+            }
+            else
+            {
+                tradeValues.tokenPrices [i] = 0;
             }
         }
 
@@ -212,37 +217,33 @@ contract ReserveController is BaseUtils {
             RESERVE_TOKEN
         );
 
+        require(
+            collateral.transferFrom(msg.sender, address(this), amountIn),
+            "Transfer of input tokens failed"
+        );
+
         // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
-        reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
+       // reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
     }
     
     /**
      * @notice Runs a check and transfers reserve tokens as needed
      * @dev To avoid too many fees, this should be run at wide intervals such as daily
      *
-     * @param tokenIn - Address of reserve token
      * @param pool - Address of collateral token
      * @param amountIn - The amount being traded
      * @param recipient - Address of person to receive the swapped tokens
      */
     function sellReserveToken(
-        address tokenIn,
         address pool,
         uint256 amountIn,
         address recipient
     ) public nonReentrant checkPoolSupported(pool) {
         // Retrieve a list of tokens, balances and normalised weights for the pool
         TradeValues memory tradeValues;
-        tradeValues.collateral = IManagedPool(pool);
+        tradeValues.collateral = IWeightedPool(pool);
         IERC20 bptToken = IERC20(pool);
         uint256 totalSupply = bptToken.totalSupply();
-
-        // Transfer the input tokens from the sender to this contract
-        IERC20 collateralToken = IERC20(tokenIn);
-        require(
-            collateralToken.transferFrom(msg.sender, address(this), amountIn),
-            "Transfer of input tokens failed"
-        );
 
         tradeValues.poolId = tradeValues.collateral.getPoolId();
         vault.getPool(tradeValues.poolId);
@@ -258,9 +259,14 @@ contract ReserveController is BaseUtils {
         );
 
         // Calculate token prices using Chainlink. All prices are to 8 decimal places.
+        tradeValues.tokenPrices = new int[](tradeValues.tokens.length);
         for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
             if (tradeValues.balances [i] > 0) {
                 tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
+            }
+            else
+            {
+                tradeValues.tokenPrices [i] = 0;
             }
         }
 
@@ -276,6 +282,13 @@ contract ReserveController is BaseUtils {
         uint256 myShare = amountIn / totalSupply;
         uint256 myBptAmount = myShare * totalSupply;
 
+        // Transfer the input tokens from the sender to this contract
+        IERC20 reserveToken = IERC20(RESERVE_TOKEN);
+        require(
+            reserveToken.transferFrom(msg.sender, address(this), amountIn),
+            "Transfer of input tokens failed"
+        );
+
         // Transfer the output tokens from this contract to the recipient
         bptToken.transfer(recipient, myBptAmount * (10 ** 18));
     }
@@ -286,11 +299,13 @@ contract ReserveController is BaseUtils {
      * @param value - Address to find
      */
     function find(address value) private view returns (uint) {
-        uint i = 0;
-        while (registeredPools [i] != value) {
-            i++;
+        for(uint i = 0; i < registeredPools.length; i++) {
+            if(registeredPools[i] == value) {
+                return i; 
+            }
         }
-        return i;
+
+        return registeredPools.length;
     }
 
     /**
@@ -299,6 +314,7 @@ contract ReserveController is BaseUtils {
      * @param value - Address to look up and remove element
      */
     function removeByValue(address value) private {
+        registeredPoolsMapping[value] = false;
         uint i = find(value);
         removeByIndex(i);
     }
@@ -319,10 +335,10 @@ contract ReserveController is BaseUtils {
     /**
      * @dev Modifier to check token allowance
      *
-     * @param supportedManagedPool - Managed pool address to remove
+     * @param supportedWeightedPool - Weighted pool address to remove
      */
-    modifier checkPoolSupported(address supportedManagedPool) {
-        require(find(supportedManagedPool) != 0, "Pool not registered");
+    modifier checkPoolSupported(address supportedWeightedPool) {
+        require(registeredPoolsMapping[supportedWeightedPool], "Pool not registered");
         _;
     }
 }

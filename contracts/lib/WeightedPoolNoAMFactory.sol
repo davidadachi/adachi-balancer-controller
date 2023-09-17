@@ -5,13 +5,13 @@ pragma experimental ABIEncoderV2;
 
 import "@balancer-labs/interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol";
 
-interface ManagedPoolFactory {
+interface WeightedPoolNoAMFactory {
     event FactoryDisabled();
     event PoolCreated(address indexed pool);
 
     function create(
-        ManagedPoolParams memory params,
-        ManagedPoolSettingsParams memory settingsParams,
+        WeightedPoolParams memory params,
+        WeightedPoolSettingsParams memory settingsParams,
         address owner,
         bytes32 salt
     ) external returns (address pool);
@@ -54,13 +54,13 @@ interface ManagedPoolFactory {
     function version() external view returns (string memory);
 }
 
-struct ManagedPoolParams {
+struct WeightedPoolParams {
     string name;
     string symbol;
     address [] assetManagers;
 }
 
-struct ManagedPoolSettingsParams {
+struct WeightedPoolSettingsParams {
     IERC20 [] tokens;
     uint256 [] normalizedWeights;
     uint256 swapFeePercentage;

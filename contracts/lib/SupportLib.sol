@@ -14,8 +14,8 @@
 
 pragma solidity ^0.8.0;
 
-import "@balancer-labs/v2-interfaces/contracts/vault/IAsset.sol";
-import "@balancer-labs/v2-interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol";
+import "@balancer-labs/interfaces/contracts/vault/IAsset.sol";
+import "@balancer-labs/interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol";
 
 library SupportLib {
     /**
