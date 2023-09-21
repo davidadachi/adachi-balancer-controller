@@ -7,7 +7,7 @@ import "../lib/WeightedPoolNoAMFactory.sol";
 import "./BaseWeightedUtils.sol";
 
 abstract contract BaseWeightedController is BaseWeightedUtils {
-    WeightedPoolNoAMFactory public immutable weightedPoolFactory;
+    WeightedPoolNoAMFactory public immutable weightedPoolNoAMFactory;
     address [] private _poolsUnderManagement;
 
     /**
@@ -19,7 +19,7 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
     constructor(address vaultAddress, address supportedWeightedPoolFactory)
         BaseWeightedUtils(vaultAddress) {
             manager = msg.sender;
-            weightedPoolFactory = WeightedPoolNoAMFactory(supportedWeightedPoolFactory);
+            weightedPoolNoAMFactory = WeightedPoolNoAMFactory(supportedWeightedPoolFactory);
     }
 
     /**
@@ -41,7 +41,7 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
     function createPool(
         string memory name,
         string memory symbol,
-        IERC20 [] memory tokens,
+        address [] memory tokens,
         uint256 [] memory normalizedWeights,
         address [] memory assetManagers,
         uint256 swapFeePercentage,
@@ -52,26 +52,13 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
         uint256 tolerance,
         bytes32 salt
     ) public restricted nonReentrant {
-        WeightedPoolParams memory poolParams;
-        poolParams.name = name;
-        poolParams.symbol = symbol;
-        poolParams.assetManagers = assetManagers;
-
-        WeightedPoolSettingsParams memory poolSettingsParams;
-        poolSettingsParams.tokens = tokens;
-        poolSettingsParams.normalizedWeights = normalizedWeights;
-        poolSettingsParams.swapFeePercentage = swapFeePercentage;
-        poolSettingsParams.isSwapEnabledOnStart = isSwapEnabledOnStart;
-        poolSettingsParams.isMustAllowlistLPs = isMustAllowlistLPs;
-        poolSettingsParams
-            .managementAumFeePercentage = managementAumFeePercentage;
-        poolSettingsParams.aumFeeId = aumFeeId;
-
-        address poolAddress = weightedPoolFactory.create(
-            poolParams,
-            poolSettingsParams,
-            address(this),
-            salt
+        address poolAddress = weightedPoolNoAMFactory.create(
+            name,
+            symbol,
+            tokens,
+            normalizedWeights,
+            swapFeePercentage,
+            address(this)
         );
         _poolsUnderManagement.push(poolAddress);
 

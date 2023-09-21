@@ -15,7 +15,7 @@ struct PoolSettings {
     string poolName;
     string poolSymbol;
     uint256 tolerance;
-    IERC20 [] poolTokens;
+    address [] poolTokens;
 }
 
 struct PoolAdjustments {
@@ -65,7 +65,6 @@ abstract contract BaseWeightedUtils is ReentrancyGuard {
             AggregatorV3Interface dataFeed = AggregatorV3Interface(
                 0x128fE88eaa22bFFb868Bb3A584A54C96eE24014b
             );
-
             // prettier-ignore
             (
                 /* uint80 roundID */,
@@ -176,11 +175,17 @@ abstract contract BaseWeightedUtils is ReentrancyGuard {
         bool isJoin = false;
         bool isExit = false;
 
+        curveValues.tokenPrices = new uint256[](tokens.length);
+
         if (balances [0] > 0) {
             curveValues.tokenPrices [0] =
                 (balances [1] / normalizedWeights [1]) /
                 (balances [0] / normalizedWeights [0]);
         }
+        else {
+            curveValues.tokenPrices [0] = 0;
+        }
+        
 
         // Get price of other tokens
         for (uint256 i = 1; i < tokens.length; i++) {
@@ -189,18 +194,25 @@ abstract contract BaseWeightedUtils is ReentrancyGuard {
                     (balances [0] / normalizedWeights [0]) /
                     (balances [i] / normalizedWeights [i]);
             }
+            else {
+                curveValues.tokenPrices [i] = 0;
+            }
         }
 
+        curveValues.oraclePriceDeltas = new int256[](tokens.length);
+      
         // We now have a list of tokens and prices in this pool so we next get token prices from an external oracle and record the delta.
         for (uint256 i = 1; i < tokens.length; i++) {
             if (curveValues.tokenPrices [i] > 0) {
                 curveValues.oraclePriceDeltas [i] = getTokenPrice(address(tokens [i])) - int(curveValues.tokenPrices [i]);
             }
+            else {
+                curveValues.oraclePriceDeltas [i] = 0;
+            }
         }
-
-        uint256 [] memory tokenBalancesToAdd;
-        uint256 [] memory tokenBalancesToRemove;
-
+        
+        uint256 [] memory tokenBalancesToAdd = new uint256[](tokens.length);
+        uint256 [] memory tokenBalancesToRemove = new uint256[](tokens.length);
         for (uint256 i = 1; i < tokens.length; i++) {
             if (
                 curveValues.oraclePriceDeltas [i] >=
@@ -223,7 +235,7 @@ abstract contract BaseWeightedUtils is ReentrancyGuard {
                 tokenBalancesToRemove [i] = 0;
             }
         }
-
+        
         PoolAdjustments memory poolAdjustments;
 
         // If there's tokens to remove then call exitPool

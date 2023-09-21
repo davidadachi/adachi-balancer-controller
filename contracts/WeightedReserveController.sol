@@ -14,14 +14,6 @@ contract WeightedReserveController is BaseWeightedUtils {
 
     address private constant RESERVE_TOKEN = 0x7d9d314Ee8183653F800e551030d0b27663A1557;
 
-    event CreatedPoolByDelegateCall(
-        WeightedPoolParams weightedPoolParams,
-        WeightedPoolSettingsParams weightedPoolSettingsParams,
-        address callerAddress,
-        bytes32 salt,
-        bool isSuccessful
-    );
-
     struct TradeValues {
         IWeightedPool collateral;
         bytes32 poolId;
@@ -30,13 +22,6 @@ contract WeightedReserveController is BaseWeightedUtils {
         IERC20 [] tokens;
         uint256 [] balances;
         IAsset [] assets;
-    }
-
-    struct JoinPoolRequest {
-        IERC20[] assets;
-        uint256[] maxAmountsIn;
-        bytes userData;
-        bool fromInternalBalance;
     }
 
     address [] private registeredPools;
@@ -54,72 +39,6 @@ contract WeightedReserveController is BaseWeightedUtils {
     BaseWeightedUtils(vaultAddress) {
         manager = msg.sender;
         weightedPoolNoAMFactory = supportedWeightedPoolNoAMFactory;
-    }
-
-    /**
-     * @notice Create and register a new weighted pool
-     *
-     * @param name - Pool name
-     * @param symbol - Symbol representing the pool
-     * @param tokens - Tokens in the pool
-     * @param normalizedWeights - Normalized weights in the pool
-     * @param assetManagers - Asset manager for the pool
-     * @param swapFeePercentage - Fee applied to swaps
-     * @param isSwapEnabledOnStart - Whether swaps are enabled straight away
-     * @param isMustAllowlistLPs - List of LP's allowed in the pool
-     * @param managementAumFeePercentage - Management Aum fee to apply
-     * @param aumFeeId - Aum Fee Id
-     * @param salt - Salt applied to address to ensure uniqueness
-     */
-    function createPool(
-        string memory name,
-        string memory symbol,
-        IERC20 [] memory tokens,
-        uint256 [] memory normalizedWeights,
-        address [] memory assetManagers,
-        uint256 swapFeePercentage,
-        bool isSwapEnabledOnStart,
-        bool isMustAllowlistLPs,
-        uint256 managementAumFeePercentage,
-        uint256 aumFeeId,
-        bytes32 salt
-    ) public{
-        WeightedPoolParams memory poolParams;
-        poolParams.name = name;
-        poolParams.symbol = symbol;
-        poolParams.assetManagers = assetManagers;
-
-        WeightedPoolSettingsParams memory poolSettingsParams;
-        poolSettingsParams.tokens = tokens;
-        poolSettingsParams.normalizedWeights = normalizedWeights;
-        poolSettingsParams.swapFeePercentage = swapFeePercentage;
-        poolSettingsParams.isSwapEnabledOnStart = isSwapEnabledOnStart;
-        poolSettingsParams.isMustAllowlistLPs = isMustAllowlistLPs;
-        poolSettingsParams
-            .managementAumFeePercentage = managementAumFeePercentage;
-        poolSettingsParams.aumFeeId = aumFeeId;
-
-        (bool isSuccessful, bytes memory result) = weightedPoolNoAMFactory.delegatecall(
-            abi.encodeWithSelector(
-                WeightedPoolNoAMFactory.create.selector,
-                poolParams,
-                poolSettingsParams,
-                msg.sender,
-                salt
-            )
-        );
-
-        emit CreatedPoolByDelegateCall(
-            poolParams,
-            poolSettingsParams,
-            msg.sender,
-            salt,
-            isSuccessful
-        );
-        if (isSuccessful) {
-            address poolAddress = abi.decode(result, (address));
-            registerWeightedPool(poolAddress);
-        }
     }
 
     /**
@@ -223,7 +142,7 @@ contract WeightedReserveController is BaseWeightedUtils {
         );
 
         // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
-       // reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
+        reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
     }
     
     /**
