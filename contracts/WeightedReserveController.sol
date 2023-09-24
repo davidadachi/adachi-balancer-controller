@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
 
 import "./base/BaseWeightedUtils.sol";
 import "./lib/WeightedPool.sol";
-// import "@balancer-labs/pool-weighted/contracts/WeightedPool.sol";
 import "@balancer-labs/interfaces/contracts/vault/IVault.sol";
 import "./lib/WeightedPoolNoAMFactory.sol";
 import "./lib/ReserveToken.sol";
 
 contract WeightedReserveController is BaseWeightedUtils {
+    using SafeMath for uint256; // Use SafeMath for uint256
 
+    uint256 private constant DECIMALS = 10 ** 18;
     address private constant RESERVE_TOKEN = 0x7d9d314Ee8183653F800e551030d0b27663A1557;
 
     struct TradeValues {
@@ -26,7 +26,6 @@ contract WeightedReserveController is BaseWeightedUtils {
 
     address [] private registeredPools;
     mapping(address => bool) private registeredPoolsMapping;
-
     address internal immutable weightedPoolNoAMFactory;
 
     /**
@@ -37,7 +36,6 @@ contract WeightedReserveController is BaseWeightedUtils {
      */
     constructor(address vaultAddress, address supportedWeightedPoolNoAMFactory)
     BaseWeightedUtils(vaultAddress) {
-        manager = msg.sender;
         weightedPoolNoAMFactory = supportedWeightedPoolNoAMFactory;
     }
 
@@ -56,7 +54,7 @@ contract WeightedReserveController is BaseWeightedUtils {
      */
     function registerWeightedPool(
         address weightedPool
-    ) public restricted {
+    ) public onlyManager {
         registeredPools.push(weightedPool);
         registeredPoolsMapping[weightedPool] = true;
     }
@@ -68,7 +66,7 @@ contract WeightedReserveController is BaseWeightedUtils {
      */
     function deRegisterWeightedPool(
         address weightedPool
-    ) public restricted {
+    ) public onlyManager {
         removeByValue(weightedPool);
         registeredPoolsMapping[weightedPool] = false;
     }
@@ -86,63 +84,48 @@ contract WeightedReserveController is BaseWeightedUtils {
         address tokenIn,
         uint256 amountIn,
         address recipient
-    ) public   {
-        // Retrieve a list of tokens, balances and normalised weights for the pool
-        TradeValues memory tradeValues;
-        tradeValues.collateral = IWeightedPool(tokenIn);
-        IERC20 collateral = IERC20(tokenIn);
+    )
+        public 
+        nonReentrant 
+        checkPoolSupported(tokenIn) 
+    {
+        IWeightedPool collateral = IWeightedPool(tokenIn);
+        IERC20 collateralToken = IERC20(tokenIn);
 
-        // Calculate the buyers share of the pool
-        uint256 totalSupply = collateral.totalSupply();
-        uint256 buyersShare = amountIn / totalSupply;
+        // Calculate the buyer's share of the pool
+        uint256 totalSupply = collateralToken.totalSupply();
 
-        tradeValues.poolId = tradeValues.collateral.getPoolId();
-        vault.getPool(tradeValues.poolId);
-        tradeValues.normalizedWeights = tradeValues
-            .collateral
-            .getNormalizedWeights();
-
-        (tradeValues.tokens, tradeValues.balances, ) = vault.getPoolTokens(
-            tradeValues.poolId
-        );
+        // Ensure that totalSupply is not zero to prevent division by zero
+        require(totalSupply > 0, "Invalid pool total supply");
         
-        tradeValues.assets = SupportLib._convertERC20sToAssets(
-            tradeValues.tokens
-        );
+        uint256 buyersShare = amountIn.mul(DECIMALS).div(totalSupply);
 
-        // Calculate token prices using Chainlink. All prices are to 8 decimal places.
-        tradeValues.tokenPrices = new int[](tradeValues.tokens.length);
-        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
-            if (tradeValues.balances [i] > 0) {
-                tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
-            }
-            else
-            {
-                tradeValues.tokenPrices [i] = 0;
-            }
-        }
-
-        // Calculate the total value of the pool
-        uint256 totalPoolValue = 0;
-        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
-            totalPoolValue =
-                totalPoolValue +
-                (tradeValues.balances [i] * uint256(tradeValues.tokenPrices [i]));
-        }
+        // Calculate total value of the pool
+        uint256 totalPoolValue = getPoolValue(collateral);
 
         // Calculate supplied token value
-        uint256 buyersShareValue = buyersShare * totalPoolValue;
-        ReserveToken reserveToken = ReserveToken(
-            RESERVE_TOKEN
-        );
+        uint256 buyersShareValue = buyersShare.mul(totalPoolValue).div(DECIMALS);
 
-        require(
-            collateral.transferFrom(msg.sender, address(this), amountIn),
-            "Transfer of input tokens failed"
-        );
+        require(collateralToken.transferFrom(msg.sender, address(this), amountIn), "Transfer of input tokens failed");
 
-        // Mint and Transfer the output tokens from this contract to the recipient, assuming reserve token is worth $1
-        reserveToken.mint(recipient, buyersShareValue * (10 ** 18));
+        // Mint and Transfer the output tokens from this contract to the recipient
+        ReserveToken(RESERVE_TOKEN).mint(recipient, buyersShareValue);
+        
+        emit BoughtReserveToken(msg.sender, tokenIn, amountIn, buyersShareValue);
+    }
+
+    function getPoolValue(IWeightedPool collateral) internal view returns (uint256) {
+        bytes32 poolId = collateral.getPoolId();
+        (IERC20[] memory tokens, uint256[] memory balances, ) = vault.getPoolTokens(poolId);
+        
+        uint256 totalValue = 0;
+        for (uint256 i = 0; i < tokens.length; i++) {
+            if (balances[i] > 0) {
+                int price = getTokenPrice(address(tokens[i]));
+                totalValue = totalValue.add(balances[i].mul(uint256(price)).div(10**10));  // Adjusting for 8 decimals of price
+            }
+        }
+        return totalValue;
     }
     
     /**
@@ -157,60 +140,31 @@ contract WeightedReserveController is BaseWeightedUtils {
         address pool,
         uint256 amountIn,
         address recipient
-    ) public nonReentrant checkPoolSupported(pool) {
-        // Retrieve a list of tokens, balances and normalised weights for the pool
-        TradeValues memory tradeValues;
-        tradeValues.collateral = IWeightedPool(pool);
+    ) 
+        public 
+        nonReentrant 
+        checkPoolSupported(pool) 
+    {
         IERC20 bptToken = IERC20(pool);
+
         uint256 totalSupply = bptToken.totalSupply();
 
-        tradeValues.poolId = tradeValues.collateral.getPoolId();
-        vault.getPool(tradeValues.poolId);
-        tradeValues.normalizedWeights = tradeValues
-            .collateral
-            .getNormalizedWeights();
+        // Ensure totalSupply is not zero to prevent division by zero
+        require(totalSupply > 0, "Invalid pool total supply");
 
-        (tradeValues.tokens, tradeValues.balances, ) = vault.getPoolTokens(
-            tradeValues.poolId
-        );
-        tradeValues.assets = SupportLib._convertERC20sToAssets(
-            tradeValues.tokens
-        );
+        // Calculate user's proportionate share in the pool
+        uint256 myShare = amountIn.mul(DECIMALS).div(totalSupply);
+        uint256 myBptAmount = myShare.mul(totalSupply).div(DECIMALS);
 
-        // Calculate token prices using Chainlink. All prices are to 8 decimal places.
-        tradeValues.tokenPrices = new int[](tradeValues.tokens.length);
-        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
-            if (tradeValues.balances [i] > 0) {
-                tradeValues.tokenPrices [i] = getTokenPrice(address(tradeValues.tokens [i]));
-            }
-            else
-            {
-                tradeValues.tokenPrices [i] = 0;
-            }
-        }
-
-        // Calculate the total value of the pool
-        uint256 totalPoolValue = 0;
-        for (uint256 i = 0; i < tradeValues.tokens.length; i++) {
-            totalPoolValue =
-                totalPoolValue +
-                (tradeValues.balances [i] * uint256(tradeValues.tokenPrices [i]));
-        }
-
-        // Calculate supplied token value
-        uint256 myShare = amountIn / totalSupply;
-        uint256 myBptAmount = myShare * totalSupply;
-
-        // Transfer the input tokens from the sender to this contract
         IERC20 reserveToken = IERC20(RESERVE_TOKEN);
-        require(
-            reserveToken.transferFrom(msg.sender, address(this), amountIn),
-            "Transfer of input tokens failed"
-        );
+        require(reserveToken.transferFrom(msg.sender, address(this), amountIn), "Transfer of input tokens failed");
 
-        // Transfer the output tokens from this contract to the recipient
-        bptToken.transfer(recipient, myBptAmount * (10 ** 18));
+        // Transfer BPT tokens from this contract to the recipient
+        bptToken.transfer(recipient, myBptAmount);
+        
+        emit SoldReserveToken(msg.sender, pool, amountIn, myBptAmount);
     }
+
 
     /**
      * @notice returns the array index containing supplied address
@@ -250,6 +204,9 @@ contract WeightedReserveController is BaseWeightedUtils {
         }
         registeredPools.pop();
     }
+
+    event BoughtReserveToken(address indexed buyer, address indexed tokenIn, uint256 amountIn, uint256 reserveTokenOut);
+    event SoldReserveToken(address indexed seller, address indexed pool, uint256 amountIn, uint256 bptOut);
 
     /**
      * @dev Modifier to check token allowance

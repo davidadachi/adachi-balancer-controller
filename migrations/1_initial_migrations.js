@@ -1,5 +1,7 @@
- const  ReserveControllerMigration  = artifacts.require("WeightedReserveController");
- const  BondingCurveControllerMigration  = artifacts.require("WeightedBondingCurveController");
+const  ReserveControllerMigration  = artifacts.require("ReserveController");
+const  BondingCurveControllerMigration  = artifacts.require("BondingCurveController");
+const  WeightedReserveControllerMigration  = artifacts.require("WeightedReserveController");
+const  WeightedBondingCurveControllerMigration  = artifacts.require("WeightedBondingCurveController");
 
 // Vault
 // CELO: 0xD25E02047E76b688445ab154785F2642c6fe3f73
@@ -13,8 +15,8 @@
 // CELO: 0x47B7bdA16AB8B617E976c83A2c3c8664944d8Ed2
 // Gnosis: 
 module.exports = function(deployer) {
-//    deployer.deploy(ReserveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x9bB01f19D9AC3a70e469863BA7Cb521a0B926e5a');
-//    deployer.deploy(BondingCurveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x9bB01f19D9AC3a70e469863BA7Cb521a0B926e5a');
-//    deployer.deploy(ReserveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x47B7bdA16AB8B617E976c83A2c3c8664944d8Ed2');
-    deployer.deploy(BondingCurveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x47B7bdA16AB8B617E976c83A2c3c8664944d8Ed2');
+   deployer.deploy(ReserveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x9bB01f19D9AC3a70e469863BA7Cb521a0B926e5a');
+   deployer.deploy(BondingCurveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x9bB01f19D9AC3a70e469863BA7Cb521a0B926e5a');
+   deployer.deploy(WeightedReserveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x47B7bdA16AB8B617E976c83A2c3c8664944d8Ed2');
+   deployer.deploy(WeightedBondingCurveControllerMigration, '0xD25E02047E76b688445ab154785F2642c6fe3f73', '0x47B7bdA16AB8B617E976c83A2c3c8664944d8Ed2');
   };

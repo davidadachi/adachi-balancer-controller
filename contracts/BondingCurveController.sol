@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
 
 import "./base/BaseController.sol";
 import "./lib/SupportLib.sol";
@@ -25,31 +24,35 @@ contract BondingCurveController is BaseController {
      *
      * @param poolAddress - Address of pool being worked on.
      */
-    function runCheck(address poolAddress) public restricted nonReentrant {
+    function runCheck(address poolAddress) external onlyManager nonReentrant {
         PoolAdjustments memory poolAdjustments = calculateBalancing(poolAddress);
         
-        IManagedPool managedPool = IManagedPool(poolAddress);
-        bytes32 poolId = managedPool.getPoolId();
+        // Boolean flags can make the code clearer and more optimized.
+        bool shouldJoin = poolAdjustments.newJoinRequest.maxAmountsIn.length > 0;
+        bool shouldExit = poolAdjustments.newExitRequest.minAmountsOut.length > 0;
 
-        // If there's tokens to add then call joinPool
-        if (poolAdjustments.newJoinRequest.maxAmountsIn.length > 0)
-        {
-            vault.joinPool(
-                poolId,
-                address(this),
-                payable(poolAddress),
-                poolAdjustments.newJoinRequest
-            );
-        }
+        if (shouldJoin || shouldExit) {
+            IManagedPool managedPool = IManagedPool(poolAddress);
+            bytes32 poolId = managedPool.getPoolId();
 
-        if (poolAdjustments.newExitRequest.minAmountsOut.length > 0)
-        {
-            vault.exitPool(
-                poolId,
-                address(this),
-                payable(poolAddress),
-                poolAdjustments.newExitRequest
-            );
+            if (shouldJoin) {
+                vault.joinPool(
+                    poolId,
+                    address(this),
+                    payable(poolAddress),
+                    poolAdjustments.newJoinRequest
+                );
+            }
+
+            if (shouldExit) {
+                vault.exitPool(
+                    poolId,
+                    address(this),
+                    payable(poolAddress),
+                    poolAdjustments.newExitRequest
+                );
+            }
         }
     }
+
 }

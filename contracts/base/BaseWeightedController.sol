@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
 
 import "../lib/WeightedPoolNoAMFactory.sol";
 import "./BaseWeightedUtils.sol";
@@ -18,7 +17,6 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
      */
     constructor(address vaultAddress, address supportedWeightedPoolFactory)
         BaseWeightedUtils(vaultAddress) {
-            manager = msg.sender;
             weightedPoolNoAMFactory = WeightedPoolNoAMFactory(supportedWeightedPoolFactory);
     }
 
@@ -29,29 +27,17 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
      * @param symbol - Symbol representing the pool
      * @param tokens - Tokens in the pool
      * @param normalizedWeights - Normalized weights in the pool
-     * @param assetManagers - Asset manager for the pool
      * @param swapFeePercentage - Fee applied to swaps
-     * @param isSwapEnabledOnStart - Whether swaps are enabled straight away
-     * @param isMustAllowlistLPs - List of LP's allowed in the pool
-     * @param managementAumFeePercentage - Management Aum fee to apply
-     * @param aumFeeId - Aum Fee Id
-     * @param tolerance - Percentage devience 
-     * @param salt - Salt used towards calculating pool address
+     * @param tolerance - Percentage devience
      */
     function createPool(
         string memory name,
         string memory symbol,
         address [] memory tokens,
         uint256 [] memory normalizedWeights,
-        address [] memory assetManagers,
         uint256 swapFeePercentage,
-        bool isSwapEnabledOnStart,
-        bool isMustAllowlistLPs,
-        uint256 managementAumFeePercentage,
-        uint256 aumFeeId,
-        uint256 tolerance,
-        bytes32 salt
-    ) public restricted nonReentrant {
+        uint256 tolerance
+    ) external onlyManager whenNotPaused nonReentrant {
         address poolAddress = weightedPoolNoAMFactory.create(
             name,
             symbol,
@@ -72,7 +58,7 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
      * @notice returns a list of pools under management by this controller
      *
      */
-    function getPoolsUnderManagement() public view returns (address [] memory) {
+    function getPoolsUnderManagement() external view returns (address [] memory) {
         return _poolsUnderManagement;
     }
 
@@ -81,7 +67,7 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
      *
      * @param poolAddress - Pool to get the Id for
      */
-    function getPoolId(address poolAddress) public view returns (bytes32) {
+    function getPoolId(address poolAddress) private view returns (bytes32) {
         return IWeightedPool(poolAddress).getPoolId();
     }
 
@@ -97,9 +83,9 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
         address recipientAddress,
         address tokenAddress,
         uint256 amount
-    ) public restricted nonReentrant {
+    ) public onlyManager nonReentrant {
         IERC20 _token = IERC20(tokenAddress);
-        _token.transferFrom(address(this), recipientAddress, amount);
+        _token.transfer(recipientAddress, amount);
     }
 
     /**
@@ -112,7 +98,7 @@ abstract contract BaseWeightedController is BaseWeightedUtils {
     function depositTokens(
         uint amount,
         address tokenAddress
-    ) public restricted nonReentrant checkAllowance(amount, tokenAddress) {
+    ) public onlyManager nonReentrant checkAllowance(amount, tokenAddress) {
         IERC20 token = IERC20(tokenAddress);
         token.transferFrom(msg.sender, address(this), amount);
     }

@@ -2,6 +2,58 @@
   "contractName": "BaseWeightedController",
   "abi": [
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Paused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Unpaused",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "PERCENTAGE_DENOMINATOR",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "manager",
+          "type": "address"
+        }
+      ],
+      "name": "addManager",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -80,7 +132,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "value",
+          "name": "tokenAddress",
           "type": "address"
         }
       ],
@@ -96,8 +148,84 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "isManager",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [],
-      "name": "manager",
+      "name": "pause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "paused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "manager",
+          "type": "address"
+        }
+      ],
+      "name": "removeManager",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "feed",
+          "type": "address"
+        }
+      ],
+      "name": "setTokenFeed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "tokenFeeds",
       "outputs": [
         {
           "internalType": "address",
@@ -109,14 +237,8 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "supportedManager",
-          "type": "address"
-        }
-      ],
-      "name": "transferManagement",
+      "inputs": [],
+      "name": "unpause",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -186,44 +308,14 @@
           "type": "uint256[]"
         },
         {
-          "internalType": "address[]",
-          "name": "assetManagers",
-          "type": "address[]"
-        },
-        {
           "internalType": "uint256",
           "name": "swapFeePercentage",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "isSwapEnabledOnStart",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "isMustAllowlistLPs",
-          "type": "bool"
-        },
-        {
-          "internalType": "uint256",
-          "name": "managementAumFeePercentage",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "aumFeeId",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
           "name": "tolerance",
           "type": "uint256"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "salt",
-          "type": "bytes32"
         }
       ],
       "name": "createPool",
@@ -239,25 +331,6 @@
           "internalType": "address[]",
           "name": "",
           "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "poolAddress",
-          "type": "address"
-        }
-      ],
-      "name": "getPoolId",
-      "outputs": [
-        {
-          "internalType": "bytes32",
-          "name": "",
-          "type": "bytes32"
         }
       ],
       "stateMutability": "view",
@@ -305,7 +378,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"}],\"name\":\"calculateBalancing\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"contract IAsset[]\",\"name\":\"assets\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"minAmountsOut\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes\",\"name\":\"userData\",\"type\":\"bytes\"},{\"internalType\":\"bool\",\"name\":\"toInternalBalance\",\"type\":\"bool\"}],\"internalType\":\"struct IVault.ExitPoolRequest\",\"name\":\"newExitRequest\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"contract IAsset[]\",\"name\":\"assets\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"maxAmountsIn\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes\",\"name\":\"userData\",\"type\":\"bytes\"},{\"internalType\":\"bool\",\"name\":\"fromInternalBalance\",\"type\":\"bool\"}],\"internalType\":\"struct IVault.JoinPoolRequest\",\"name\":\"newJoinRequest\",\"type\":\"tuple\"}],\"internalType\":\"struct PoolAdjustments\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"address[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"normalizedWeights\",\"type\":\"uint256[]\"},{\"internalType\":\"address[]\",\"name\":\"assetManagers\",\"type\":\"address[]\"},{\"internalType\":\"uint256\",\"name\":\"swapFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isSwapEnabledOnStart\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isMustAllowlistLPs\",\"type\":\"bool\"},{\"internalType\":\"uint256\",\"name\":\"managementAumFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"aumFeeId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tolerance\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"salt\",\"type\":\"bytes32\"}],\"name\":\"createPool\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"depositTokens\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"}],\"name\":\"getPoolId\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolsUnderManagement\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"value\",\"type\":\"address\"}],\"name\":\"getTokenPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"manager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"supportedManager\",\"type\":\"address\"}],\"name\":\"transferManagement\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"weightedPoolNoAMFactory\",\"outputs\":[{\"internalType\":\"contract WeightedPoolNoAMFactory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"weightedPools\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"poolName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"poolSymbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"tolerance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawFunds\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"calculateBalancing(address)\":{\"params\":{\"poolAddress\":\"- Address of pool being worked on.\"}},\"constructor\":{\"params\":{\"supportedWeightedPoolFactory\":\"- Weighted pool contract address\",\"vaultAddress\":\"- Vault contract address\"}},\"createPool(string,string,address[],uint256[],address[],uint256,bool,bool,uint256,uint256,uint256,bytes32)\":{\"params\":{\"assetManagers\":\"- Asset manager for the pool\",\"aumFeeId\":\"- Aum Fee Id\",\"isMustAllowlistLPs\":\"- List of LP's allowed in the pool\",\"isSwapEnabledOnStart\":\"- Whether swaps are enabled straight away\",\"managementAumFeePercentage\":\"- Management Aum fee to apply\",\"name\":\"- Pool name\",\"normalizedWeights\":\"- Normalized weights in the pool\",\"salt\":\"- Salt used towards calculating pool address\",\"swapFeePercentage\":\"- Fee applied to swaps\",\"symbol\":\"- Symbol representing the pool\",\"tokens\":\"- Tokens in the pool\",\"tolerance\":\"- Percentage devience \"}},\"depositTokens(uint256,address)\":{\"details\":\"Transfers an amount of an ERC20 token\",\"params\":{\"amount\":\"- Amount to deposit.\",\"tokenAddress\":\"- Address of token to be deposited.\"}},\"getPoolId(address)\":{\"params\":{\"poolAddress\":\"- Pool to get the Id for\"}},\"getTokenPrice(address)\":{\"params\":{\"value\":\"- Address to find\"}},\"transferManagement(address)\":{\"details\":\"Only one manager can presently be set\",\"params\":{\"supportedManager\":\"- New manager.\"}},\"withdrawFunds(address,address,uint256)\":{\"details\":\"Transfers an amount of an ERC20 token\",\"params\":{\"amount\":\"- Amount to withdraw.\",\"recipientAddress\":\"- Address of wallet receiving funds.\",\"tokenAddress\":\"- Address of token to be withdrawn.\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"calculateBalancing(address)\":{\"notice\":\"Calculates a number of tokens to add or remove to rebalance pricing\"},\"constructor\":{\"notice\":\"Constructor for the controller base class\"},\"createPool(string,string,address[],uint256[],address[],uint256,bool,bool,uint256,uint256,uint256,bytes32)\":{\"notice\":\"Create a new weighted pool\"},\"depositTokens(uint256,address)\":{\"notice\":\"Deposit tokens to controller\"},\"getPoolId(address)\":{\"notice\":\"Returns the pools Id\"},\"getPoolsUnderManagement()\":{\"notice\":\"returns a list of pools under management by this controller\"},\"getTokenPrice(address)\":{\"notice\":\"returns the oracle supplied price for the requested token\"},\"transferManagement(address)\":{\"notice\":\"Transfer the manager to a new address\"},\"withdrawFunds(address,address,uint256)\":{\"notice\":\"Withdraw tokens from controller\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/base/BaseWeightedController.sol\":\"BaseWeightedController\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/ISignaturesValidator.sol\":{\"keccak256\":\"0x571907ff5a68a10937b13e0828dd78bf9508f6e74eaafe7faf525453160c3627\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://afb73b213075954086eb7fa4eb4fac4962b779c8dd8c9c72902336d64c13210e\",\"dweb:/ipfs/QmNWFPnoPxo8ToVHrqXaQQF8RPYeNNhV2eZN9EwFS3iHpz\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/ITemporarilyPausable.sol\":{\"keccak256\":\"0x7d98e4751329dd9effc016cbc5acdf6399d3592407b9d3e28b38c10c621e56a3\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://a70c4c16829f31c75dd0a3987137ed1572a0343ff933dcdcfbef17d5d63307ae\",\"dweb:/ipfs/QmSGBafawe525NbvK8LVN1rsD2yJxaS83QoTNC84evwM2E\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/misc/IWETH.sol\":{\"keccak256\":\"0x41c26d92fde92c927352c447ff80e3b2216d076662f2b222b735e4c865a481dc\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://291a4b4f141ea187a61c3bb1ab16b370012e7e80ddc045671015ab2bfaf3c52c\",\"dweb:/ipfs/QmXvvVdfZC3pAqLst3bW9Fbj8mS9y1t1k7Zqr9BXuKdUHP\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"@balancer-labs/interfaces/contracts/vault/IAsset.sol\":{\"keccak256\":\"0x780769a0bd8655d8a05a75b062b32a65b775b9deb923b2e8f42f57a0ee263a2d\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://b63d22729102954a657432d81b31764e6dbdc7216a6deb991499a73dc4ebbd7b\",\"dweb:/ipfs/QmWRyByegCCJr37yesLi7urtzNk2BBiDEjzbkPpV8TKy1X\"]},\"@balancer-labs/interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]},\"@balancer-labs/interfaces/contracts/vault/IFlashLoanRecipient.sol\":{\"keccak256\":\"0xadcf6e9f8677de9ec51a1bbb419da349b7c0c17af8b8cddad85ee0e80107036e\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e9b30c1b15e3d0990a4a343fac14d2263c4bae4c3bdbeb38489103b4f6f66c39\",\"dweb:/ipfs/QmeQjBDidkLAoq4nknwPPPmunSTvQEZ9shaAhPiJAPmbk6\"]},\"@balancer-labs/interfaces/contracts/vault/IProtocolFeesCollector.sol\":{\"keccak256\":\"0xe18a4e04a4a4e828c81548cc50d9d8ab6461dafbe88929c0342fa2b6c08e0d76\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://7056ea1221db4eacc3e263ea8b9d741c11b1871f745169a39c6f926dab9c403f\",\"dweb:/ipfs/QmabGZff9x43RJUororFfmMzocB2UuZDDBMhhfELEeSJue\"]},\"@balancer-labs/interfaces/contracts/vault/IVault.sol\":{\"keccak256\":\"0x63425148b27356cee63cf843ef8918d3ff6cdd8d5c00371326bca8b4331b773c\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://6764d2a22a2e23de5235ceb0d06ebb9006f694c59547b8dc82dbc2e215d1f230\",\"dweb:/ipfs/Qmb6BQBgUQno6RAqPPR8qeC3smNEC3Bm6y8ZcWEWZKAfhF\"]},\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\":{\"keccak256\":\"0x6e6e4b0835904509406b070ee173b5bc8f677c19421b76be38aea3b1b3d30846\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3beaa37ee61e4ab615e250fbf01601ae481de843fd0ef55e6b44fd9d5fff8a7\",\"dweb:/ipfs/QmeZUVwd26LzK4Mfp8Zba5JbQNkZFfTzFu1A6FVMMZDg9c\"]},\"@openzeppelin/contracts/security/ReentrancyGuard.sol\":{\"keccak256\":\"0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34\",\"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1\"]},\"project:/contracts/base/BaseWeightedController.sol\":{\"keccak256\":\"0x2f666739c26a0c9e1cf53069fb2bb39fb59c772a1a8156f488cd0f96bc7b1c1a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d9b6c9d9e8052c6713f40b006127f03140ccb6b05137e63a7739a98a2f924a52\",\"dweb:/ipfs/QmYxSkhzndwMnZp9XtYEemgx2B4NFUW8whCWZCB1ATWCSv\"]},\"project:/contracts/base/BaseWeightedUtils.sol\":{\"keccak256\":\"0x1e80028c864e6ca347ae6fcc298b464323ec2ecfc58220f4ccba9ca0755a063a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://530b8a7e29cfbb4e43bf0c0e520e06603e5224073fced8a2f6b642fde4f21d0d\",\"dweb:/ipfs/QmefHBgoF6cCxmZ8RHQxtcBgni3Rsrup8khzo1yZBDLJWg\"]},\"project:/contracts/lib/SupportLib.sol\":{\"keccak256\":\"0x2bad74671912d307c81017c44ceba0dc63711e452c5f661d1452681076a18acf\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://8efe73eca7324c4584aa2fab8701dae20e4814aa1cbe7a6e3c9ef1f82c169e89\",\"dweb:/ipfs/QmZP554TjhcQca3h6mh78mG92c8haxKjzhxM8gehTBXTYM\"]},\"project:/contracts/lib/WeightedPool.sol\":{\"keccak256\":\"0x0756c21f80d1a05cd2fe0b60b4e2371bd9a2a5cb8aa7896089e4b0d380859453\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://ab0af571ca80e7762b0abe01077739c17a45ac1d3f0d7dee8376bedd61674fd6\",\"dweb:/ipfs/QmXf8DGXucccKaC2jvQf9CtQGMs2SqpF8hdVr1po7mNTyc\"]},\"project:/contracts/lib/WeightedPoolNoAMFactory.sol\":{\"keccak256\":\"0xa3ef18dac3b5bddbff19daa569ac76a4fc7093af170eccd1e7a583bc81614377\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://76afd4f7104efe0b9f9779f4994352376d26169e2d13a5ea61526087cd608eda\",\"dweb:/ipfs/Qme5GwvUsnsjShaAPEUbjbpmosUSW71bSWMJK4JCmfVjNm\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"PERCENTAGE_DENOMINATOR\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"manager\",\"type\":\"address\"}],\"name\":\"addManager\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"poolAddress\",\"type\":\"address\"}],\"name\":\"calculateBalancing\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"contract IAsset[]\",\"name\":\"assets\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"minAmountsOut\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes\",\"name\":\"userData\",\"type\":\"bytes\"},{\"internalType\":\"bool\",\"name\":\"toInternalBalance\",\"type\":\"bool\"}],\"internalType\":\"struct IVault.ExitPoolRequest\",\"name\":\"newExitRequest\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"contract IAsset[]\",\"name\":\"assets\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"maxAmountsIn\",\"type\":\"uint256[]\"},{\"internalType\":\"bytes\",\"name\":\"userData\",\"type\":\"bytes\"},{\"internalType\":\"bool\",\"name\":\"fromInternalBalance\",\"type\":\"bool\"}],\"internalType\":\"struct IVault.JoinPoolRequest\",\"name\":\"newJoinRequest\",\"type\":\"tuple\"}],\"internalType\":\"struct PoolAdjustments\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"address[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"normalizedWeights\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"swapFeePercentage\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tolerance\",\"type\":\"uint256\"}],\"name\":\"createPool\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"depositTokens\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPoolsUnderManagement\",\"outputs\":[{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"}],\"name\":\"getTokenPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"isManager\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"manager\",\"type\":\"address\"}],\"name\":\"removeManager\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"feed\",\"type\":\"address\"}],\"name\":\"setTokenFeed\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"tokenFeeds\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"weightedPoolNoAMFactory\",\"outputs\":[{\"internalType\":\"contract WeightedPoolNoAMFactory\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"weightedPools\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"poolName\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"poolSymbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"tolerance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipientAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawFunds\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"addManager(address)\":{\"params\":{\"manager\":\"- Manager to add\"}},\"calculateBalancing(address)\":{\"params\":{\"poolAddress\":\"- Address of pool being worked on.\"}},\"constructor\":{\"params\":{\"supportedWeightedPoolFactory\":\"- Weighted pool contract address\",\"vaultAddress\":\"- Vault contract address\"}},\"createPool(string,string,address[],uint256[],uint256,uint256)\":{\"params\":{\"name\":\"- Pool name\",\"normalizedWeights\":\"- Normalized weights in the pool\",\"swapFeePercentage\":\"- Fee applied to swaps\",\"symbol\":\"- Symbol representing the pool\",\"tokens\":\"- Tokens in the pool\",\"tolerance\":\"- Percentage devience\"}},\"depositTokens(uint256,address)\":{\"details\":\"Transfers an amount of an ERC20 token\",\"params\":{\"amount\":\"- Amount to deposit.\",\"tokenAddress\":\"- Address of token to be deposited.\"}},\"getTokenPrice(address)\":{\"params\":{\"tokenAddress\":\"- Token to find a price for\"}},\"paused()\":{\"details\":\"Returns true if the contract is paused, and false otherwise.\"},\"removeManager(address)\":{\"params\":{\"manager\":\"- Manager to remove\"}},\"setTokenFeed(address,address)\":{\"params\":{\"feed\":\"- Oracle feed address\",\"token\":\"- Token address\"}},\"withdrawFunds(address,address,uint256)\":{\"details\":\"Transfers an amount of an ERC20 token\",\"params\":{\"amount\":\"- Amount to withdraw.\",\"recipientAddress\":\"- Address of wallet receiving funds.\",\"tokenAddress\":\"- Address of token to be withdrawn.\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addManager(address)\":{\"notice\":\"Add a new manager to the collection of managers\"},\"calculateBalancing(address)\":{\"notice\":\"Calculates a number of tokens to add or remove to rebalance pricing\"},\"constructor\":{\"notice\":\"Constructor for the controller base class\"},\"createPool(string,string,address[],uint256[],uint256,uint256)\":{\"notice\":\"Create a new weighted pool\"},\"depositTokens(uint256,address)\":{\"notice\":\"Deposit tokens to controller\"},\"getPoolsUnderManagement()\":{\"notice\":\"returns a list of pools under management by this controller\"},\"getTokenPrice(address)\":{\"notice\":\"returns the oracle supplied price for the requested token\"},\"pause()\":{\"notice\":\"Pause sensitive functions\"},\"removeManager(address)\":{\"notice\":\"Remove a manager to the collection of managers\"},\"setTokenFeed(address,address)\":{\"notice\":\"Set a new token oracle feed\"},\"unpause()\":{\"notice\":\"Unpause sensitive functions\"},\"withdrawFunds(address,address,uint256)\":{\"notice\":\"Withdraw tokens from controller\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/base/BaseWeightedController.sol\":\"BaseWeightedController\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/IAuthentication.sol\":{\"keccak256\":\"0x2d45ea7c14dc950acf5917377d9eb67d2b1d9f8b8d81fa60eeaad345cf257655\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://c387331bc3da670d45d54af96b067ea6fce6f3e0e5fac53b86fba73d5e9e874a\",\"dweb:/ipfs/QmYkY4d2TDA4BXpjz1RPQn8rdWvZVTi3pSBbiUSaPFKwtM\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/ISignaturesValidator.sol\":{\"keccak256\":\"0x571907ff5a68a10937b13e0828dd78bf9508f6e74eaafe7faf525453160c3627\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://afb73b213075954086eb7fa4eb4fac4962b779c8dd8c9c72902336d64c13210e\",\"dweb:/ipfs/QmNWFPnoPxo8ToVHrqXaQQF8RPYeNNhV2eZN9EwFS3iHpz\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/helpers/ITemporarilyPausable.sol\":{\"keccak256\":\"0x7d98e4751329dd9effc016cbc5acdf6399d3592407b9d3e28b38c10c621e56a3\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://a70c4c16829f31c75dd0a3987137ed1572a0343ff933dcdcfbef17d5d63307ae\",\"dweb:/ipfs/QmSGBafawe525NbvK8LVN1rsD2yJxaS83QoTNC84evwM2E\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/misc/IWETH.sol\":{\"keccak256\":\"0x41c26d92fde92c927352c447ff80e3b2216d076662f2b222b735e4c865a481dc\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://291a4b4f141ea187a61c3bb1ab16b370012e7e80ddc045671015ab2bfaf3c52c\",\"dweb:/ipfs/QmXvvVdfZC3pAqLst3bW9Fbj8mS9y1t1k7Zqr9BXuKdUHP\"]},\"@balancer-labs/interfaces/contracts/solidity-utils/openzeppelin/IERC20.sol\":{\"keccak256\":\"0x3c415102b8b53a3efe0209b7fa4fd052a48b35a1df99e1b37572597d25030249\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8aac0d9f5ff03e0edeb07e1c400b78edea5948acff7e113ba52fd32f86cad72d\",\"dweb:/ipfs/Qmbh6C53fCjvjoHEVZHNadpRq5KZJzfHpDeR3qYfPgKvZt\"]},\"@balancer-labs/interfaces/contracts/vault/IAsset.sol\":{\"keccak256\":\"0x780769a0bd8655d8a05a75b062b32a65b775b9deb923b2e8f42f57a0ee263a2d\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://b63d22729102954a657432d81b31764e6dbdc7216a6deb991499a73dc4ebbd7b\",\"dweb:/ipfs/QmWRyByegCCJr37yesLi7urtzNk2BBiDEjzbkPpV8TKy1X\"]},\"@balancer-labs/interfaces/contracts/vault/IAuthorizer.sol\":{\"keccak256\":\"0x1407e18b806b109e6a878697d2942eeb17bfc6cc601da725941658b90dc9dcc6\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e2695f5ae435de2de9fa9dc3b165f05b5bf876217aba0e4bcbd20943a23fc831\",\"dweb:/ipfs/QmYTmazrQQqjb4znByMiUUviqbXKTebrhpP8MDERZ5PLxz\"]},\"@balancer-labs/interfaces/contracts/vault/IFlashLoanRecipient.sol\":{\"keccak256\":\"0xadcf6e9f8677de9ec51a1bbb419da349b7c0c17af8b8cddad85ee0e80107036e\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://e9b30c1b15e3d0990a4a343fac14d2263c4bae4c3bdbeb38489103b4f6f66c39\",\"dweb:/ipfs/QmeQjBDidkLAoq4nknwPPPmunSTvQEZ9shaAhPiJAPmbk6\"]},\"@balancer-labs/interfaces/contracts/vault/IProtocolFeesCollector.sol\":{\"keccak256\":\"0xe18a4e04a4a4e828c81548cc50d9d8ab6461dafbe88929c0342fa2b6c08e0d76\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://7056ea1221db4eacc3e263ea8b9d741c11b1871f745169a39c6f926dab9c403f\",\"dweb:/ipfs/QmabGZff9x43RJUororFfmMzocB2UuZDDBMhhfELEeSJue\"]},\"@balancer-labs/interfaces/contracts/vault/IVault.sol\":{\"keccak256\":\"0x63425148b27356cee63cf843ef8918d3ff6cdd8d5c00371326bca8b4331b773c\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://6764d2a22a2e23de5235ceb0d06ebb9006f694c59547b8dc82dbc2e215d1f230\",\"dweb:/ipfs/Qmb6BQBgUQno6RAqPPR8qeC3smNEC3Bm6y8ZcWEWZKAfhF\"]},\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\":{\"keccak256\":\"0x6e6e4b0835904509406b070ee173b5bc8f677c19421b76be38aea3b1b3d30846\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3beaa37ee61e4ab615e250fbf01601ae481de843fd0ef55e6b44fd9d5fff8a7\",\"dweb:/ipfs/QmeZUVwd26LzK4Mfp8Zba5JbQNkZFfTzFu1A6FVMMZDg9c\"]},\"@openzeppelin/contracts/security/Pausable.sol\":{\"keccak256\":\"0x0849d93b16c9940beb286a7864ed02724b248b93e0d80ef6355af5ef15c64773\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4ddabb16009cd17eaca3143feadf450ac13e72919ebe2ca50e00f61cb78bc004\",\"dweb:/ipfs/QmSPwPxX7d6TTWakN5jy5wsaGkS1y9TW8fuhGSraMkLk2B\"]},\"@openzeppelin/contracts/security/ReentrancyGuard.sol\":{\"keccak256\":\"0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34\",\"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x58b21219689909c4f8339af00813760337f7e2e7f169a97fe49e2896dcfb3b9a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ef8e012e946dec20e59f2d4446f4b44bb098f3fa8bac103b1b5112fff777447b\",\"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ\"]},\"project:/contracts/base/BaseWeightedController.sol\":{\"keccak256\":\"0x1256568a8265d6158ed754874eb72d8995329f997b8139502eb90c9436b13d5b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3d915ee14217150c6ab715926b74becb51f8308a37d4b0692cfedf6e2ea94676\",\"dweb:/ipfs/QmSKPEaeyJpt72kGau46mTZkGjYm4k2iSRt97vproXQ1Wq\"]},\"project:/contracts/base/BaseWeightedUtils.sol\":{\"keccak256\":\"0xfb82b3e6ed5b3d799338f7874ec5b02a17feaa22d8d731f3a7aee7c1ccae2944\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ad8999e9f61f439ff227371627e440abd6802dd1dbf5eaae6e0d317a666a3f16\",\"dweb:/ipfs/QmRTVDUdBXxB6ftB1cd1n6KWjdMXvy274HgXP5tW5e216n\"]},\"project:/contracts/lib/SupportLib.sol\":{\"keccak256\":\"0x2bad74671912d307c81017c44ceba0dc63711e452c5f661d1452681076a18acf\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://8efe73eca7324c4584aa2fab8701dae20e4814aa1cbe7a6e3c9ef1f82c169e89\",\"dweb:/ipfs/QmZP554TjhcQca3h6mh78mG92c8haxKjzhxM8gehTBXTYM\"]},\"project:/contracts/lib/WeightedPool.sol\":{\"keccak256\":\"0x0756c21f80d1a05cd2fe0b60b4e2371bd9a2a5cb8aa7896089e4b0d380859453\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://ab0af571ca80e7762b0abe01077739c17a45ac1d3f0d7dee8376bedd61674fd6\",\"dweb:/ipfs/QmXf8DGXucccKaC2jvQf9CtQGMs2SqpF8hdVr1po7mNTyc\"]},\"project:/contracts/lib/WeightedPoolNoAMFactory.sol\":{\"keccak256\":\"0xa3ef18dac3b5bddbff19daa569ac76a4fc7093af170eccd1e7a583bc81614377\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://76afd4f7104efe0b9f9779f4994352376d26169e2d13a5ea61526087cd608eda\",\"dweb:/ipfs/Qme5GwvUsnsjShaAPEUbjbpmosUSW71bSWMJK4JCmfVjNm\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -313,78 +386,84 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\npragma experimental ABIEncoderV2;\n\nimport \"../lib/WeightedPoolNoAMFactory.sol\";\nimport \"./BaseWeightedUtils.sol\";\n\nabstract contract BaseWeightedController is BaseWeightedUtils {\n    WeightedPoolNoAMFactory public immutable weightedPoolNoAMFactory;\n    address [] private _poolsUnderManagement;\n\n    /**\n     * @notice Constructor for the controller base class\n     *\n     * @param vaultAddress - Vault contract address\n     * @param supportedWeightedPoolFactory - Weighted pool contract address\n     */\n    constructor(address vaultAddress, address supportedWeightedPoolFactory)\n        BaseWeightedUtils(vaultAddress) {\n            manager = msg.sender;\n            weightedPoolNoAMFactory = WeightedPoolNoAMFactory(supportedWeightedPoolFactory);\n    }\n\n    /**\n     * @notice Create a new weighted pool\n     *\n     * @param name - Pool name\n     * @param symbol - Symbol representing the pool\n     * @param tokens - Tokens in the pool\n     * @param normalizedWeights - Normalized weights in the pool\n     * @param assetManagers - Asset manager for the pool\n     * @param swapFeePercentage - Fee applied to swaps\n     * @param isSwapEnabledOnStart - Whether swaps are enabled straight away\n     * @param isMustAllowlistLPs - List of LP's allowed in the pool\n     * @param managementAumFeePercentage - Management Aum fee to apply\n     * @param aumFeeId - Aum Fee Id\n     * @param tolerance - Percentage devience \n     * @param salt - Salt used towards calculating pool address\n     */\n    function createPool(\n        string memory name,\n        string memory symbol,\n        address [] memory tokens,\n        uint256 [] memory normalizedWeights,\n        address [] memory assetManagers,\n        uint256 swapFeePercentage,\n        bool isSwapEnabledOnStart,\n        bool isMustAllowlistLPs,\n        uint256 managementAumFeePercentage,\n        uint256 aumFeeId,\n        uint256 tolerance,\n        bytes32 salt\n    ) public restricted nonReentrant {\n        address poolAddress = weightedPoolNoAMFactory.create(\n            name,\n            symbol,\n            tokens,\n            normalizedWeights,\n            swapFeePercentage,\n            address(this)\n        );\n        _poolsUnderManagement.push(poolAddress);\n\n        weightedPools [poolAddress].poolName = name;\n        weightedPools [poolAddress].poolSymbol = symbol;\n        weightedPools [poolAddress].tolerance = tolerance;\n        weightedPools [poolAddress].poolTokens = tokens;\n    }\n\n    /**\n     * @notice returns a list of pools under management by this controller\n     *\n     */\n    function getPoolsUnderManagement() public view returns (address [] memory) {\n        return _poolsUnderManagement;\n    }\n\n    /**\n     * @notice Returns the pools Id\n     *\n     * @param poolAddress - Pool to get the Id for\n     */\n    function getPoolId(address poolAddress) public view returns (bytes32) {\n        return IWeightedPool(poolAddress).getPoolId();\n    }\n\n    /**\n     * @notice Withdraw tokens from controller\n     * @dev Transfers an amount of an ERC20 token\n     *\n     * @param recipientAddress - Address of wallet receiving funds.\n     * @param tokenAddress - Address of token to be withdrawn.\n     * @param amount - Amount to withdraw.\n     */\n    function withdrawFunds(\n        address recipientAddress,\n        address tokenAddress,\n        uint256 amount\n    ) public restricted nonReentrant {\n        IERC20 _token = IERC20(tokenAddress);\n        _token.transferFrom(address(this), recipientAddress, amount);\n    }\n\n    /**\n     * @notice Deposit tokens to controller\n     * @dev Transfers an amount of an ERC20 token\n     *\n     * @param amount - Amount to deposit.\n     * @param tokenAddress - Address of token to be deposited.\n     */\n    function depositTokens(\n        uint amount,\n        address tokenAddress\n    ) public restricted nonReentrant checkAllowance(amount, tokenAddress) {\n        IERC20 token = IERC20(tokenAddress);\n        token.transferFrom(msg.sender, address(this), amount);\n    }\n}\n",
+  "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"../lib/WeightedPoolNoAMFactory.sol\";\nimport \"./BaseWeightedUtils.sol\";\n\nabstract contract BaseWeightedController is BaseWeightedUtils {\n    WeightedPoolNoAMFactory public immutable weightedPoolNoAMFactory;\n    address [] private _poolsUnderManagement;\n\n    /**\n     * @notice Constructor for the controller base class\n     *\n     * @param vaultAddress - Vault contract address\n     * @param supportedWeightedPoolFactory - Weighted pool contract address\n     */\n    constructor(address vaultAddress, address supportedWeightedPoolFactory)\n        BaseWeightedUtils(vaultAddress) {\n            weightedPoolNoAMFactory = WeightedPoolNoAMFactory(supportedWeightedPoolFactory);\n    }\n\n    /**\n     * @notice Create a new weighted pool\n     *\n     * @param name - Pool name\n     * @param symbol - Symbol representing the pool\n     * @param tokens - Tokens in the pool\n     * @param normalizedWeights - Normalized weights in the pool\n     * @param swapFeePercentage - Fee applied to swaps\n     * @param tolerance - Percentage devience\n     */\n    function createPool(\n        string memory name,\n        string memory symbol,\n        address [] memory tokens,\n        uint256 [] memory normalizedWeights,\n        uint256 swapFeePercentage,\n        uint256 tolerance\n    ) external onlyManager whenNotPaused nonReentrant {\n        address poolAddress = weightedPoolNoAMFactory.create(\n            name,\n            symbol,\n            tokens,\n            normalizedWeights,\n            swapFeePercentage,\n            address(this)\n        );\n        _poolsUnderManagement.push(poolAddress);\n\n        weightedPools [poolAddress].poolName = name;\n        weightedPools [poolAddress].poolSymbol = symbol;\n        weightedPools [poolAddress].tolerance = tolerance;\n        weightedPools [poolAddress].poolTokens = tokens;\n    }\n\n    /**\n     * @notice returns a list of pools under management by this controller\n     *\n     */\n    function getPoolsUnderManagement() external view returns (address [] memory) {\n        return _poolsUnderManagement;\n    }\n\n    /**\n     * @notice Returns the pools Id\n     *\n     * @param poolAddress - Pool to get the Id for\n     */\n    function getPoolId(address poolAddress) private view returns (bytes32) {\n        return IWeightedPool(poolAddress).getPoolId();\n    }\n\n    /**\n     * @notice Withdraw tokens from controller\n     * @dev Transfers an amount of an ERC20 token\n     *\n     * @param recipientAddress - Address of wallet receiving funds.\n     * @param tokenAddress - Address of token to be withdrawn.\n     * @param amount - Amount to withdraw.\n     */\n    function withdrawFunds(\n        address recipientAddress,\n        address tokenAddress,\n        uint256 amount\n    ) public onlyManager nonReentrant {\n        IERC20 _token = IERC20(tokenAddress);\n        _token.transfer(recipientAddress, amount);\n    }\n\n    /**\n     * @notice Deposit tokens to controller\n     * @dev Transfers an amount of an ERC20 token\n     *\n     * @param amount - Amount to deposit.\n     * @param tokenAddress - Address of token to be deposited.\n     */\n    function depositTokens(\n        uint amount,\n        address tokenAddress\n    ) public onlyManager nonReentrant checkAllowance(amount, tokenAddress) {\n        IERC20 token = IERC20(tokenAddress);\n        token.transferFrom(msg.sender, address(this), amount);\n    }\n}\n",
   "sourcePath": "/home/eagle/Source/BalancerController/Balancer.Controller/contracts/base/BaseWeightedController.sol",
   "ast": {
     "absolutePath": "project:/contracts/base/BaseWeightedController.sol",
     "exportedSymbols": {
       "AggregatorV3Interface": [
-        807
+        1245
       ],
       "BaseWeightedController": [
-        1814
+        4473
       ],
       "BaseWeightedUtils": [
-        2545
+        5089
       ],
-      "CurveValues": [
-        1850
+      "Context": [
+        1440
       ],
       "IAsset": [
-        144
+        430
       ],
       "IAuthentication": [
-        10
+        296
       ],
       "IAuthorizer": [
-        159
+        445
       ],
       "IERC20": [
-        140
+        426
       ],
       "IFlashLoanRecipient": [
-        179
+        589
       ],
       "IProtocolFeesCollector": [
-        248
+        686
       ],
       "ISignaturesValidator": [
-        28
+        314
       ],
       "ITemporarilyPausable": [
-        47
+        333
       ],
       "IVault": [
-        761
+        1199
       ],
       "IWETH": [
-        62
+        348
       ],
       "IWeightedPool": [
-        3145
+        5817
+      ],
+      "Pausable": [
+        1353
       ],
       "PoolAdjustments": [
-        1840
+        4501
       ],
       "PoolSettings": [
-        1833
+        4494
       ],
       "ReentrancyGuard": [
-        872
+        1418
+      ],
+      "SafeMath": [
+        1752
       ],
       "SupportLib": [
-        2790
+        5462
       ],
       "WeightedPoolNoAMFactory": [
-        3200
+        5872
       ]
     },
-    "id": 1815,
+    "id": 4474,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1600,
+        "id": 4280,
         "literals": [
           "solidity",
           "^",
@@ -392,36 +471,27 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:23:14"
-      },
-      {
-        "id": 1601,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "57:33:14"
+        "src": "33:23:24"
       },
       {
         "absolutePath": "project:/contracts/lib/WeightedPoolNoAMFactory.sol",
         "file": "../lib/WeightedPoolNoAMFactory.sol",
-        "id": 1602,
+        "id": 4281,
         "nodeType": "ImportDirective",
-        "scope": 1815,
-        "sourceUnit": 3201,
-        "src": "92:44:14",
+        "scope": 4474,
+        "sourceUnit": 5873,
+        "src": "58:44:24",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
         "absolutePath": "project:/contracts/base/BaseWeightedUtils.sol",
         "file": "./BaseWeightedUtils.sol",
-        "id": 1603,
+        "id": 4282,
         "nodeType": "ImportDirective",
-        "scope": 1815,
-        "sourceUnit": 2546,
-        "src": "137:33:14",
+        "scope": 4474,
+        "sourceUnit": 5090,
+        "src": "103:33:24",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -430,28 +500,32 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1604,
+              "id": 4283,
               "name": "BaseWeightedUtils",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2545,
-              "src": "216:17:14"
+              "referencedDeclaration": 5089,
+              "src": "182:17:24"
             },
-            "id": 1605,
+            "id": 4284,
             "nodeType": "InheritanceSpecifier",
-            "src": "216:17:14"
+            "src": "182:17:24"
           }
         ],
         "contractDependencies": [
-          872,
-          2545
+          1353,
+          1418,
+          1440,
+          5089
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 1814,
+        "id": 4473,
         "linearizedBaseContracts": [
-          1814,
-          2545,
-          872
+          4473,
+          5089,
+          1353,
+          1440,
+          1418
         ],
         "name": "BaseWeightedController",
         "nodeType": "ContractDefinition",
@@ -459,32 +533,32 @@
           {
             "constant": false,
             "functionSelector": "8c0a2e83",
-            "id": 1608,
+            "id": 4287,
             "mutability": "immutable",
             "name": "weightedPoolNoAMFactory",
             "nodeType": "VariableDeclaration",
-            "scope": 1814,
-            "src": "240:64:14",
+            "scope": 4473,
+            "src": "206:64:24",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+              "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
               "typeString": "contract WeightedPoolNoAMFactory"
             },
             "typeName": {
-              "id": 1607,
+              "id": 4286,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 1606,
+                "id": 4285,
                 "name": "WeightedPoolNoAMFactory",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 3200,
-                "src": "240:23:14"
+                "referencedDeclaration": 5872,
+                "src": "206:23:24"
               },
-              "referencedDeclaration": 3200,
-              "src": "240:23:14",
+              "referencedDeclaration": 5872,
+              "src": "206:23:24",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+                "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
                 "typeString": "contract WeightedPoolNoAMFactory"
               }
             },
@@ -492,12 +566,12 @@
           },
           {
             "constant": false,
-            "id": 1611,
+            "id": 4290,
             "mutability": "mutable",
             "name": "_poolsUnderManagement",
             "nodeType": "VariableDeclaration",
-            "scope": 1814,
-            "src": "310:40:14",
+            "scope": 4473,
+            "src": "276:40:24",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -506,19 +580,19 @@
             },
             "typeName": {
               "baseType": {
-                "id": 1609,
+                "id": 4288,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "310:7:14",
+                "src": "276:7:24",
                 "stateMutability": "nonpayable",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
-              "id": 1610,
+              "id": 4289,
               "nodeType": "ArrayTypeName",
-              "src": "310:10:14",
+              "src": "276:10:24",
               "typeDescriptions": {
                 "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                 "typeString": "address[]"
@@ -528,83 +602,26 @@
           },
           {
             "body": {
-              "id": 1633,
+              "id": 4307,
               "nodeType": "Block",
-              "src": "677:134:14",
+              "src": "643:100:24",
               "statements": [
                 {
                   "expression": {
-                    "id": 1625,
+                    "id": 4305,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 1622,
-                      "name": "manager",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 1854,
-                      "src": "691:7:14",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "expression": {
-                        "id": 1623,
-                        "name": "msg",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 4294967281,
-                        "src": "701:3:14",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_magic_message",
-                          "typeString": "msg"
-                        }
-                      },
-                      "id": 1624,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "lValueRequested": false,
-                      "memberName": "sender",
-                      "nodeType": "MemberAccess",
-                      "src": "701:10:14",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "src": "691:20:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "id": 1626,
-                  "nodeType": "ExpressionStatement",
-                  "src": "691:20:14"
-                },
-                {
-                  "expression": {
-                    "id": 1631,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "id": 1627,
+                      "id": 4301,
                       "name": "weightedPoolNoAMFactory",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1608,
-                      "src": "725:23:14",
+                      "referencedDeclaration": 4287,
+                      "src": "657:23:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+                        "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
                         "typeString": "contract WeightedPoolNoAMFactory"
                       }
                     },
@@ -613,12 +630,12 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 1629,
+                          "id": 4303,
                           "name": "supportedWeightedPoolFactory",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1616,
-                          "src": "775:28:14",
+                          "referencedDeclaration": 4295,
+                          "src": "707:28:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -632,18 +649,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 1628,
+                        "id": 4302,
                         "name": "WeightedPoolNoAMFactory",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 3200,
-                        "src": "751:23:14",
+                        "referencedDeclaration": 5872,
+                        "src": "683:23:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_WeightedPoolNoAMFactory_$3200_$",
+                          "typeIdentifier": "t_type$_t_contract$_WeightedPoolNoAMFactory_$5872_$",
                           "typeString": "type(contract WeightedPoolNoAMFactory)"
                         }
                       },
-                      "id": 1630,
+                      "id": 4304,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -651,76 +668,76 @@
                       "lValueRequested": false,
                       "names": [],
                       "nodeType": "FunctionCall",
-                      "src": "751:53:14",
+                      "src": "683:53:24",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+                        "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
                         "typeString": "contract WeightedPoolNoAMFactory"
                       }
                     },
-                    "src": "725:79:14",
+                    "src": "657:79:24",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+                      "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
                       "typeString": "contract WeightedPoolNoAMFactory"
                     }
                   },
-                  "id": 1632,
+                  "id": 4306,
                   "nodeType": "ExpressionStatement",
-                  "src": "725:79:14"
+                  "src": "657:79:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1612,
+              "id": 4291,
               "nodeType": "StructuredDocumentation",
-              "src": "357:203:14",
+              "src": "323:203:24",
               "text": " @notice Constructor for the controller base class\n @param vaultAddress - Vault contract address\n @param supportedWeightedPoolFactory - Weighted pool contract address"
             },
-            "id": 1634,
+            "id": 4308,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [
               {
                 "arguments": [
                   {
-                    "id": 1619,
+                    "id": 4298,
                     "name": "vaultAddress",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1614,
-                    "src": "663:12:14",
+                    "referencedDeclaration": 4293,
+                    "src": "629:12:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   }
                 ],
-                "id": 1620,
+                "id": 4299,
                 "modifierName": {
-                  "id": 1618,
+                  "id": 4297,
                   "name": "BaseWeightedUtils",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2545,
-                  "src": "645:17:14"
+                  "referencedDeclaration": 5089,
+                  "src": "611:17:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "645:31:14"
+                "src": "611:31:24"
               }
             ],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1617,
+              "id": 4296,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1614,
+                  "id": 4293,
                   "mutability": "mutable",
                   "name": "vaultAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
-                  "src": "577:20:14",
+                  "scope": 4308,
+                  "src": "543:20:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -728,10 +745,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1613,
+                    "id": 4292,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "577:7:14",
+                    "src": "543:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -742,12 +759,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1616,
+                  "id": 4295,
                   "mutability": "mutable",
                   "name": "supportedWeightedPoolFactory",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1634,
-                  "src": "599:36:14",
+                  "scope": 4308,
+                  "src": "565:36:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -755,10 +772,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1615,
+                    "id": 4294,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "599:7:14",
+                    "src": "565:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -768,39 +785,39 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "576:60:14"
+              "src": "542:60:24"
             },
             "returnParameters": {
-              "id": 1621,
+              "id": 4300,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "677:0:14"
+              "src": "643:0:24"
             },
-            "scope": 1814,
-            "src": "565:246:14",
+            "scope": 4473,
+            "src": "531:212:24",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 1718,
+              "id": 4381,
               "nodeType": "Block",
-              "src": "2004:502:14",
+              "src": "1378:502:24",
               "statements": [
                 {
                   "assignments": [
-                    1670
+                    4333
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1670,
+                      "id": 4333,
                       "mutability": "mutable",
                       "name": "poolAddress",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1718,
-                      "src": "2014:19:14",
+                      "scope": 4381,
+                      "src": "1388:19:24",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -808,10 +825,10 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 1669,
+                        "id": 4332,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
-                        "src": "2014:7:14",
+                        "src": "1388:7:24",
                         "stateMutability": "nonpayable",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -821,64 +838,64 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1683,
+                  "id": 4346,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 1673,
+                        "id": 4336,
                         "name": "name",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1637,
-                        "src": "2080:4:14",
+                        "referencedDeclaration": 4311,
+                        "src": "1454:4:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
                         }
                       },
                       {
-                        "id": 1674,
+                        "id": 4337,
                         "name": "symbol",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1639,
-                        "src": "2098:6:14",
+                        "referencedDeclaration": 4313,
+                        "src": "1472:6:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
                         }
                       },
                       {
-                        "id": 1675,
+                        "id": 4338,
                         "name": "tokens",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1642,
-                        "src": "2118:6:14",
+                        "referencedDeclaration": 4316,
+                        "src": "1492:6:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                           "typeString": "address[] memory"
                         }
                       },
                       {
-                        "id": 1676,
+                        "id": 4339,
                         "name": "normalizedWeights",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1645,
-                        "src": "2138:17:14",
+                        "referencedDeclaration": 4319,
+                        "src": "1512:17:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
                           "typeString": "uint256[] memory"
                         }
                       },
                       {
-                        "id": 1677,
+                        "id": 4340,
                         "name": "swapFeePercentage",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1650,
-                        "src": "2169:17:14",
+                        "referencedDeclaration": 4321,
+                        "src": "1543:17:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -887,14 +904,14 @@
                       {
                         "arguments": [
                           {
-                            "id": 1680,
+                            "id": 4343,
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967268,
-                            "src": "2208:4:14",
+                            "src": "1582:4:24",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
+                              "typeIdentifier": "t_contract$_BaseWeightedController_$4473",
                               "typeString": "contract BaseWeightedController"
                             }
                           }
@@ -902,30 +919,30 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
+                              "typeIdentifier": "t_contract$_BaseWeightedController_$4473",
                               "typeString": "contract BaseWeightedController"
                             }
                           ],
-                          "id": 1679,
+                          "id": 4342,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-                          "src": "2200:7:14",
+                          "src": "1574:7:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": {
-                            "id": 1678,
+                            "id": 4341,
                             "name": "address",
                             "nodeType": "ElementaryTypeName",
-                            "src": "2200:7:14",
+                            "src": "1574:7:24",
                             "typeDescriptions": {}
                           }
                         },
-                        "id": 1681,
+                        "id": 4344,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -933,7 +950,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "2200:13:14",
+                        "src": "1574:13:24",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -969,32 +986,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1671,
+                        "id": 4334,
                         "name": "weightedPoolNoAMFactory",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1608,
-                        "src": "2036:23:14",
+                        "referencedDeclaration": 4287,
+                        "src": "1410:23:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$3200",
+                          "typeIdentifier": "t_contract$_WeightedPoolNoAMFactory_$5872",
                           "typeString": "contract WeightedPoolNoAMFactory"
                         }
                       },
-                      "id": 1672,
+                      "id": 4335,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "create",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3168,
-                      "src": "2036:30:14",
+                      "referencedDeclaration": 5840,
+                      "src": "1410:30:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_array$_t_address_$dyn_memory_ptr_$_t_array$_t_uint256_$dyn_memory_ptr_$_t_uint256_$_t_address_$returns$_t_address_$",
                         "typeString": "function (string memory,string memory,address[] memory,uint256[] memory,uint256,address) external returns (address)"
                       }
                     },
-                    "id": 1682,
+                    "id": 4345,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1002,7 +1019,7 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2036:187:14",
+                    "src": "1410:187:24",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1010,18 +1027,18 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "2014:209:14"
+                  "src": "1388:209:24"
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1687,
+                        "id": 4350,
                         "name": "poolAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1670,
-                        "src": "2260:11:14",
+                        "referencedDeclaration": 4333,
+                        "src": "1634:11:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -1036,31 +1053,31 @@
                         }
                       ],
                       "expression": {
-                        "id": 1684,
+                        "id": 4347,
                         "name": "_poolsUnderManagement",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1611,
-                        "src": "2233:21:14",
+                        "referencedDeclaration": 4290,
+                        "src": "1607:21:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_array$_t_address_$dyn_storage",
                           "typeString": "address[] storage ref"
                         }
                       },
-                      "id": 1686,
+                      "id": 4349,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "push",
                       "nodeType": "MemberAccess",
-                      "src": "2233:26:14",
+                      "src": "1607:26:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_arraypush_nonpayable$_t_address_$returns$__$",
                         "typeString": "function (address)"
                       }
                     },
-                    "id": 1688,
+                    "id": 4351,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1068,20 +1085,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2233:39:14",
+                    "src": "1607:39:24",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1689,
+                  "id": 4352,
                   "nodeType": "ExpressionStatement",
-                  "src": "2233:39:14"
+                  "src": "1607:39:24"
                 },
                 {
                   "expression": {
-                    "id": 1695,
+                    "id": 4358,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1089,25 +1106,25 @@
                     "leftHandSide": {
                       "expression": {
                         "baseExpression": {
-                          "id": 1690,
+                          "id": 4353,
                           "name": "weightedPools",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1859,
-                          "src": "2283:13:14",
+                          "referencedDeclaration": 4516,
+                          "src": "1657:13:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$1833_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$4494_storage_$",
                             "typeString": "mapping(address => struct PoolSettings storage ref)"
                           }
                         },
-                        "id": 1692,
+                        "id": 4355,
                         "indexExpression": {
-                          "id": 1691,
+                          "id": 4354,
                           "name": "poolAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1670,
-                          "src": "2298:11:14",
+                          "referencedDeclaration": 4333,
+                          "src": "1672:11:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1118,21 +1135,21 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "2283:27:14",
+                        "src": "1657:27:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_PoolSettings_$1833_storage",
+                          "typeIdentifier": "t_struct$_PoolSettings_$4494_storage",
                           "typeString": "struct PoolSettings storage ref"
                         }
                       },
-                      "id": 1693,
+                      "id": 4356,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "poolName",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1825,
-                      "src": "2283:36:14",
+                      "referencedDeclaration": 4486,
+                      "src": "1657:36:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
                         "typeString": "string storage ref"
@@ -1141,30 +1158,30 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 1694,
+                      "id": 4357,
                       "name": "name",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1637,
-                      "src": "2322:4:14",
+                      "referencedDeclaration": 4311,
+                      "src": "1696:4:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
                         "typeString": "string memory"
                       }
                     },
-                    "src": "2283:43:14",
+                    "src": "1657:43:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1696,
+                  "id": 4359,
                   "nodeType": "ExpressionStatement",
-                  "src": "2283:43:14"
+                  "src": "1657:43:24"
                 },
                 {
                   "expression": {
-                    "id": 1702,
+                    "id": 4365,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1172,25 +1189,25 @@
                     "leftHandSide": {
                       "expression": {
                         "baseExpression": {
-                          "id": 1697,
+                          "id": 4360,
                           "name": "weightedPools",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1859,
-                          "src": "2336:13:14",
+                          "referencedDeclaration": 4516,
+                          "src": "1710:13:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$1833_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$4494_storage_$",
                             "typeString": "mapping(address => struct PoolSettings storage ref)"
                           }
                         },
-                        "id": 1699,
+                        "id": 4362,
                         "indexExpression": {
-                          "id": 1698,
+                          "id": 4361,
                           "name": "poolAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1670,
-                          "src": "2351:11:14",
+                          "referencedDeclaration": 4333,
+                          "src": "1725:11:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1201,21 +1218,21 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "2336:27:14",
+                        "src": "1710:27:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_PoolSettings_$1833_storage",
+                          "typeIdentifier": "t_struct$_PoolSettings_$4494_storage",
                           "typeString": "struct PoolSettings storage ref"
                         }
                       },
-                      "id": 1700,
+                      "id": 4363,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "poolSymbol",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1827,
-                      "src": "2336:38:14",
+                      "referencedDeclaration": 4488,
+                      "src": "1710:38:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
                         "typeString": "string storage ref"
@@ -1224,30 +1241,30 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 1701,
+                      "id": 4364,
                       "name": "symbol",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1639,
-                      "src": "2377:6:14",
+                      "referencedDeclaration": 4313,
+                      "src": "1751:6:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
                         "typeString": "string memory"
                       }
                     },
-                    "src": "2336:47:14",
+                    "src": "1710:47:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1703,
+                  "id": 4366,
                   "nodeType": "ExpressionStatement",
-                  "src": "2336:47:14"
+                  "src": "1710:47:24"
                 },
                 {
                   "expression": {
-                    "id": 1709,
+                    "id": 4372,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1255,25 +1272,25 @@
                     "leftHandSide": {
                       "expression": {
                         "baseExpression": {
-                          "id": 1704,
+                          "id": 4367,
                           "name": "weightedPools",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1859,
-                          "src": "2393:13:14",
+                          "referencedDeclaration": 4516,
+                          "src": "1767:13:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$1833_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$4494_storage_$",
                             "typeString": "mapping(address => struct PoolSettings storage ref)"
                           }
                         },
-                        "id": 1706,
+                        "id": 4369,
                         "indexExpression": {
-                          "id": 1705,
+                          "id": 4368,
                           "name": "poolAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1670,
-                          "src": "2408:11:14",
+                          "referencedDeclaration": 4333,
+                          "src": "1782:11:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1284,21 +1301,21 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "2393:27:14",
+                        "src": "1767:27:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_PoolSettings_$1833_storage",
+                          "typeIdentifier": "t_struct$_PoolSettings_$4494_storage",
                           "typeString": "struct PoolSettings storage ref"
                         }
                       },
-                      "id": 1707,
+                      "id": 4370,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "tolerance",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1829,
-                      "src": "2393:37:14",
+                      "referencedDeclaration": 4490,
+                      "src": "1767:37:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -1307,30 +1324,30 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 1708,
+                      "id": 4371,
                       "name": "tolerance",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1660,
-                      "src": "2433:9:14",
+                      "referencedDeclaration": 4323,
+                      "src": "1807:9:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "2393:49:14",
+                    "src": "1767:49:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 1710,
+                  "id": 4373,
                   "nodeType": "ExpressionStatement",
-                  "src": "2393:49:14"
+                  "src": "1767:49:24"
                 },
                 {
                   "expression": {
-                    "id": 1716,
+                    "id": 4379,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1338,25 +1355,25 @@
                     "leftHandSide": {
                       "expression": {
                         "baseExpression": {
-                          "id": 1711,
+                          "id": 4374,
                           "name": "weightedPools",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1859,
-                          "src": "2452:13:14",
+                          "referencedDeclaration": 4516,
+                          "src": "1826:13:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$1833_storage_$",
+                            "typeIdentifier": "t_mapping$_t_address_$_t_struct$_PoolSettings_$4494_storage_$",
                             "typeString": "mapping(address => struct PoolSettings storage ref)"
                           }
                         },
-                        "id": 1713,
+                        "id": 4376,
                         "indexExpression": {
-                          "id": 1712,
+                          "id": 4375,
                           "name": "poolAddress",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1670,
-                          "src": "2467:11:14",
+                          "referencedDeclaration": 4333,
+                          "src": "1841:11:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -1367,21 +1384,21 @@
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "IndexAccess",
-                        "src": "2452:27:14",
+                        "src": "1826:27:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_struct$_PoolSettings_$1833_storage",
+                          "typeIdentifier": "t_struct$_PoolSettings_$4494_storage",
                           "typeString": "struct PoolSettings storage ref"
                         }
                       },
-                      "id": 1714,
+                      "id": 4377,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
                       "lValueRequested": true,
                       "memberName": "poolTokens",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1832,
-                      "src": "2452:38:14",
+                      "referencedDeclaration": 4493,
+                      "src": "1826:38:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_array$_t_address_$dyn_storage",
                         "typeString": "address[] storage ref"
@@ -1390,79 +1407,91 @@
                     "nodeType": "Assignment",
                     "operator": "=",
                     "rightHandSide": {
-                      "id": 1715,
+                      "id": 4378,
                       "name": "tokens",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1642,
-                      "src": "2493:6:14",
+                      "referencedDeclaration": 4316,
+                      "src": "1867:6:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
                         "typeString": "address[] memory"
                       }
                     },
-                    "src": "2452:47:14",
+                    "src": "1826:47:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage",
                       "typeString": "address[] storage ref"
                     }
                   },
-                  "id": 1717,
+                  "id": 4380,
                   "nodeType": "ExpressionStatement",
-                  "src": "2452:47:14"
+                  "src": "1826:47:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1635,
+              "id": 4309,
               "nodeType": "StructuredDocumentation",
-              "src": "817:725:14",
-              "text": " @notice Create a new weighted pool\n @param name - Pool name\n @param symbol - Symbol representing the pool\n @param tokens - Tokens in the pool\n @param normalizedWeights - Normalized weights in the pool\n @param assetManagers - Asset manager for the pool\n @param swapFeePercentage - Fee applied to swaps\n @param isSwapEnabledOnStart - Whether swaps are enabled straight away\n @param isMustAllowlistLPs - List of LP's allowed in the pool\n @param managementAumFeePercentage - Management Aum fee to apply\n @param aumFeeId - Aum Fee Id\n @param tolerance - Percentage devience \n @param salt - Salt used towards calculating pool address"
+              "src": "749:351:24",
+              "text": " @notice Create a new weighted pool\n @param name - Pool name\n @param symbol - Symbol representing the pool\n @param tokens - Tokens in the pool\n @param normalizedWeights - Normalized weights in the pool\n @param swapFeePercentage - Fee applied to swaps\n @param tolerance - Percentage devience"
             },
-            "functionSelector": "41bfc4bc",
-            "id": 1719,
+            "functionSelector": "cb3e65f8",
+            "id": 4382,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1665,
+                "id": 4326,
                 "modifierName": {
-                  "id": 1664,
-                  "name": "restricted",
+                  "id": 4325,
+                  "name": "onlyManager",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2513,
-                  "src": "1980:10:14"
+                  "referencedDeclaration": 5057,
+                  "src": "1339:11:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "1980:10:14"
+                "src": "1339:11:24"
               },
               {
-                "id": 1667,
+                "id": 4328,
                 "modifierName": {
-                  "id": 1666,
-                  "name": "nonReentrant",
+                  "id": 4327,
+                  "name": "whenNotPaused",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 837,
-                  "src": "1991:12:14"
+                  "referencedDeclaration": 1280,
+                  "src": "1351:13:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "1991:12:14"
+                "src": "1351:13:24"
+              },
+              {
+                "id": 4330,
+                "modifierName": {
+                  "id": 4329,
+                  "name": "nonReentrant",
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 1383,
+                  "src": "1365:12:24"
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1365:12:24"
               }
             ],
             "name": "createPool",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1663,
+              "id": 4324,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1637,
+                  "id": 4311,
                   "mutability": "mutable",
                   "name": "name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1576:18:14",
+                  "scope": 4382,
+                  "src": "1134:18:24",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1470,10 +1499,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1636,
+                    "id": 4310,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1576:6:14",
+                    "src": "1134:6:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1483,12 +1512,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1639,
+                  "id": 4313,
                   "mutability": "mutable",
                   "name": "symbol",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1604:20:14",
+                  "scope": 4382,
+                  "src": "1162:20:24",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1496,10 +1525,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1638,
+                    "id": 4312,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1604:6:14",
+                    "src": "1162:6:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1509,12 +1538,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1642,
+                  "id": 4316,
                   "mutability": "mutable",
                   "name": "tokens",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1634:24:14",
+                  "scope": 4382,
+                  "src": "1192:24:24",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1523,19 +1552,19 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 1640,
+                      "id": 4314,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
-                      "src": "1634:7:14",
+                      "src": "1192:7:24",
                       "stateMutability": "nonpayable",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "id": 1641,
+                    "id": 4315,
                     "nodeType": "ArrayTypeName",
-                    "src": "1634:10:14",
+                    "src": "1192:10:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                       "typeString": "address[]"
@@ -1545,12 +1574,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1645,
+                  "id": 4319,
                   "mutability": "mutable",
                   "name": "normalizedWeights",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1668:35:14",
+                  "scope": 4382,
+                  "src": "1226:35:24",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1559,18 +1588,18 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 1643,
+                      "id": 4317,
                       "name": "uint256",
                       "nodeType": "ElementaryTypeName",
-                      "src": "1668:7:14",
+                      "src": "1226:7:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "id": 1644,
+                    "id": 4318,
                     "nodeType": "ArrayTypeName",
-                    "src": "1668:10:14",
+                    "src": "1226:10:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                       "typeString": "uint256[]"
@@ -1580,48 +1609,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1648,
-                  "mutability": "mutable",
-                  "name": "assetManagers",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1713:31:14",
-                  "stateVariable": false,
-                  "storageLocation": "memory",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
-                    "typeString": "address[]"
-                  },
-                  "typeName": {
-                    "baseType": {
-                      "id": 1646,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1713:7:14",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "id": 1647,
-                    "nodeType": "ArrayTypeName",
-                    "src": "1713:10:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
-                      "typeString": "address[]"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1650,
+                  "id": 4321,
                   "mutability": "mutable",
                   "name": "swapFeePercentage",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1754:25:14",
+                  "scope": 4382,
+                  "src": "1271:25:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1629,10 +1622,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1649,
+                    "id": 4320,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1754:7:14",
+                    "src": "1271:7:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -1642,116 +1635,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1652,
-                  "mutability": "mutable",
-                  "name": "isSwapEnabledOnStart",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1789:25:14",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 1651,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1789:4:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1654,
-                  "mutability": "mutable",
-                  "name": "isMustAllowlistLPs",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1824:23:14",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 1653,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1824:4:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1656,
-                  "mutability": "mutable",
-                  "name": "managementAumFeePercentage",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1857:34:14",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 1655,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1857:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1658,
-                  "mutability": "mutable",
-                  "name": "aumFeeId",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1901:16:14",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 1657,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1901:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1660,
+                  "id": 4323,
                   "mutability": "mutable",
                   "name": "tolerance",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1927:17:14",
+                  "scope": 4382,
+                  "src": "1306:17:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1759,115 +1648,89 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1659,
+                    "id": 4322,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1927:7:14",
+                    "src": "1306:7:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
-                    }
-                  },
-                  "visibility": "internal"
-                },
-                {
-                  "constant": false,
-                  "id": 1662,
-                  "mutability": "mutable",
-                  "name": "salt",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 1719,
-                  "src": "1954:12:14",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes32",
-                    "typeString": "bytes32"
-                  },
-                  "typeName": {
-                    "id": 1661,
-                    "name": "bytes32",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1954:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bytes32",
-                      "typeString": "bytes32"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "1566:406:14"
+              "src": "1124:205:24"
             },
             "returnParameters": {
-              "id": 1668,
+              "id": 4331,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "2004:0:14"
+              "src": "1378:0:24"
             },
-            "scope": 1814,
-            "src": "1547:959:14",
+            "scope": 4473,
+            "src": "1105:775:24",
             "stateMutability": "nonpayable",
             "virtual": false,
-            "visibility": "public"
+            "visibility": "external"
           },
           {
             "body": {
-              "id": 1728,
+              "id": 4391,
               "nodeType": "Block",
-              "src": "2685:45:14",
+              "src": "2061:45:24",
               "statements": [
                 {
                   "expression": {
-                    "id": 1726,
+                    "id": 4389,
                     "name": "_poolsUnderManagement",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1611,
-                    "src": "2702:21:14",
+                    "referencedDeclaration": 4290,
+                    "src": "2078:21:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage",
                       "typeString": "address[] storage ref"
                     }
                   },
-                  "functionReturnParameters": 1725,
-                  "id": 1727,
+                  "functionReturnParameters": 4388,
+                  "id": 4390,
                   "nodeType": "Return",
-                  "src": "2695:28:14"
+                  "src": "2071:28:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1720,
+              "id": 4383,
               "nodeType": "StructuredDocumentation",
-              "src": "2512:93:14",
+              "src": "1886:93:24",
               "text": " @notice returns a list of pools under management by this controller"
             },
             "functionSelector": "8722081a",
-            "id": 1729,
+            "id": 4392,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getPoolsUnderManagement",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1721,
+              "id": 4384,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "2642:2:14"
+              "src": "2016:2:24"
             },
             "returnParameters": {
-              "id": 1725,
+              "id": 4388,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1724,
+                  "id": 4387,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1729,
-                  "src": "2666:17:14",
+                  "scope": 4392,
+                  "src": "2042:17:24",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1876,19 +1739,19 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 1722,
+                      "id": 4385,
                       "name": "address",
                       "nodeType": "ElementaryTypeName",
-                      "src": "2666:7:14",
+                      "src": "2042:7:24",
                       "stateMutability": "nonpayable",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "id": 1723,
+                    "id": 4386,
                     "nodeType": "ArrayTypeName",
-                    "src": "2666:10:14",
+                    "src": "2042:10:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                       "typeString": "address[]"
@@ -1897,19 +1760,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2665:19:14"
+              "src": "2041:19:24"
             },
-            "scope": 1814,
-            "src": "2610:120:14",
+            "scope": 4473,
+            "src": "1984:122:24",
             "stateMutability": "view",
             "virtual": false,
-            "visibility": "public"
+            "visibility": "external"
           },
           {
             "body": {
-              "id": 1743,
+              "id": 4406,
               "nodeType": "Block",
-              "src": "2916:62:14",
+              "src": "2293:62:24",
               "statements": [
                 {
                   "expression": {
@@ -1919,12 +1782,12 @@
                       "expression": {
                         "arguments": [
                           {
-                            "id": 1738,
+                            "id": 4401,
                             "name": "poolAddress",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1732,
-                            "src": "2947:11:14",
+                            "referencedDeclaration": 4395,
+                            "src": "2324:11:24",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -1938,18 +1801,18 @@
                               "typeString": "address"
                             }
                           ],
-                          "id": 1737,
+                          "id": 4400,
                           "name": "IWeightedPool",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 3145,
-                          "src": "2933:13:14",
+                          "referencedDeclaration": 5817,
+                          "src": "2310:13:24",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_contract$_IWeightedPool_$3145_$",
+                            "typeIdentifier": "t_type$_t_contract$_IWeightedPool_$5817_$",
                             "typeString": "type(contract IWeightedPool)"
                           }
                         },
-                        "id": 1739,
+                        "id": 4402,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1957,28 +1820,28 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "2933:26:14",
+                        "src": "2310:26:24",
                         "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IWeightedPool_$3145",
+                          "typeIdentifier": "t_contract$_IWeightedPool_$5817",
                           "typeString": "contract IWeightedPool"
                         }
                       },
-                      "id": 1740,
+                      "id": 4403,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getPoolId",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2917,
-                      "src": "2933:36:14",
+                      "referencedDeclaration": 5589,
+                      "src": "2310:36:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$__$returns$_t_bytes32_$",
                         "typeString": "function () view external returns (bytes32)"
                       }
                     },
-                    "id": 1741,
+                    "id": 4404,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1986,45 +1849,44 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "2933:38:14",
+                    "src": "2310:38:24",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     }
                   },
-                  "functionReturnParameters": 1736,
-                  "id": 1742,
+                  "functionReturnParameters": 4399,
+                  "id": 4405,
                   "nodeType": "Return",
-                  "src": "2926:45:14"
+                  "src": "2303:45:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1730,
+              "id": 4393,
               "nodeType": "StructuredDocumentation",
-              "src": "2736:105:14",
+              "src": "2112:105:24",
               "text": " @notice Returns the pools Id\n @param poolAddress - Pool to get the Id for"
             },
-            "functionSelector": "caa9a08d",
-            "id": 1744,
+            "id": 4407,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getPoolId",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1733,
+              "id": 4396,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1732,
+                  "id": 4395,
                   "mutability": "mutable",
                   "name": "poolAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1744,
-                  "src": "2865:19:14",
+                  "scope": 4407,
+                  "src": "2241:19:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2032,10 +1894,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1731,
+                    "id": 4394,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2865:7:14",
+                    "src": "2241:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2045,20 +1907,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2864:21:14"
+              "src": "2240:21:24"
             },
             "returnParameters": {
-              "id": 1736,
+              "id": 4399,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1735,
+                  "id": 4398,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1744,
-                  "src": "2907:7:14",
+                  "scope": 4407,
+                  "src": "2284:7:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2066,10 +1928,10 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 1734,
+                    "id": 4397,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2907:7:14",
+                    "src": "2284:7:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
@@ -2078,69 +1940,69 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2906:9:14"
+              "src": "2283:9:24"
             },
-            "scope": 1814,
-            "src": "2846:132:14",
+            "scope": 4473,
+            "src": "2222:133:24",
             "stateMutability": "view",
             "virtual": false,
-            "visibility": "public"
+            "visibility": "private"
           },
           {
             "body": {
-              "id": 1776,
+              "id": 4435,
               "nodeType": "Block",
-              "src": "3426:123:14",
+              "src": "2804:104:24",
               "statements": [
                 {
                   "assignments": [
-                    1760
+                    4423
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1760,
+                      "id": 4423,
                       "mutability": "mutable",
                       "name": "_token",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1776,
-                      "src": "3436:13:14",
+                      "scope": 4435,
+                      "src": "2814:13:24",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IERC20_$140",
+                        "typeIdentifier": "t_contract$_IERC20_$426",
                         "typeString": "contract IERC20"
                       },
                       "typeName": {
-                        "id": 1759,
+                        "id": 4422,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 1758,
+                          "id": 4421,
                           "name": "IERC20",
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 140,
-                          "src": "3436:6:14"
+                          "referencedDeclaration": 426,
+                          "src": "2814:6:24"
                         },
-                        "referencedDeclaration": 140,
-                        "src": "3436:6:14",
+                        "referencedDeclaration": 426,
+                        "src": "2814:6:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IERC20_$140",
+                          "typeIdentifier": "t_contract$_IERC20_$426",
                           "typeString": "contract IERC20"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1764,
+                  "id": 4427,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 1762,
+                        "id": 4425,
                         "name": "tokenAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1749,
-                        "src": "3459:12:14",
+                        "referencedDeclaration": 4412,
+                        "src": "2837:12:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2154,18 +2016,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 1761,
+                      "id": 4424,
                       "name": "IERC20",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 140,
-                      "src": "3452:6:14",
+                      "referencedDeclaration": 426,
+                      "src": "2830:6:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_IERC20_$140_$",
+                        "typeIdentifier": "t_type$_t_contract$_IERC20_$426_$",
                         "typeString": "type(contract IERC20)"
                       }
                     },
-                    "id": 1763,
+                    "id": 4426,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2173,94 +2035,38 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3452:20:14",
+                    "src": "2830:20:24",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$140",
+                      "typeIdentifier": "t_contract$_IERC20_$426",
                       "typeString": "contract IERC20"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3436:36:14"
+                  "src": "2814:36:24"
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "arguments": [
-                          {
-                            "id": 1770,
-                            "name": "this",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 4294967268,
-                            "src": "3510:4:14",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
-                              "typeString": "contract BaseWeightedController"
-                            }
-                          }
-                        ],
-                        "expression": {
-                          "argumentTypes": [
-                            {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
-                              "typeString": "contract BaseWeightedController"
-                            }
-                          ],
-                          "id": 1769,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": true,
-                          "lValueRequested": false,
-                          "nodeType": "ElementaryTypeNameExpression",
-                          "src": "3502:7:14",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_type$_t_address_$",
-                            "typeString": "type(address)"
-                          },
-                          "typeName": {
-                            "id": 1768,
-                            "name": "address",
-                            "nodeType": "ElementaryTypeName",
-                            "src": "3502:7:14",
-                            "typeDescriptions": {}
-                          }
-                        },
-                        "id": 1771,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "kind": "typeConversion",
-                        "lValueRequested": false,
-                        "names": [],
-                        "nodeType": "FunctionCall",
-                        "src": "3502:13:14",
-                        "tryCall": false,
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_address",
-                          "typeString": "address"
-                        }
-                      },
-                      {
-                        "id": 1772,
+                        "id": 4431,
                         "name": "recipientAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1747,
-                        "src": "3517:16:14",
+                        "referencedDeclaration": 4410,
+                        "src": "2876:16:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
                       {
-                        "id": 1773,
+                        "id": 4432,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1751,
-                        "src": "3535:6:14",
+                        "referencedDeclaration": 4414,
+                        "src": "2894:6:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2269,10 +2075,6 @@
                     ],
                     "expression": {
                       "argumentTypes": [
-                        {
-                          "typeIdentifier": "t_address",
-                          "typeString": "address"
-                        },
                         {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2283,32 +2085,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1765,
+                        "id": 4428,
                         "name": "_token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1760,
-                        "src": "3482:6:14",
+                        "referencedDeclaration": 4423,
+                        "src": "2860:6:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IERC20_$140",
+                          "typeIdentifier": "t_contract$_IERC20_$426",
                           "typeString": "contract IERC20"
                         }
                       },
-                      "id": 1767,
+                      "id": 4430,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberName": "transferFrom",
+                      "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 121,
-                      "src": "3482:19:14",
+                      "referencedDeclaration": 375,
+                      "src": "2860:15:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$_t_bool_$",
-                        "typeString": "function (address,address,uint256) external returns (bool)"
+                        "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
+                        "typeString": "function (address,uint256) external returns (bool)"
                       }
                     },
-                    "id": 1774,
+                    "id": 4433,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2316,69 +2118,69 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3482:60:14",
+                    "src": "2860:41:24",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "id": 1775,
+                  "id": 4434,
                   "nodeType": "ExpressionStatement",
-                  "src": "3482:60:14"
+                  "src": "2860:41:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1745,
+              "id": 4408,
               "nodeType": "StructuredDocumentation",
-              "src": "2984:289:14",
+              "src": "2361:289:24",
               "text": " @notice Withdraw tokens from controller\n @dev Transfers an amount of an ERC20 token\n @param recipientAddress - Address of wallet receiving funds.\n @param tokenAddress - Address of token to be withdrawn.\n @param amount - Amount to withdraw."
             },
             "functionSelector": "1c20fadd",
-            "id": 1777,
+            "id": 4436,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1754,
+                "id": 4417,
                 "modifierName": {
-                  "id": 1753,
-                  "name": "restricted",
+                  "id": 4416,
+                  "name": "onlyManager",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2513,
-                  "src": "3402:10:14"
+                  "referencedDeclaration": 5057,
+                  "src": "2779:11:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "3402:10:14"
+                "src": "2779:11:24"
               },
               {
-                "id": 1756,
+                "id": 4419,
                 "modifierName": {
-                  "id": 1755,
+                  "id": 4418,
                   "name": "nonReentrant",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 837,
-                  "src": "3413:12:14"
+                  "referencedDeclaration": 1383,
+                  "src": "2791:12:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "3413:12:14"
+                "src": "2791:12:24"
               }
             ],
             "name": "withdrawFunds",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1752,
+              "id": 4415,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1747,
+                  "id": 4410,
                   "mutability": "mutable",
                   "name": "recipientAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1777,
-                  "src": "3310:24:14",
+                  "scope": 4436,
+                  "src": "2687:24:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2386,10 +2188,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1746,
+                    "id": 4409,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3310:7:14",
+                    "src": "2687:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2400,12 +2202,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1749,
+                  "id": 4412,
                   "mutability": "mutable",
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1777,
-                  "src": "3344:20:14",
+                  "scope": 4436,
+                  "src": "2721:20:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2413,10 +2215,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1748,
+                    "id": 4411,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3344:7:14",
+                    "src": "2721:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2427,12 +2229,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1751,
+                  "id": 4414,
                   "mutability": "mutable",
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1777,
-                  "src": "3374:14:14",
+                  "scope": 4436,
+                  "src": "2751:14:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2440,10 +2242,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1750,
+                    "id": 4413,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3374:7:14",
+                    "src": "2751:7:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2452,75 +2254,75 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "3300:94:14"
+              "src": "2677:94:24"
             },
             "returnParameters": {
-              "id": 1757,
+              "id": 4420,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "3426:0:14"
+              "src": "2804:0:24"
             },
-            "scope": 1814,
-            "src": "3278:271:14",
+            "scope": 4473,
+            "src": "2655:253:24",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 1812,
+              "id": 4471,
               "nodeType": "Block",
-              "src": "3925:115:14",
+              "src": "3285:115:24",
               "statements": [
                 {
                   "assignments": [
-                    1795
+                    4454
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 1795,
+                      "id": 4454,
                       "mutability": "mutable",
                       "name": "token",
                       "nodeType": "VariableDeclaration",
-                      "scope": 1812,
-                      "src": "3935:12:14",
+                      "scope": 4471,
+                      "src": "3295:12:24",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IERC20_$140",
+                        "typeIdentifier": "t_contract$_IERC20_$426",
                         "typeString": "contract IERC20"
                       },
                       "typeName": {
-                        "id": 1794,
+                        "id": 4453,
                         "nodeType": "UserDefinedTypeName",
                         "pathNode": {
-                          "id": 1793,
+                          "id": 4452,
                           "name": "IERC20",
                           "nodeType": "IdentifierPath",
-                          "referencedDeclaration": 140,
-                          "src": "3935:6:14"
+                          "referencedDeclaration": 426,
+                          "src": "3295:6:24"
                         },
-                        "referencedDeclaration": 140,
-                        "src": "3935:6:14",
+                        "referencedDeclaration": 426,
+                        "src": "3295:6:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IERC20_$140",
+                          "typeIdentifier": "t_contract$_IERC20_$426",
                           "typeString": "contract IERC20"
                         }
                       },
                       "visibility": "internal"
                     }
                   ],
-                  "id": 1799,
+                  "id": 4458,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 1797,
+                        "id": 4456,
                         "name": "tokenAddress",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1782,
-                        "src": "3957:12:14",
+                        "referencedDeclaration": 4441,
+                        "src": "3317:12:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2534,18 +2336,18 @@
                           "typeString": "address"
                         }
                       ],
-                      "id": 1796,
+                      "id": 4455,
                       "name": "IERC20",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 140,
-                      "src": "3950:6:14",
+                      "referencedDeclaration": 426,
+                      "src": "3310:6:24",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_contract$_IERC20_$140_$",
+                        "typeIdentifier": "t_type$_t_contract$_IERC20_$426_$",
                         "typeString": "type(contract IERC20)"
                       }
                     },
-                    "id": 1798,
+                    "id": 4457,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2553,40 +2355,40 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3950:20:14",
+                    "src": "3310:20:24",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC20_$140",
+                      "typeIdentifier": "t_contract$_IERC20_$426",
                       "typeString": "contract IERC20"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "3935:35:14"
+                  "src": "3295:35:24"
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
                         "expression": {
-                          "id": 1803,
+                          "id": 4462,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967281,
-                          "src": "3999:3:14",
+                          "src": "3359:3:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 1804,
+                        "id": 4463,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "memberName": "sender",
                         "nodeType": "MemberAccess",
-                        "src": "3999:10:14",
+                        "src": "3359:10:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -2595,14 +2397,14 @@
                       {
                         "arguments": [
                           {
-                            "id": 1807,
+                            "id": 4466,
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967268,
-                            "src": "4019:4:14",
+                            "src": "3379:4:24",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
+                              "typeIdentifier": "t_contract$_BaseWeightedController_$4473",
                               "typeString": "contract BaseWeightedController"
                             }
                           }
@@ -2610,30 +2412,30 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_BaseWeightedController_$1814",
+                              "typeIdentifier": "t_contract$_BaseWeightedController_$4473",
                               "typeString": "contract BaseWeightedController"
                             }
                           ],
-                          "id": 1806,
+                          "id": 4465,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-                          "src": "4011:7:14",
+                          "src": "3371:7:24",
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_$",
                             "typeString": "type(address)"
                           },
                           "typeName": {
-                            "id": 1805,
+                            "id": 4464,
                             "name": "address",
                             "nodeType": "ElementaryTypeName",
-                            "src": "4011:7:14",
+                            "src": "3371:7:24",
                             "typeDescriptions": {}
                           }
                         },
-                        "id": 1808,
+                        "id": 4467,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2641,7 +2443,7 @@
                         "lValueRequested": false,
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "4011:13:14",
+                        "src": "3371:13:24",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -2649,12 +2451,12 @@
                         }
                       },
                       {
-                        "id": 1809,
+                        "id": 4468,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1780,
-                        "src": "4026:6:14",
+                        "referencedDeclaration": 4439,
+                        "src": "3386:6:24",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -2677,32 +2479,32 @@
                         }
                       ],
                       "expression": {
-                        "id": 1800,
+                        "id": 4459,
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1795,
-                        "src": "3980:5:14",
+                        "referencedDeclaration": 4454,
+                        "src": "3340:5:24",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IERC20_$140",
+                          "typeIdentifier": "t_contract$_IERC20_$426",
                           "typeString": "contract IERC20"
                         }
                       },
-                      "id": 1802,
+                      "id": 4461,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "transferFrom",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 121,
-                      "src": "3980:18:14",
+                      "referencedDeclaration": 407,
+                      "src": "3340:18:24",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_address_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (address,address,uint256) external returns (bool)"
                       }
                     },
-                    "id": 1810,
+                    "id": 4469,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2710,107 +2512,107 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "3980:53:14",
+                    "src": "3340:53:24",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "id": 1811,
+                  "id": 4470,
                   "nodeType": "ExpressionStatement",
-                  "src": "3980:53:14"
+                  "src": "3340:53:24"
                 }
               ]
             },
             "documentation": {
-              "id": 1778,
+              "id": 4437,
               "nodeType": "StructuredDocumentation",
-              "src": "3555:217:14",
+              "src": "2914:217:24",
               "text": " @notice Deposit tokens to controller\n @dev Transfers an amount of an ERC20 token\n @param amount - Amount to deposit.\n @param tokenAddress - Address of token to be deposited."
             },
             "functionSelector": "4f6300a2",
-            "id": 1813,
+            "id": 4472,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1785,
+                "id": 4444,
                 "modifierName": {
-                  "id": 1784,
-                  "name": "restricted",
+                  "id": 4443,
+                  "name": "onlyManager",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2513,
-                  "src": "3864:10:14"
+                  "referencedDeclaration": 5057,
+                  "src": "3223:11:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "3864:10:14"
+                "src": "3223:11:24"
               },
               {
-                "id": 1787,
+                "id": 4446,
                 "modifierName": {
-                  "id": 1786,
+                  "id": 4445,
                   "name": "nonReentrant",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 837,
-                  "src": "3875:12:14"
+                  "referencedDeclaration": 1383,
+                  "src": "3235:12:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "3875:12:14"
+                "src": "3235:12:24"
               },
               {
                 "arguments": [
                   {
-                    "id": 1789,
+                    "id": 4448,
                     "name": "amount",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1780,
-                    "src": "3903:6:14",
+                    "referencedDeclaration": 4439,
+                    "src": "3263:6:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
                   {
-                    "id": 1790,
+                    "id": 4449,
                     "name": "tokenAddress",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1782,
-                    "src": "3911:12:14",
+                    "referencedDeclaration": 4441,
+                    "src": "3271:12:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   }
                 ],
-                "id": 1791,
+                "id": 4450,
                 "modifierName": {
-                  "id": 1788,
+                  "id": 4447,
                   "name": "checkAllowance",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2544,
-                  "src": "3888:14:14"
+                  "referencedDeclaration": 5088,
+                  "src": "3248:14:24"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "3888:36:14"
+                "src": "3248:36:24"
               }
             ],
             "name": "depositTokens",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1783,
+              "id": 4442,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1780,
+                  "id": 4439,
                   "mutability": "mutable",
                   "name": "amount",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
-                  "src": "3809:11:14",
+                  "scope": 4472,
+                  "src": "3168:11:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2818,10 +2620,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1779,
+                    "id": 4438,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3809:4:14",
+                    "src": "3168:4:24",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -2831,12 +2633,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1782,
+                  "id": 4441,
                   "mutability": "mutable",
                   "name": "tokenAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1813,
-                  "src": "3830:20:14",
+                  "scope": 4472,
+                  "src": "3189:20:24",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2844,10 +2646,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1781,
+                    "id": 4440,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "3830:7:14",
+                    "src": "3189:7:24",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -2857,26 +2659,26 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "3799:57:14"
+              "src": "3158:57:24"
             },
             "returnParameters": {
-              "id": 1792,
+              "id": 4451,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "3925:0:14"
+              "src": "3285:0:24"
             },
-            "scope": 1814,
-            "src": "3777:263:14",
+            "scope": 4473,
+            "src": "3136:264:24",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 1815,
-        "src": "172:3870:14"
+        "scope": 4474,
+        "src": "138:3264:24"
       }
     ],
-    "src": "33:4010:14"
+    "src": "33:3370:24"
   },
   "compiler": {
     "name": "solc",
@@ -2884,10 +2686,15 @@
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-09-21T23:16:36.696Z",
+  "updatedAt": "2023-09-24T13:15:47.940Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
+      "addManager(address)": {
+        "params": {
+          "manager": "- Manager to add"
+        }
+      },
       "calculateBalancing(address)": {
         "params": {
           "poolAddress": "- Address of pool being worked on."
@@ -2899,20 +2706,14 @@
           "vaultAddress": "- Vault contract address"
         }
       },
-      "createPool(string,string,address[],uint256[],address[],uint256,bool,bool,uint256,uint256,uint256,bytes32)": {
+      "createPool(string,string,address[],uint256[],uint256,uint256)": {
         "params": {
-          "assetManagers": "- Asset manager for the pool",
-          "aumFeeId": "- Aum Fee Id",
-          "isMustAllowlistLPs": "- List of LP's allowed in the pool",
-          "isSwapEnabledOnStart": "- Whether swaps are enabled straight away",
-          "managementAumFeePercentage": "- Management Aum fee to apply",
           "name": "- Pool name",
           "normalizedWeights": "- Normalized weights in the pool",
-          "salt": "- Salt used towards calculating pool address",
           "swapFeePercentage": "- Fee applied to swaps",
           "symbol": "- Symbol representing the pool",
           "tokens": "- Tokens in the pool",
-          "tolerance": "- Percentage devience "
+          "tolerance": "- Percentage devience"
         }
       },
       "depositTokens(uint256,address)": {
@@ -2922,20 +2723,23 @@
           "tokenAddress": "- Address of token to be deposited."
         }
       },
-      "getPoolId(address)": {
-        "params": {
-          "poolAddress": "- Pool to get the Id for"
-        }
-      },
       "getTokenPrice(address)": {
         "params": {
-          "value": "- Address to find"
+          "tokenAddress": "- Token to find a price for"
         }
       },
-      "transferManagement(address)": {
-        "details": "Only one manager can presently be set",
+      "paused()": {
+        "details": "Returns true if the contract is paused, and false otherwise."
+      },
+      "removeManager(address)": {
         "params": {
-          "supportedManager": "- New manager."
+          "manager": "- Manager to remove"
+        }
+      },
+      "setTokenFeed(address,address)": {
+        "params": {
+          "feed": "- Oracle feed address",
+          "token": "- Token address"
         }
       },
       "withdrawFunds(address,address,uint256)": {
@@ -2952,20 +2756,20 @@
   "userdoc": {
     "kind": "user",
     "methods": {
+      "addManager(address)": {
+        "notice": "Add a new manager to the collection of managers"
+      },
       "calculateBalancing(address)": {
         "notice": "Calculates a number of tokens to add or remove to rebalance pricing"
       },
       "constructor": {
         "notice": "Constructor for the controller base class"
       },
-      "createPool(string,string,address[],uint256[],address[],uint256,bool,bool,uint256,uint256,uint256,bytes32)": {
+      "createPool(string,string,address[],uint256[],uint256,uint256)": {
         "notice": "Create a new weighted pool"
       },
       "depositTokens(uint256,address)": {
         "notice": "Deposit tokens to controller"
-      },
-      "getPoolId(address)": {
-        "notice": "Returns the pools Id"
       },
       "getPoolsUnderManagement()": {
         "notice": "returns a list of pools under management by this controller"
@@ -2973,8 +2777,17 @@
       "getTokenPrice(address)": {
         "notice": "returns the oracle supplied price for the requested token"
       },
-      "transferManagement(address)": {
-        "notice": "Transfer the manager to a new address"
+      "pause()": {
+        "notice": "Pause sensitive functions"
+      },
+      "removeManager(address)": {
+        "notice": "Remove a manager to the collection of managers"
+      },
+      "setTokenFeed(address,address)": {
+        "notice": "Set a new token oracle feed"
+      },
+      "unpause()": {
+        "notice": "Unpause sensitive functions"
       },
       "withdrawFunds(address,address,uint256)": {
         "notice": "Withdraw tokens from controller"

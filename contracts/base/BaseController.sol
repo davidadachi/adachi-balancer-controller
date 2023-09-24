@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
-
 
 import "../lib/ManagedPoolFactory.sol";
 import "./BaseUtils.sol";
@@ -19,7 +17,6 @@ abstract contract BaseController is BaseUtils {
      */
     constructor(address vaultAddress, address supportedManagedPoolFactory)
     BaseUtils(vaultAddress) {
-        manager = msg.sender;
         managedPoolFactory = ManagedPoolFactory(supportedManagedPoolFactory);
     }
 
@@ -52,7 +49,7 @@ abstract contract BaseController is BaseUtils {
         uint256 aumFeeId,
         uint256 tolerance,
         bytes32 salt
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         ManagedPoolParams memory poolParams;
         poolParams.name = name;
         poolParams.symbol = symbol;
@@ -64,8 +61,7 @@ abstract contract BaseController is BaseUtils {
         poolSettingsParams.swapFeePercentage = swapFeePercentage;
         poolSettingsParams.isSwapEnabledOnStart = isSwapEnabledOnStart;
         poolSettingsParams.isMustAllowlistLPs = isMustAllowlistLPs;
-        poolSettingsParams
-            .managementAumFeePercentage = managementAumFeePercentage;
+        poolSettingsParams.managementAumFeePercentage = managementAumFeePercentage;
         poolSettingsParams.aumFeeId = aumFeeId;
 
         address poolAddress = managedPoolFactory.create(
@@ -113,7 +109,7 @@ abstract contract BaseController is BaseUtils {
         uint256 endTime,
         uint256 startSwapFeePercentage,
         uint256 endSwapFeePercentage
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.updateSwapFeeGradually(
@@ -146,7 +142,7 @@ abstract contract BaseController is BaseUtils {
         uint256 endTime,
         IERC20 [] memory tokens,
         uint256 [] memory endWeights
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.updateWeightsGradually(
@@ -176,7 +172,7 @@ abstract contract BaseController is BaseUtils {
     function setJoinExitEnabled(
         address poolAddress,
         bool isJoinExitEnabled
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.setJoinExitEnabled(isJoinExitEnabled);
@@ -187,7 +183,7 @@ abstract contract BaseController is BaseUtils {
      *
      * @param poolAddress - Pool to get the swap state for
      */
-    function getSwapEnabled(address poolAddress) public view returns (bool) {
+    function getSwapEnabled(address poolAddress) external view returns (bool) {
         return IManagedPool(poolAddress).getSwapEnabled();
     }
 
@@ -201,7 +197,7 @@ abstract contract BaseController is BaseUtils {
     function setSwapEnabled(
         address poolAddress,
         bool isSwapEnabled
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.setSwapEnabled(isSwapEnabled);
@@ -219,7 +215,7 @@ abstract contract BaseController is BaseUtils {
     function setMustAllowlistLPs(
         address poolAddress,
         bool isMustAllowlistLPs
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.setMustAllowlistLPs(isMustAllowlistLPs);
@@ -236,7 +232,7 @@ abstract contract BaseController is BaseUtils {
     function addAllowedAddress(
         address poolAddress,
         address member
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.addAllowedAddress(member);
@@ -251,7 +247,7 @@ abstract contract BaseController is BaseUtils {
     function removeAllowedAddress(
         address poolAddress,
         address member
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.removeAllowedAddress(member);
@@ -267,7 +263,7 @@ abstract contract BaseController is BaseUtils {
      */
     function collectAumManagementFees(
         address poolAddress
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.collectAumManagementFees();
@@ -285,7 +281,7 @@ abstract contract BaseController is BaseUtils {
     function setManagementAumFeePercentage(
         address poolAddress,
         uint256 managementAumFeePercentage
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.setManagementAumFeePercentage(managementAumFeePercentage);
@@ -309,7 +305,7 @@ abstract contract BaseController is BaseUtils {
         uint256 [] memory bptPrices,
         uint256 [] memory lowerBoundPercentages,
         uint256 [] memory upperBoundPercentages
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.setCircuitBreakers(
@@ -349,7 +345,7 @@ abstract contract BaseController is BaseUtils {
         uint256 tokenToAddNormalizedWeight,
         uint256 mintAmount,
         address recipient
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.addToken(
@@ -382,7 +378,7 @@ abstract contract BaseController is BaseUtils {
         IERC20 tokenToRemove,
         uint256 burnAmount,
         address sender
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IManagedPool managedPool;
         managedPool = IManagedPool(poolAddress);
         managedPool.removeToken(tokenToRemove, burnAmount, sender);
@@ -400,9 +396,9 @@ abstract contract BaseController is BaseUtils {
         address recipientAddress,
         address tokenAddress,
         uint256 amount
-    ) public restricted nonReentrant {
+    ) external onlyManager nonReentrant {
         IERC20 _token = IERC20(tokenAddress);
-        _token.transferFrom(address(this), recipientAddress, amount);
+        _token.transfer(recipientAddress, amount);
     }
 
     /**
@@ -415,7 +411,7 @@ abstract contract BaseController is BaseUtils {
     function depositTokens(
         uint amount,
         address tokenAddress
-    ) public restricted nonReentrant checkAllowance(amount, tokenAddress) {
+    ) external onlyManager nonReentrant checkAllowance(amount, tokenAddress) {
         IERC20 token = IERC20(tokenAddress);
         token.transferFrom(msg.sender, address(this), amount);
     }
