@@ -19178,12 +19178,12 @@
     "42220": {
       "events": {},
       "links": {},
-      "address": "0xd2e4afCCf85fe07eA57954763349aeeF6221D169",
-      "transactionHash": "0xe67337e924fd7372dc8f70359bf7d5d60d8895350b97d72867e8fad02e68bdbb"
+      "address": "0x59aAa8AB16b4DB5eF08277b63E07DB9169282F6c",
+      "transactionHash": "0x982ae7f70fda9b720db01e9a3c83ac3ed3a10d66bce2476d5d37510b6039ea74"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-10-23T15:22:21.275Z",
+  "updatedAt": "2023-10-25T19:40:07.179Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
